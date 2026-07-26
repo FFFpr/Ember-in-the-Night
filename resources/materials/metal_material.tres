@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseMaterial" format=3 uid="uid://c4vnw6wglnhjq"]
+
+[ext_resource type="Script" uid="uid://xdtb7f0nvvko" path="res://resources/materials/base_material.gd" id="1_q8v66"]
+
+[resource]
+script = ExtResource("1_q8v66")
+deformability = 0.1
+friction = 0.4
+bounciness = 0.2
+metadata/_custom_type_script = "uid://xdtb7f0nvvko"

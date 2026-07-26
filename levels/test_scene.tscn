@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://p7quvwxpbutc"]
+
+[ext_resource type="PackedScene" uid="uid://c7w42v5lxdas4" path="res://entities/metal/metal.tscn" id="1_0wynk"]
+[ext_resource type="PackedScene" uid="uid://b5gcpimc5trj6" path="res://entities/hammer/hammer.tscn" id="2_x46hq"]
+[ext_resource type="PackedScene" uid="uid://bnxqbvmcoux12" path="res://entities/platform/platform.tscn" id="3_ohqux"]
+
+[node name="TestScene" type="Node2D" unique_id=1115333273]
+
+[node name="Metal" parent="." unique_id=129391392 instance=ExtResource("1_0wynk")]
+position = Vector2(340, 480)
+
+[node name="Hammer" parent="." unique_id=301321209 instance=ExtResource("2_x46hq")]
+position = Vector2(352, 238)
+
+[node name="Platform" parent="." unique_id=1511343435 instance=ExtResource("3_ohqux")]
+position = Vector2(340, 500)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=808509903]
+position = Vector2(340, 400)

@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://b5gcpimc5trj6"]
+
+[ext_resource type="Script" uid="uid://cwr71it4gvl61" path="res://entities/hammer/hammer.gd" id="1_bs4ul"]
+[ext_resource type="Script" uid="uid://bc7j1tmigsd2q" path="res://entities/hammer_part.gd" id="1_cwedc"]
+[ext_resource type="Resource" uid="uid://c4vnw6wglnhjq" path="res://resources/materials/metal_material.tres" id="2_bs4ul"]
+[ext_resource type="Resource" uid="uid://c5gctnbfk4xy0" path="res://resources/materials/wood_metarial.tres" id="3_0sjec"]
+[ext_resource type="Script" uid="uid://bri0v1ltrnca1" path="res://entities/components/grasp_point.gd" id="5_0sjec"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kbgb4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_87rwa"]
+
+[node name="Hammer" type="RigidBody2D" unique_id=301321209]
+linear_damp = 1.5
+angular_damp = 1.5
+script = ExtResource("1_bs4ul")
+
+[node name="Head" type="Node2D" parent="." unique_id=426747559]
+script = ExtResource("1_cwedc")
+entity_material = ExtResource("2_bs4ul")
+
+[node name="Handle" type="Node2D" parent="." unique_id=1841347649]
+script = ExtResource("1_cwedc")
+entity_material = ExtResource("3_0sjec")
+
+[node name="GraspPoint" type="Node2D" parent="Handle" unique_id=1140477348]
+script = ExtResource("5_0sjec")
+
+[node name="HeadShape" type="CollisionShape2D" parent="." unique_id=1899641445]
+shape = SubResource("RectangleShape2D_kbgb4")
+
+[node name="HandleShape" type="CollisionShape2D" parent="." unique_id=2012824760]
+shape = SubResource("RectangleShape2D_87rwa")
