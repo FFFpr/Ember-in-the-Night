@@ -1,29 +1,29 @@
 # Ember in the Night: A Blacksmith's Tale
 
-打铁题材的角色扮演 + 模拟经营游戏。
+A blacksmith RPG and business simulation.
 
-## 立意
+## Premise
 
-中世纪的世界如同长夜：行会规矩、社会法律与生存压力交织成一张黑暗的网。你是一名铁匠。炉火是你唯一能握住的光——**夜里的余烬（Ember in the Night）**。
+The medieval world is a long night: guild rules, social law, and the pressure to survive weave a dark net around every craft. You are a blacksmith. The forge fire is the only light you can hold—an **ember in the night**.
 
-游戏提供两条截然不同的道路，共用同一炉火意象：
+The game offers two sharply different paths, bound by the same flame:
 
-### 行会路线
+### The Guild Path
 
-扮演遵守行会规则的铁匠，在混乱、压迫的中世纪社会中艰难经营。在规矩与秩序中求存，逐步积累技艺、信誉与人脉，最终成为行会中有影响力的匠人师傅。
+Play a blacksmith who keeps the guild's rules and struggles to run a shop in a chaotic, oppressive medieval society. Survive within order and reputation. Build skill, trust, and influence until you become a master craftsman with standing in the guild.
 
-这是一条在黑夜中扮演**守序**的路：用合法的炉火，守住生存与尊严。
+This is the path of **lawful resolve** in the dark: a lawful forge fire that guards survival and dignity.
 
-### 罪犯路线
+### The Outlaw Path
 
-扮演贫民窟或阴暗阁楼中的个体经营者，拒绝行会——甚至拒绝社会法律——的约束。在监视与排斥之外另辟生路，以违禁的方式维持那团不该存在的火。
+Play an independent smith in the slums or a shadowed attic, rejecting the guild—and even the law. Carve a living outside surveillance and exclusion. Keep alive a fire that was never meant to burn in the open.
 
-这是一条在黑夜中展开行动的路：用**另一种方式**维护生存的火焰。
+This is the path that moves **through the night**: another way to tend the flame of survival.
 
-## 主题
+## Themes
 
-- **炉火**：技艺、生计、希望；也是身份与选择的象征
-- **长夜**：行会、法律与阶级构成的黑暗社会
-- **余烬**：尚未熄灭、需要人去护住的微光——无论守序还是越轨
+- **The forge fire** — craft, livelihood, and hope; also a mark of identity and choice
+- **The long night** — a society darkened by guilds, law, and class
+- **The ember** — a glow not yet gone out, that someone must keep alive—whether by order or by defiance
 
-两条路线不是简单的善恶对立，而是同一黑暗里两种活法：一种在秩序中向上攀升，一种在秩序之外点燃自己的火。
+The two paths are not a simple split of good and evil. They are two ways to live in the same darkness: one climbs within the order; the other lights its own fire outside it.
