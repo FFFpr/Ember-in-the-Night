@@ -10,6 +10,7 @@ A blacksmith RPG and business simulation (Godot).
 | Presentation | 2D (current demo: hammer physics) |
 | Physics | Jolt (as configured in `project.godot`) |
 | Multiplayer | None (solo project) |
+| Cloud agents | Tool install for Cursor Cloud is defined in [`.cursor/environment.json`](.cursor/environment.json) (runs [`.cursor/install.sh`](.cursor/install.sh)) |
 
 Open the project folder in Godot 4.7+. Main scene is set in `project.godot`.
 

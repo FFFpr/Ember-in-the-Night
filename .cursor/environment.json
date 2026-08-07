@@ -1,0 +1,11 @@
+{
+  // Cloud Agent environment for Ember in the Night.
+  // Cursor does NOT install tools from a name list — `install` must perform the installs.
+  // Required software (see root README + docs/tech/gda.md):
+  //   - Godot 4.7.1   (README: Godot 4.7+, Forward Plus; Jolt ships with the engine)
+  //   - Python 3.13   (gda runtime)
+  //   - uv            (installs Python tools)
+  //   - gda 0.9.0     (Godot Agent CLI + gda-mcp; pinned in .cursor/install.sh)
+  "name": "Ember in the Night",
+  "install": "bash .cursor/install.sh"
+}
