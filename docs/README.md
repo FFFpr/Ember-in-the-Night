@@ -1,28 +1,46 @@
-# Documentation
+# 文档说明（docs）
 
-In-repo Markdown docs for **Ember in the Night: A Blacksmith's Tale**.
+本目录记录**游戏策划**：主题、流程、设定、剧情与技术路径上的讨论。
 
-This tree is the single source of design truth for the solo developer and for AI agents. There is no separate docs repo.
+## 与代码的关系
 
-## Layout
+- `docs/` 描述的是设计上的意图与讨论，**不代表**仓库里代码当前的实现。
+- 代码实际使用的引擎版本、开发环境、如何打开项目等，写在仓库根目录的 [`README.md`](../README.md)。
+- 设计文档与代码之间**没有强制绑定**。实现可以滞后、超前或偏离文档；需要时再两边分别更新。
 
-| Directory | Purpose | Churn |
-|-----------|---------|-------|
-| [`vision/`](vision/) | Premise, themes, dual paths | Low — change only when the core idea shifts |
-| [`design/`](design/) | Systems, economy, forging gameplay | Medium |
-| [`lore/`](lore/) | Setting bible / worldbuilding | Medium–low |
-| [`narrative/`](narrative/) | Plot outlines, dialogue drafts | Medium–high |
-| [`tech/`](tech/) | Tech roadmap, physics notes, ADRs | Medium |
-| [`ideas/`](ideas/) | Fleeting inspiration (messy OK) | High — promote when confirmed |
-| [`meta/`](meta/) | How we write and maintain docs | Low |
+## 目录职责
 
-## Start here
+| 目录 | 职责 |
+|------|------|
+| [`design/`](design/) | 玩法与系统设计。现有：[`theme.md`](design/theme.md)（游戏主题）、[`main-loop.md`](design/main-loop.md)（主要流程） |
+| [`lore/`](lore/) | 世界观与设定 |
+| [`narrative/`](narrative/) | 剧情大纲、对白等叙事文稿 |
+| [`tech/`](tech/) | **技术路径的讨论与备选**，不代表项目当前采用的技术 |
+| [`ideas/`](ideas/) | 随性灵感与讨论记录；与其它目录**无强制同步或晋升流程** |
 
-1. Read [`meta/documentation-standards.md`](meta/documentation-standards.md) before adding or rewriting docs.
-2. Read [`vision/premise.md`](vision/premise.md) for the confirmed premise.
-3. Put new inspiration in `ideas/` first; promote into the right folder when it is confirmed.
+子目录暂不各自维护 README；内容变复杂时再按需增加。
 
-## Root README vs `docs/`
+## 文档元信息
 
-- Repo root [`README.md`](../README.md): short public premise and project identity.
-- `docs/`: working design bible. When they conflict, update both; prefer clarifying `docs/vision/` then syncing the root README.
+每篇 Markdown（本 `README.md` 除外）**建议**使用如下 YAML 头，用于记录，而非门禁。字段均可缺省；日后困惑再补即可。
+
+```yaml
+---
+author: 名字或 ID
+updated: YYYY-MM-DD
+status: active | thinking | outdated
+---
+```
+
+| `status` | 含义（仅关乎设计认知） |
+|----------|------------------------|
+| `active` | 当前可当作设计基线 |
+| `thinking` | 值得继续想；尚未当作最终结论 |
+| `outdated` | 设计上已过时；勿再当作现行方案 |
+
+`status` **不**表示「是否已在代码中实现」。
+
+## 不在本目录处理的事项
+
+- Cursor / Agent 的 rules（属于 Cursor 配置，不写入本仓库的文档方案）
+- 当前项目依赖的软件版本与开发环境（见根 `README.md`）

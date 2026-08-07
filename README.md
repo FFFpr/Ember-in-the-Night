@@ -1,8 +1,29 @@
 # Ember in the Night: A Blacksmith's Tale
 
-A blacksmith RPG and business simulation.
+A blacksmith RPG and business simulation (Godot).
 
-Working design docs (vision, systems, lore, tech, ideas) live in [`docs/`](docs/). Start with [`docs/README.md`](docs/README.md) and [`docs/meta/documentation-standards.md`](docs/meta/documentation-standards.md).
+## Project
+
+| Item | Value |
+|------|--------|
+| Engine | Godot **4.7** (Forward Plus) |
+| Presentation | 2D (current demo: hammer physics) |
+| Physics | Jolt (as configured in `project.godot`) |
+| Multiplayer | None (solo project) |
+
+Open the project folder in Godot 4.7+. Main scene is set in `project.godot`.
+
+### Layout (code)
+
+| Path | Role |
+|------|------|
+| `entities/` | Game entities (hammer, metal, etc.) |
+| `systems/` | Controllers / interaction systems |
+| `levels/` | Scenes |
+| `resources/` | Shared resources (materials, etc.) |
+| `docs/` | Game design docs (not a description of current code) |
+
+Design intent, themes, and discussion live under [`docs/`](docs/). See [`docs/README.md`](docs/README.md). Stack and environment facts stay in this file; `docs/tech/` is for technical *discussion* only.
 
 ## Premise
 
@@ -29,3 +50,5 @@ This is the path that moves **through the night**: another way to tend the flame
 - **The ember** — a glow not yet gone out, that someone must keep alive—whether by order or by defiance
 
 The two paths are not a simple split of good and evil. They are two ways to live in the same darkness: one climbs within the order; the other lights its own fire outside it.
+
+Design-side write-up: [`docs/design/theme.md`](docs/design/theme.md).
