@@ -22,6 +22,8 @@ Agents can edit `.gd` / `.tscn` text, but they do not see engine load errors, th
 
 This repo registers Cursor MCP at [`.cursor/mcp.json`](../../.cursor/mcp.json) (`GDA_PROJECT=${workspaceFolder}`). Install once on the machine: Python **3.13+**, [`uv`](https://docs.astral.sh/uv/) / `uvx`, Godot **4.7+** on `PATH` or set `GDA_GODOT`. Optional: `uv tool install 'gda[mcp]'` for a pinned `gda` / `gda-mcp` on `PATH`.
 
+For **Cursor Cloud Agents**, the same pins are installed by [`.cursor/environment.json`](../../.cursor/environment.json) → [`.cursor/install.sh`](../../.cursor/install.sh) (Cursor does not install tools from names alone; the script must run).
+
 Reload Cursor after editing MCP config (Settings → Tools & MCP). If `uvx` is missing under Cursor’s GUI `PATH`, keep the `PATH` repair in `.cursor/mcp.json` or set `command` to the absolute `uvx` path (`which uvx`).
 
 ## Live harness (committed)
