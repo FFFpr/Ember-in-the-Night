@@ -17,7 +17,7 @@
 | [`design/`](design/) | 玩法与系统设计。现有：[`theme.md`](design/theme.md)（游戏主题）、[`main-loop.md`](design/main-loop.md)（主要流程） |
 | [`lore/`](lore/) | 世界观与设定 |
 | [`narrative/`](narrative/) | 剧情大纲、对白等叙事文稿 |
-| [`tech/`](tech/) | **技术路径的讨论与备选**，不代表项目当前采用的技术 |
+| [`tech/`](tech/) | **技术路径的讨论与备选**，不代表项目当前采用的技术。现有：[`art-style.md`](tech/art-style.md)（美术风格与技术实现讨论） |
 | [`ideas/`](ideas/) | 随性灵感与讨论记录；与其它目录**无强制同步或晋升流程** |
 
 子目录暂不各自维护 README；内容变复杂时再按需增加。
