@@ -1,48 +1,48 @@
-# 文档说明（docs）
+# Documentation (`docs`)
 
-> **本文件：** `docs/` 的统筹说明——各子目录职责、文档元信息格式，以及策划文档与代码的关系。
+> **This file:** Housekeeping for `docs/` — what each subdirectory is for, the document metadata format, and how design docs relate to code.
 
-本目录记录**游戏策划**：主题、流程、设定、剧情与技术路径上的讨论。
+This tree records **game design**: theme, loops, setting, narrative, and technical-path discussion.
 
-## 与代码的关系
+## Relation to code
 
-- `docs/` 描述的是设计上的意图与讨论，**不代表**仓库里代码当前的实现。
-- 代码实际使用的引擎版本、开发环境、如何打开项目等，写在仓库根目录的 [`README.md`](../README.md)。
-- 设计文档与代码之间**没有强制绑定**。实现可以滞后、超前或偏离文档；需要时再两边分别更新。
+- `docs/` captures design intent and discussion. It does **not** describe what the codebase currently implements.
+- Engine version, development environment, and how to open the project belong in the root [`README.md`](../README.md).
+- There is **no hard binding** between design docs and code. Implementation may lag, lead, or diverge; update either side when you choose to.
 
-## 目录职责
+## Directory roles
 
-| 目录 | 职责 |
-|------|------|
-| [`design/`](design/) | 玩法与系统设计。现有：[`theme.md`](design/theme.md)（游戏主题）、[`main-loop.md`](design/main-loop.md)（主要流程） |
-| [`lore/`](lore/) | 世界观与设定 |
-| [`narrative/`](narrative/) | 剧情大纲、对白等叙事文稿 |
-| [`tech/`](tech/) | **技术路径的讨论与备选**，不代表项目当前采用的技术。现有：[`art-style.md`](tech/art-style.md)（美术风格与技术实现讨论） |
-| [`ideas/`](ideas/) | 随性灵感与讨论记录；与其它目录**无强制同步或晋升流程** |
+| Directory | Role |
+|-----------|------|
+| [`design/`](design/) | Gameplay and systems design. Present: [`theme.md`](design/theme.md) (game theme), [`main-loop.md`](design/main-loop.md) (main loop) |
+| [`lore/`](lore/) | Worldbuilding and setting facts |
+| [`narrative/`](narrative/) | Plot outlines, dialogue, and other narrative drafts |
+| [`tech/`](tech/) | **Technical-path discussion and alternatives** — not what the project currently ships. Present: [`art-style.md`](tech/art-style.md) (art style and technical approach) |
+| [`ideas/`](ideas/) | Casual inspiration and notes; **no required sync or promotion workflow** with other folders |
 
-子目录暂不各自维护 README；内容变复杂时再按需增加。
+Do not pre-create a README in every subdirectory; add one later only if a folder gets complex.
 
-## 文档元信息
+## Document metadata
 
-每篇 Markdown（本 `README.md` 除外）**建议**使用如下 YAML 头，用于记录，而非门禁。字段均可缺省；日后困惑再补即可。
+Every Markdown file except this `README.md` **should** use the YAML header below. It is for recording, not gating. Fields may be omitted; fill them in later if something becomes unclear.
 
 ```yaml
 ---
-author: 名字或 ID
+author: name or id
 updated: YYYY-MM-DD
 status: active | thinking | outdated
 ---
 ```
 
-| `status` | 含义（仅关乎设计认知） |
-|----------|------------------------|
-| `active` | 当前可当作设计基线 |
-| `thinking` | 值得继续想；尚未当作最终结论 |
-| `outdated` | 设计上已过时；勿再当作现行方案 |
+| `status` | Meaning (design confidence only) |
+|----------|----------------------------------|
+| `active` | Solid enough to treat as a design baseline |
+| `thinking` | Worth pursuing; not a final conclusion yet |
+| `outdated` | Superseded in design terms; do not treat as current |
 
-`status` **不**表示「是否已在代码中实现」。
+`status` does **not** mean “implemented in code.”
 
-## 不在本目录处理的事项
+## Out of scope here
 
-- Cursor / Agent 的 rules（属于 Cursor 配置，不写入本仓库的文档方案）
-- 当前项目依赖的软件版本与开发环境（见根 `README.md`）
+- Cursor / agent rules (Cursor configuration; not part of this repo’s docs scheme)
+- Current software versions and environment (see root `README.md`)

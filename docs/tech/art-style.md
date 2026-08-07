@@ -4,8 +4,8 @@ updated: 2026-08-07
 status: thinking
 ---
 
-# 美术风格与技术实现
+# Art style and technical approach
 
-> **本文件：** 美术风格方向，以及与之相关的技术实现路径讨论（渲染、资产流程、工具选型等备选）。此处是探讨，不代表仓库当前已采用的方案。
+> **This file:** Discussion of art-direction options and related technical paths (rendering, asset pipeline, tool choices, and alternatives). Exploratory only — not what the repo currently ships.
 
-（正文待写。）
+(Body TBD.)
