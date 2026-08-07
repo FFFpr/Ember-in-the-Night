@@ -35,3 +35,7 @@ grab={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+
+[autoload]
+
+GdaHarness="*res://addons/gda_harness/gda_harness.gd"

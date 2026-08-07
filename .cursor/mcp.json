@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "gda-mcp": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "gda[mcp]",
+        "gda-mcp"
+      ],
+      "env": {
+        "GDA_PROJECT": "${workspaceFolder}",
+        "PATH": "/opt/homebrew/bin:/usr/local/bin:${userHome}/.local/bin:${env:PATH}"
+      }
+    }
+  }
+}
