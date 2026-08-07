@@ -2,6 +2,8 @@
 
 A blacksmith RPG and business simulation.
 
+Working design docs (vision, systems, lore, tech, ideas) live in [`docs/`](docs/). Start with [`docs/README.md`](docs/README.md) and [`docs/meta/documentation-standards.md`](docs/meta/documentation-standards.md).
+
 ## Premise
 
 The medieval world is a long night: guild rules, social law, and the pressure to survive weave a dark net around every craft. You are a blacksmith. The forge fire is the only light you can hold—an **ember in the night**.

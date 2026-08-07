@@ -1,0 +1,40 @@
+---
+description: Ember in the Night — project identity, dual paths, docs map
+alwaysApply: true
+---
+
+# Ember in the Night
+
+Solo indie game: **Ember in the Night: A Blacksmith's Tale**.
+
+- **Engine:** Godot 4.7 (Forward Plus), 2D. Existing content includes a hammer physics demo.
+- **Genre:** Blacksmith RPG + business simulation. No multiplayer.
+- **Premise:** Medieval world as a long night; forge fire is the ember the player can hold.
+- **Dual paths (not good vs evil):**
+  - **Guild** — lawful resolve within order; rise as master craftsman.
+  - **Outlaw** — independent smith outside guild/law; keep survival’s flame another way.
+- **Themes:** forge fire / long night / ember.
+
+## Documentation
+
+Design truth lives in `docs/` (not a separate repo):
+
+| Path | Use |
+|------|-----|
+| `docs/vision/` | Premise, themes, dual paths |
+| `docs/design/` | Systems, economy, forging |
+| `docs/lore/` | Worldbuilding |
+| `docs/narrative/` | Plot, dialogue drafts |
+| `docs/tech/` | Roadmap, physics, ADRs |
+| `docs/ideas/` | Unconfirmed sparks |
+| `docs/meta/` | Doc and Cursor-rule process |
+
+Before inventing lore, systems, or plot: read `docs/vision/` and the relevant folder. Prefer `status: active` docs. Leave `TBD` / open questions instead of filling gaps. Capture new sparks in `docs/ideas/`.
+
+Root `README.md` is the short public premise; keep it aligned with `docs/vision/premise.md`.
+
+## Agent habits
+
+- Prefer small, focused changes. Do not expand scope into unrequested systems.
+- Do not invent multiplayer, live-service, or collaboration features.
+- Distill durable conclusions into `docs/` rather than leaving them only in chat.
