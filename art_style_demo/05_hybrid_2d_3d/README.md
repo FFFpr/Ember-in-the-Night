@@ -1,23 +1,24 @@
 # 05 — Hybrid 2D + 3D
 
-## Idea
+Parent brief: [`../README.md`](../README.md). Prefer after 01/02 exist.
 
-Keep the **world readable as 2D** (background plates, street, UI-scale space) while rendering **hero props in 3D** (anvil, hammer, forge mouth) via a `SubViewport` or co-located 3D layer. Harder pipeline; useful only if 01/02 lack “weight” on the tools.
+## Technique
 
-## How to build it
+2D room/street shell + **3D hero cluster** (anvil and/or forge mouth) via `SubViewport` → `Sprite2D` (or equivalent). Street: at most **one** 3D accent.
 
-1. Workshop: 2D room plate + parallax; 3D anvil/forge tools composited in the center of the FP frame.
-2. Match light direction/color between 2D lights and 3D lights so metal does not look pasted.
-3. Street: mostly 2D day/night; optional 3D sign, cart, or hanging lamp as proof of hybrid — keep scope tiny.
-4. Freeze 3D camera; treat the SubViewport as a billboard/sprite in 2D space.
+## Build steps (workshop)
 
-## Scenes
+1. Start from 01/02 2D plates in `workshop/workshop.tscn`.
+2. Add `SubViewport` (transparent bg) with 3D anvil/forge lit warm; display as centered sprite on the bench line.
+3. Match key light color/direction between 2D and 3D so metal does not look pasted.
+4. Both cameras locked.
 
-| Scene | Notes |
-|-------|--------|
-| [`workshop/`](workshop/) | 2D interior shell; 3D forge+anvil cluster in FP view. |
-| [`street/`](street/) | 2D street cycle; one small 3D accent max for the demo. |
+## Build steps (street)
 
-## Godot touchpoints
+1. 2D street cycle like 01/02.
+2. Optional single 3D sign or lantern in a small SubViewport — skip if time-boxed.
 
-`SubViewport` + `Sprite2D`/`TextureRect`, or 2D canvas in front of a 3D world with matched ortho/perspective; careful with HDR/tonemap mismatch.
+## Done when
+
+- Workshop clearly shows 2D shell + 3D tools
+- Street day→night still works; hybrid accent optional but documented if omitted

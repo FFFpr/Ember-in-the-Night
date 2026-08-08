@@ -1,23 +1,24 @@
 # 03 — Isometric / axonometric
 
-## Idea
+Parent brief: [`../README.md`](../README.md).
 
-Build shop and street on an **isometric (or axonometric) grid**. Depth is tile height + draw order, still 2D nodes.
+## Technique
 
-## How to build it
+Isometric `TileMapLayer` (or equivalent diamond sprites). Same props; camera is **close locked iso** toward forge–anvil, not true FPS lens.
 
-1. Choose a tile diamond size and stick to it (Godot `TileMapLayer` isometric mode).
-2. Workshop: camera aimed at the forge corner so the anvil sits on a clear cell; “first-person” here means **close, low isometric framing toward the work cell**, not a true FP camera.
-3. Sort by tile/Y; multi-cell furniture (forge, anvil) as tall tiles or layered sprites.
-4. Street: row of facades along an iso road; day/night modulates the whole map + emissive windows.
+## Build steps (workshop)
 
-## Scenes
+1. `workshop/workshop.tscn`, root `Workshop`.
+2. Create iso floor + wall tiles (placeholders: solid diamond polygons OK).
+3. Multi-cell or tall sprites: forge, anvil on adjacent cells in the lower-center of view.
+4. Lock camera on that cluster; no click-to-move required for look-dev.
 
-| Scene | Notes |
-|-------|--------|
-| [`workshop/`](workshop/) | Compact iso smithy; camera locked on forge–anvil diagonal. |
-| [`street/`](street/) | Iso street slice; 20 s day→night on lights/modulate. |
+## Build steps (street)
 
-## Godot touchpoints
+1. `street/street.tscn` — short iso street + facade.
+2. Day/night via `CanvasModulate` + emissive window sprites; 20 s autostart.
 
-Isometric `TileMapLayer`, custom tile collision, animated atlas for forge glow, `CanvasModulate` / per-tile modulate for night.
+## Done when
+
+- Clearly readable as iso (diamond floor), not side-view 01
+- Props list satisfied; street day→night works

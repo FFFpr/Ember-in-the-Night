@@ -1,24 +1,25 @@
 # 04 — 3D + locked camera
 
-## Idea
+Parent brief: [`../README.md`](../README.md). Project: Forward+, Jolt available (physics optional for look-dev).
 
-Author the spaces in **3D** (meshes, real depth, Jolt only if physics is needed later). Presentation stays 2.5D: **fixed first-person or locked orbit-free camera**, no free look for the demo.
+## Technique
 
-## How to build it
+Real 3D meshes; **locked** `Camera3D` (workshop = true FP eye height ~1.6 m toward forge/anvil). No mouse look.
 
-1. Blockout workshop and street with primitives, then swap in pack meshes.
-2. Workshop camera: true first-person at standing eye height, aimed at forge + anvil.
-3. Use Forward+ lights: forge as warm omni/spot; street sun vs night lamps.
-4. Do not enable free mouse-look in the look-dev scenes; optional tiny breathing bob only.
-5. Day/night street: animate `WorldEnvironment` / light energy over 20 s.
+## Build steps (workshop)
 
-## Scenes
+1. `workshop/workshop.tscn`, root `Workshop` (`Node3D`).
+2. Greybox with `MeshInstance3D` boxes; replace with pack meshes when available.
+3. `Camera3D` current, fixed transform; forge `OmniLight3D`/`SpotLight3D` warm.
+4. `WorldEnvironment` mild; avoid blinding bloom.
 
-| Scene | Notes |
-|-------|--------|
-| [`workshop/`](workshop/) | Real FP camera; forge, anvil, props in 3D. |
-| [`street/`](street/) | Locked exterior camera (FP at curb or fixed tripod); day 10 s / night 10 s. |
+## Build steps (street)
 
-## Godot touchpoints
+1. `street/street.tscn` — facade + road greybox; locked camera (curb FP or tripod).
+2. `AnimationPlayer` or script: sun energy 0–10 s; night lamps + forge door spill 10–20 s.
 
-`Node3D`, `Camera3D`, `OmniLight3D` / `SpotLight3D` / `DirectionalLight3D`, `WorldEnvironment`, mesh instances; project already has Forward+ and Jolt for 3D.
+## Done when
+
+- FP workshop reads like reference blocking (anvil in reach, forge ahead)
+- Street unaided day→night, camera fixed
+- Stylized materials OK; photoreal not required

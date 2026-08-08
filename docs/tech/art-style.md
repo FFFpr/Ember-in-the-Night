@@ -1,11 +1,30 @@
 ---
 author: F
-updated: 2026-08-07
-status: thinking
+updated: 2026-08-08
+status: active
 ---
 
 # Art style and technical approach
 
-> **This file:** Discussion of art-direction options and related technical paths (rendering, asset pipeline, tool choices, and alternatives). Exploratory only — not what the repo currently ships.
+> **This file:** Locked visual rules for look-dev. Runnable comparison demos live under [`art_style_demo/`](../../art_style_demo/) — that folder’s README is the agent build brief. Do not duplicate scene file checklists here.
 
-(Body TBD.)
+## Direction (locked for demos)
+
+| Item | Choice |
+|------|--------|
+| Language | Stylized hand-painted / soft illustrative |
+| Not | Pixel art; photoreal PBR showcase |
+| Mood | Cool long-night exterior; warm ember forge as the emotional key |
+| Compare via | Same composition intent across techniques (`art_style_demo/`) |
+
+## References
+
+Mood/framing only (not final production art):
+
+- [`art_style_demo/references/workshop_fp_ref.png`](../../art_style_demo/references/workshop_fp_ref.png)
+- [`art_style_demo/references/street_day_ref.png`](../../art_style_demo/references/street_day_ref.png)
+- [`art_style_demo/references/street_night_ref.png`](../../art_style_demo/references/street_night_ref.png)
+
+## Technical paths under test
+
+See [`art_style_demo/README.md`](../../art_style_demo/README.md): pseudo-2D → 2D lighting → isometric → locked 3D → hybrid. Production pick comes after those demos are viewable.

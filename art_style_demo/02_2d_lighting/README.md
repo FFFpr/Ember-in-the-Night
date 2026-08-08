@@ -1,24 +1,21 @@
 # 02 — 2D lighting & particles
 
-## Idea
+Parent brief: [`../README.md`](../README.md). **Depends on 01 layout.**
 
-Same spatial language as `01_pseudo_perspective_2d`, but sell volume with **2D lights**, optional **normal-mapped sprites**, and **particles** (embers, smoke, dust).
+## Technique
 
-## How to build it
+Same spatial language as `01`, plus `PointLight2D` / `DirectionalLight2D`, optional normal maps, `GPUParticles2D` (sparks/smoke). Street day/night = **light rig**, not only modulate.
 
-1. Start from the same layer breakdown as approach 01 (or share placeholder plates).
-2. Add `PointLight2D` / `DirectionalLight2D` on forge, windows, street lamps.
-3. Prefer textures with normal maps where cheap; otherwise fake volume with soft light cookies.
-4. Particles: rising sparks at the forge; thin smoke; night moths/dust optional.
-5. Street day/night becomes a **light rig change**, not only a color overlay.
+## Build steps
 
-## Scenes
+1. Duplicate `01_*` workshop/street scenes into this folder (or instance shared plates from `art_style_demo/shared/` if created).
+2. **Do not redesign composition.** Node names for layers should stay parallel to 01.
+3. Workshop: low ambient (`CanvasModulate`); forge `PointLight2D` warm + flicker; sparks `GPUParticles2D` at forge mouth.
+4. Street: day = directional/bright ambient; at t=10 s drop ambient, enable window/lamp/forge spill lights.
+5. Occluders optional; skip if they fight placeholders.
 
-| Scene | Notes |
-|-------|--------|
-| [`workshop/`](workshop/) | Dark interior; forge as dominant warm key light; anvil readable in spill. |
-| [`street/`](street/) | Day sun-like directional light → night point lights + forge glow from the shop. |
+## Done when
 
-## Godot touchpoints
-
-`Light2D`, light occlusion on props if needed, `GPUParticles2D`, `CanvasModulate`, normal-map import on sprites.
+- Side-by-side with 01, same framing, clearly richer light/particle read
+- Street cycle still 20 s autostart
+- Credits if using normal-mapped pack textures

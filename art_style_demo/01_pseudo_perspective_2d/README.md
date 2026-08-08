@@ -1,24 +1,37 @@
 # 01 — Pseudo-perspective 2D
 
-## Idea
+Parent brief (read first): [`../README.md`](../README.md). Refs: [`../references/`](../references/).
 
-Stay fully in Godot’s 2D pipeline. Depth comes from **drawn perspective**, **layered parallax**, and **Y-sort** (or explicit z-index), not from a 3D camera.
+## Technique
 
-## How to build it
+Full 2D pipeline. Depth = drawn perspective + layer split + parallax / z-index. No `Light2D` required here (that is `02`).
 
-1. Paint or collage a smithy / street in a fixed 3/4 or slight side-perspective.
-2. Split into layers: far wall / mid props / interactive bench / near frame (door jamb, hanging tools).
-3. Use `Parallax2D` (or manual layer offsets) so small camera bob or pan sells depth.
-4. Sort characters and standing props by foot Y so they pass in front/behind correctly.
-5. Keep collision and interaction in 2D (`StaticBody2D` / areas on hotspots).
+## Build steps (workshop)
 
-## Scenes
+1. Create `workshop/workshop.tscn`, root `Workshop` (`Node2D`).
+2. Add locked `Camera2D` (current); frame like `references/workshop_fp_ref.png`.
+3. Layers (back → front), each a `Node2D` or `Sprite2D`:
+   - `LayerFar` — back wall, window, forge mouth
+   - `LayerMid` — anvil, bellows, barrel, racks
+   - `LayerNear` — beams / hanging tools / frame
+4. Placeholders OK: colored `Polygon2D` / `ColorRect` in a `Sprite2D` hierarchy, but silhouettes must read as forge + anvil.
+5. Optional: slow `Parallax2D` or scripted 2–4 px camera sway.
 
-| Scene | Notes |
-|-------|--------|
-| [`workshop/`](workshop/) | FP-style framing: camera locked looking at forge + anvil; layered interior. |
-| [`street/`](street/) | Same street plate; swap or modulate day/night layers on a 20 s loop. |
+## Build steps (street)
 
-## Godot touchpoints
+1. Create `street/street.tscn`, root `Street` (`Node2D`), locked `Camera2D`.
+2. Facade + street props matching day ref composition.
+3. Add `day_night.gd` or `AnimationPlayer`:
+   - 0–10 s: day modulate / bright sky plate
+   - 10–20 s: night modulate + warm window/door glow sprites on
+4. Autostart; no input.
 
-`Node2D`, `Sprite2D` / `AnimatedSprite2D`, `Parallax2D`, Y-sort, `CanvasModulate` or layered night overlays for the street cycle.
+## Done when
+
+- F6 workshop: FP bench framing, required props visible  
+- F6 street: unaided day→night in 20 s, camera unchanged  
+- No `Light2D` dependency (keep this approach readable in flat color)
+
+## Hand-off to 02
+
+Export or keep these scenes as the **layout source**. `02` must duplicate node layout / plates, then add lights.

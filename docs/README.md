@@ -17,7 +17,7 @@ This tree records **game design**: theme, loops, setting, narrative, and technic
 | [`design/`](design/) | Gameplay and systems design. Present: [`theme.md`](design/theme.md) (game theme), [`main-loop.md`](design/main-loop.md) (main loop) |
 | [`lore/`](lore/) | Worldbuilding and setting facts |
 | [`narrative/`](narrative/) | Plot outlines, dialogue, and other narrative drafts |
-| [`tech/`](tech/) | **Technical-path discussion and alternatives** — not what the project currently ships. Present: [`art-style.md`](tech/art-style.md) (art style), [`gda.md`](tech/gda.md) (Godot Agent / Cursor MCP) |
+| [`tech/`](tech/) | **Technical-path discussion and alternatives** — not what the project currently ships. Present: [`art-style.md`](tech/art-style.md) (locked look-dev direction; demos in [`art_style_demo/`](../art_style_demo/)), [`gda.md`](tech/gda.md) (Godot Agent / Cursor MCP) |
 | [`ideas/`](ideas/) | Casual inspiration and notes; **no required sync or promotion workflow** with other folders |
 
 Do not pre-create a README in every subdirectory; add one later only if a folder gets complex.
