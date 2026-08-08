@@ -19,11 +19,15 @@ status: active
 
 ## References
 
-Mood/framing only (not final production art):
+AI-generated mood/framing only — **not** shippable or importable scene art:
 
 - [`art_style_demo/references/workshop_fp_ref.png`](../../art_style_demo/references/workshop_fp_ref.png)
 - [`art_style_demo/references/street_day_ref.png`](../../art_style_demo/references/street_day_ref.png)
 - [`art_style_demo/references/street_night_ref.png`](../../art_style_demo/references/street_night_ref.png)
+
+## Asset sourcing
+
+Demo (and later production look-dev) art must be taken from **free stores / free libraries**, **non-AI**, with an **open license** and credits. Full rules: [`art_style_demo/README.md`](../../art_style_demo/README.md) § Asset sourcing.
 
 ## Technical paths under test
 

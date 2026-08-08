@@ -29,7 +29,7 @@ Forge/hearth, anvil, bellows, tool rack (hammers/tongs), quench barrel, ore or i
 
 Smithy facade + door, simple hanging sign, a few street props (barrels/crates), cobbles or dirt road, neighboring building masses. Night must read via **light/palette**, not a different camera.
 
-## Reference images
+## Reference images (mood only — not game art)
 
 | File | Use as |
 |------|--------|
@@ -37,7 +37,25 @@ Smithy facade + door, simple hanging sign, a few street props (barrels/crates), 
 | [`references/street_day_ref.png`](references/street_day_ref.png) | Street day framing / palette |
 | [`references/street_night_ref.png`](references/street_night_ref.png) | Street night framing / warm spill |
 
-References are **mood and framing guides**, not pixel-perfect targets. Match silhouette placement and warm/cool split more than exact brushwork.
+These PNGs are **AI-generated framing/mood guides**. They are **not** shippable assets: do not import them into scenes, do not trace them into production art, do not treat them as license-cleared pack art.
+
+Match silhouette placement and warm/cool split more than brushwork.
+
+## Asset sourcing (mandatory for demo art)
+
+All textures, sprites, tilesets, meshes, and audio used in `art_style_demo/` scenes must come from **free store / free library packs that are non-AI and openly licensed** (e.g. CC0, CC-BY with credit, MIT/similar asset licenses).
+
+| Allowed | Forbidden |
+|---------|-----------|
+| Human-authored free packs from stores/libraries (Kenney, OpenGameArt, itch.io free non-AI, Poly Haven, Godot Asset Library free packs, etc.) | AI-generated images/models as scene art (including the files under `references/`) |
+| Engine primitives / solid-color placeholders while blocking | Paid packs unless the project explicitly clears them later |
+| Clear license + credit recorded under `shared/imported/` | Scraped web images; “free” packs with unclear or AI-only provenance |
+
+When importing a pack:
+
+1. Put files under `art_style_demo/shared/imported/<pack_name>/`.
+2. Add `LICENSE.txt` or a short credit blurb (author, license, URL, non-AI / human-authored note if the store states it).
+3. Prefer packs that state they are **not AI-generated**; if provenance is unclear, skip and pick another pack.
 
 ## Approaches
 
@@ -73,7 +91,7 @@ Shared placeholders (optional, preferred):
 ```text
 art_style_demo/shared/
   placeholders/             # colored rects / primitive meshes OK
-  imported/                 # free/open packs go here after license note
+  imported/<pack_name>/     # free, non-AI, open-licensed packs + LICENSE/credits
 ```
 
 Naming: snake_case paths; scene root node named `Workshop` or `Street`.
@@ -84,9 +102,9 @@ Do **not** change `project.godot` `run/main_scene` for these demos — open with
 
 | Stage | Allowed |
 |-------|---------|
-| First pass | Solid-color plates, primitive meshes, Kenney-style blocks, labeled `Sprite2D` regions |
-| Compare pass | Free/open pack art (license file or README credit under `shared/imported/`) |
-| Forbidden | Unlicensed scraped art; leaving day/night as a manual editor toggle only |
+| First pass | Solid-color plates, primitive meshes, labeled `Sprite2D` regions (no external art yet) |
+| Compare pass | Free-store **non-AI** open-licensed packs under `shared/imported/` with credits |
+| Forbidden | AI art in scenes; unlicensed scraped art; unclear-provenance “free” packs; day/night as editor-only toggle |
 
 Placeholders must still hit composition (forge/anvil readable; street facade readable).
 
@@ -104,7 +122,8 @@ Placeholders must still hit composition (forge/anvil readable; street facade rea
 - [ ] Matches reference framing intent (workshop FP; street shop-front)
 - [ ] Warm forge / night spill vs cool ambient readable
 - [ ] No free look / no gameplay systems required
-- [ ] Credits for any third-party art listed under `shared/imported/` or approach README
+- [ ] Any third-party art is free-store, **non-AI**, open-licensed, credited under `shared/imported/`
+- [ ] No AI-generated files from `references/` (or elsewhere) used as scene textures/meshes
 
 ## Implementation order
 
