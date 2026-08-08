@@ -14,12 +14,19 @@ Ship **runnable** Godot 4.7 scenes under `art_style_demo/` so a human can open e
 |------|--------|
 | Viewport | **1280×720**, stretch mode already project-wide (`canvas_items` / `expand`) |
 | Aspect | Compose for **16:9** |
-| Art language | **Stylized hand-painted / soft illustrative** — not pixel art, not photoreal |
+| Art language | **Two tracks** — see below |
 | Palette | Cool “long night” blues/greys outside; **warm ember** oranges/ambers on forge and night windows |
-| Workshop camera | **First-person at the bench**: locked, looking at forge + anvil (see references). No free look. Optional tiny idle sway only. |
+| Workshop camera | **First-person at the bench**: locked, looking at forge + anvil (see references). No free look. Optional tiny idle sway only (pixel track: prefer pixel-snap, no blurry sway). |
 | Street camera | **Fixed shop-front framing** (same camera day and night) |
 | Street time | **0–10 s day**, **10–20 s night**, then loop or stop; transition ≤0.5 s fade OK |
-| Fair compare | Same prop *set* and same *composition intent* across approaches; only the presentation technique changes |
+| Fair compare | Same prop *set* and same *composition intent* across approaches; only the presentation / art language changes |
+
+### Art-language tracks
+
+| Track | Approaches | Language |
+|-------|------------|----------|
+| A — Soft illustrative | `01`–`05` | Stylized hand-painted / soft illustrative — **not** photoreal |
+| B — Pixel | `06_pixel_2d` | Chunky pixel art, nearest filter, integer scale — **not** smooth painted |
 
 ### Required props (workshop)
 
@@ -31,15 +38,25 @@ Smithy facade + door, simple hanging sign, a few street props (barrels/crates), 
 
 ## Reference images (mood only — not game art)
 
+### Track A (illustrative)
+
 | File | Use as |
 |------|--------|
 | [`references/workshop_fp_ref.png`](references/workshop_fp_ref.png) | Workshop FP composition + forge/anvil mood |
 | [`references/street_day_ref.png`](references/street_day_ref.png) | Street day framing / palette |
 | [`references/street_night_ref.png`](references/street_night_ref.png) | Street night framing / warm spill |
 
+### Track B (pixel)
+
+| File | Use as |
+|------|--------|
+| [`references/workshop_fp_pixel_ref.png`](references/workshop_fp_pixel_ref.png) | Pixel workshop FP mood |
+| [`references/street_day_pixel_ref.png`](references/street_day_pixel_ref.png) | Pixel street day |
+| [`references/street_night_pixel_ref.png`](references/street_night_pixel_ref.png) | Pixel street night |
+
 These PNGs are **AI-generated framing/mood guides**. They are **not** shippable assets: do not import them into scenes, do not trace them into production art, do not treat them as license-cleared pack art.
 
-Match silhouette placement and warm/cool split more than brushwork.
+Match silhouette placement and warm/cool split more than brushwork. For `06`, prefer real pixel packs over chasing the AI pixel refs’ exact look.
 
 ## Asset sourcing (mandatory for demo art)
 
@@ -66,6 +83,7 @@ When importing a pack:
 | [`03_isometric/`](03_isometric/) | Iso tilemap / diamond grid | Own layout; same props |
 | [`04_locked_3d_camera/`](04_locked_3d_camera/) | 3D meshes, locked FP / tripod cam | Own greybox→art |
 | [`05_hybrid_2d_3d/`](05_hybrid_2d_3d/) | 2D shell + 3D hero props | Prefer 01/02 plates + 3D anvil/forge |
+| [`06_pixel_2d/`](06_pixel_2d/) | Pixel-art 2D (nearest, integer scale) | Own pixel packs; parallel track |
 
 **Out of scope:** Mode7 ground projection.
 
@@ -124,18 +142,20 @@ Placeholders must still hit composition (forge/anvil readable; street facade rea
 - [ ] No free look / no gameplay systems required
 - [ ] Any third-party art is free-store, **non-AI**, open-licensed, credited under `shared/imported/`
 - [ ] No AI-generated files from `references/` (or elsewhere) used as scene textures/meshes
+- [ ] If `06`: nearest filtering + integer scale; reads as pixel, not painted
 
 ## Implementation order
 
 1. `01` workshop + street (placeholders OK)  
 2. `02` clone 01 layout, add lights/particles  
-3. `04` greybox FP workshop + street cycle  
-4. `03` / `05` only if still needed for the comparison  
+3. `06` pixel track (can proceed in parallel with 01/02 once packs are chosen)  
+4. `04` greybox FP workshop + street cycle  
+5. `03` / `05` only if still needed for the comparison  
 
 ## Status
 
 | Item | State |
 |------|--------|
-| Build brief + references | Done |
+| Build brief + references | Done (incl. pixel track) |
 | Runnable `.tscn` | Not started |
 | Imported art packs | Not started |
