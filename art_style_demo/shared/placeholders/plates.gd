@@ -78,30 +78,41 @@ static func build_workshop(root: Node2D) -> Dictionary:
 	poly(far, "BeamCenter", rect_poly(Vector2(560, 40), Vector2(160, 36)), ArtDemoPalette.WOOD, 7)
 
 	# Mid props: anvil, bellows, barrel, racks, ore, horseshoes.
+	# Anvil sits forward of the forge mouth so the silhouette reads in FP.
 	poly(mid, "AnvilBase", PackedVector2Array([
-		Vector2(560, 470), Vector2(720, 470), Vector2(740, 560), Vector2(540, 560),
-	]), ArtDemoPalette.WOOD, 1)
-	var anvil := poly(mid, "Anvil", PackedVector2Array([
-		Vector2(575, 430), Vector2(705, 430), Vector2(720, 470), Vector2(560, 470),
-		Vector2(590, 470), Vector2(590, 505), Vector2(690, 505), Vector2(690, 470),
-	]), ArtDemoPalette.METAL, 2)
+		Vector2(500, 520), Vector2(780, 520), Vector2(800, 620), Vector2(480, 620),
+	]), ArtDemoPalette.WOOD_LIGHT, 1)
+	poly(mid, "AnvilBody", PackedVector2Array([
+		Vector2(530, 470), Vector2(750, 470), Vector2(770, 520), Vector2(510, 520),
+	]), ArtDemoPalette.METAL_DARK, 2)
+	poly(mid, "AnvilTop", PackedVector2Array([
+		Vector2(520, 445), Vector2(760, 445), Vector2(750, 480), Vector2(530, 480),
+	]), Color("8a8e92"), 3)
 	poly(mid, "AnvilHorn", PackedVector2Array([
-		Vector2(705, 440), Vector2(760, 455), Vector2(705, 465),
+		Vector2(760, 450), Vector2(860, 475), Vector2(760, 490),
+	]), Color("8a8e92"), 3)
+	poly(mid, "AnvilHeel", PackedVector2Array([
+		Vector2(490, 450), Vector2(530, 450), Vector2(530, 495), Vector2(475, 485),
 	]), ArtDemoPalette.METAL_DARK, 3)
 
 	poly(mid, "Bellows", PackedVector2Array([
-		Vector2(820, 360), Vector2(980, 340), Vector2(1020, 430), Vector2(840, 460),
+		Vector2(860, 340), Vector2(1060, 310), Vector2(1100, 460), Vector2(880, 500),
 	]), ArtDemoPalette.WOOD_LIGHT, 1)
 	poly(mid, "BellowsLeather", PackedVector2Array([
-		Vector2(840, 375), Vector2(970, 360), Vector2(995, 420), Vector2(855, 440),
+		Vector2(885, 365), Vector2(1035, 340), Vector2(1065, 440), Vector2(900, 475),
 	]), Color("6a4028"), 2)
+	poly(mid, "BellowsNozzle", PackedVector2Array([
+		Vector2(820, 390), Vector2(885, 385), Vector2(890, 420), Vector2(825, 425),
+	]), ArtDemoPalette.METAL, 3)
 
 	poly(mid, "QuenchBarrel", PackedVector2Array([
-		Vector2(210, 430), Vector2(330, 430), Vector2(345, 560), Vector2(195, 560),
+		Vector2(150, 430), Vector2(330, 430), Vector2(355, 620), Vector2(125, 620),
 	]), ArtDemoPalette.WOOD, 1)
+	poly(mid, "QuenchBand", rect_poly(Vector2(145, 520), Vector2(195, 16)), ArtDemoPalette.METAL, 2)
+	poly(mid, "QuenchBand2", rect_poly(Vector2(140, 570), Vector2(200, 14)), ArtDemoPalette.METAL, 2)
 	poly(mid, "QuenchWater", PackedVector2Array([
-		Vector2(220, 445), Vector2(320, 445), Vector2(325, 475), Vector2(215, 475),
-	]), Color("3a5a6a"), 2)
+		Vector2(170, 450), Vector2(315, 450), Vector2(325, 510), Vector2(160, 510),
+	]), Color("4a7a8a"), 2)
 
 	poly(mid, "ToolRack", rect_poly(Vector2(980, 160), Vector2(220, 18)), ArtDemoPalette.WOOD, 1)
 	for i in 4:
@@ -152,7 +163,6 @@ static func build_workshop(root: Node2D) -> Dictionary:
 		"forge_fire": forge_fire,
 		"forge_glow": forge_glow,
 		"window_pane": window_pane,
-		"anvil": anvil,
 	}
 
 
@@ -214,14 +224,18 @@ static func build_street(root: Node2D) -> Dictionary:
 	]), ArtDemoPalette.ROOF, 3)
 
 	# Door + open forge bay.
+	poly(mid, "DoorRecess", PackedVector2Array([
+		Vector2(355, 350), Vector2(510, 345), Vector2(515, 565), Vector2(350, 570),
+	]), ArtDemoPalette.WOOD_DARK, 3)
 	poly(mid, "Door", PackedVector2Array([
-		Vector2(380, 360), Vector2(500, 355), Vector2(505, 555), Vector2(375, 560),
-	]), ArtDemoPalette.WOOD, 3)
+		Vector2(370, 365), Vector2(495, 360), Vector2(498, 555), Vector2(367, 560),
+	]), ArtDemoPalette.WOOD, 4)
 	poly(mid, "DoorArch", PackedVector2Array([
-		Vector2(380, 360), Vector2(440, 320), Vector2(500, 355),
-	]), ArtDemoPalette.WOOD_DARK, 4)
+		Vector2(370, 365), Vector2(432, 315), Vector2(495, 360),
+	]), ArtDemoPalette.WOOD_LIGHT, 5)
+	poly(mid, "DoorHandle", rect_poly(Vector2(455, 450), Vector2(18, 18)), ArtDemoPalette.METAL, 6)
 	var door_glow := poly(mid, "DoorGlow", PackedVector2Array([
-		Vector2(395, 380), Vector2(490, 375), Vector2(492, 540), Vector2(393, 545),
+		Vector2(380, 380), Vector2(485, 375), Vector2(488, 540), Vector2(378, 545),
 	]), ArtDemoPalette.WINDOW_GLOW, 5)
 	door_glow.visible = false
 
@@ -231,32 +245,38 @@ static func build_street(root: Node2D) -> Dictionary:
 	var street_fire := poly(mid, "StreetForgeFire", PackedVector2Array([
 		Vector2(620, 390), Vector2(800, 385), Vector2(810, 520), Vector2(610, 525),
 	]), ArtDemoPalette.EMBER, 4)
+	poly(mid, "StreetAnvilBase", PackedVector2Array([
+		Vector2(670, 515), Vector2(800, 510), Vector2(810, 560), Vector2(660, 565),
+	]), ArtDemoPalette.WOOD, 5)
 	poly(mid, "StreetAnvil", PackedVector2Array([
-		Vector2(680, 500), Vector2(780, 495), Vector2(790, 545), Vector2(670, 550),
-	]), ArtDemoPalette.METAL, 5)
+		Vector2(685, 490), Vector2(790, 485), Vector2(800, 520), Vector2(675, 525),
+	]), ArtDemoPalette.METAL, 6)
 	var forge_spill := poly(mid, "ForgeSpill", PackedVector2Array([
 		Vector2(540, 450), Vector2(900, 440), Vector2(960, 620), Vector2(480, 630),
 	]), ArtDemoPalette.FORGE_GLOW, 2)
 
 	# Sign, barrels, crates, wheel.
-	poly(mid, "SignBracket", rect_poly(Vector2(470, 280), Vector2(90, 10)), ArtDemoPalette.WOOD_DARK, 6)
+	poly(mid, "SignBracket", rect_poly(Vector2(430, 270), Vector2(110, 12)), ArtDemoPalette.WOOD_DARK, 6)
 	poly(mid, "Sign", PackedVector2Array([
-		Vector2(520, 290), Vector2(600, 290), Vector2(600, 360), Vector2(560, 380), Vector2(520, 360),
+		Vector2(500, 282), Vector2(610, 282), Vector2(610, 370), Vector2(555, 395), Vector2(500, 370),
 	]), ArtDemoPalette.WOOD_LIGHT, 6)
 	poly(mid, "SignHammer", PackedVector2Array([
-		Vector2(545, 310), Vector2(575, 310), Vector2(575, 345), Vector2(545, 345),
+		Vector2(530, 310), Vector2(580, 310), Vector2(580, 330), Vector2(560, 330),
+		Vector2(560, 355), Vector2(550, 355), Vector2(550, 330), Vector2(530, 330),
 	]), ArtDemoPalette.METAL_DARK, 7)
 
 	poly(mid, "BarrelA", PackedVector2Array([
-		Vector2(250, 500), Vector2(320, 495), Vector2(330, 580), Vector2(240, 585),
+		Vector2(230, 490), Vector2(320, 485), Vector2(335, 595), Vector2(215, 600),
 	]), ArtDemoPalette.WOOD, 4)
+	poly(mid, "BarrelABand", rect_poly(Vector2(225, 540), Vector2(105, 12)), ArtDemoPalette.METAL, 5)
 	poly(mid, "BarrelB", PackedVector2Array([
-		Vector2(880, 510), Vector2(960, 505), Vector2(970, 595), Vector2(870, 600),
+		Vector2(880, 500), Vector2(980, 495), Vector2(995, 605), Vector2(865, 610),
 	]), ArtDemoPalette.WOOD_LIGHT, 4)
-	poly(mid, "Crate", rect_poly(Vector2(200, 545), Vector2(70, 55)), ArtDemoPalette.WOOD_DARK, 4)
+	poly(mid, "Crate", rect_poly(Vector2(170, 545), Vector2(85, 60)), ArtDemoPalette.WOOD_DARK, 4)
 	poly(mid, "Wheel", PackedVector2Array([
-		Vector2(150, 520), Vector2(210, 520), Vector2(220, 590), Vector2(140, 590),
+		Vector2(120, 510), Vector2(200, 510), Vector2(210, 600), Vector2(110, 600),
 	]), ArtDemoPalette.WOOD, 4)
+	poly(mid, "WheelHub", rect_poly(Vector2(150, 540), Vector2(30, 30)), ArtDemoPalette.METAL_DARK, 5)
 
 	# Night-only window glow on upper facade.
 	var window_glow := poly(mid, "UpperWindowGlow", rect_poly(Vector2(760, 220), Vector2(70, 55)), ArtDemoPalette.WINDOW_GLOW, 5)
