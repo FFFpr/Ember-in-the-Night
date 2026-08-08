@@ -14,6 +14,15 @@ A blacksmith RPG and business simulation (Godot).
 
 Open the project folder in Godot 4.7+. Main scene is set in `project.godot`.
 
+### Official Godot docs (4.7)
+
+| Topic | Link |
+|-------|------|
+| Documentation home | https://docs.godotengine.org/en/4.7/ |
+| Performance | https://docs.godotengine.org/en/4.7/tutorials/performance/ |
+| Best practices | https://docs.godotengine.org/en/4.7/tutorials/best_practices/ |
+| Engine details | https://docs.godotengine.org/en/4.7/engine_details/ |
+
 ### Layout (code)
 
 | Path | Role |
@@ -22,9 +31,10 @@ Open the project folder in Godot 4.7+. Main scene is set in `project.godot`.
 | `systems/` | Controllers / interaction systems |
 | `levels/` | Scenes |
 | `resources/` | Shared resources (materials, etc.) |
+| `art_style_demo/` | Art-direction demos (docs + future scenes; not shipping gameplay) |
 | `docs/` | Game design docs (not a description of current code) |
 
-Design intent, themes, and discussion live under [`docs/`](docs/). See [`docs/README.md`](docs/README.md). Stack and environment facts stay in this file; `docs/tech/` is for technical *discussion* only.
+Design intent, themes, and discussion live under [`docs/`](docs/). See [`docs/README.md`](docs/README.md). Stack and environment facts stay in this file; `docs/tech/` is for technical *discussion* only. Art-style comparison demos: [`art_style_demo/`](art_style_demo/).
 
 ## Premise
 
