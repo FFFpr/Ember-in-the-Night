@@ -1,73 +1,62 @@
 extends Node
-## Autostart day (0–10s) / night (10–20s) cycle for the iso street.
+## Autostart day (0–10s) / night (10–20s) via AnimationPlayer (loops).
+## Darkens `World` + `Sky`; shows `Emissives` overlays at night so windows stay warm.
 
-const DAY_COLOR := Color(1.0, 0.98, 0.94, 1.0)
-const NIGHT_COLOR := Color(0.38, 0.46, 0.72, 1.0)
-const DAY_SKY := Color("9eb0c2")
-const NIGHT_SKY := Color("1a2436")
-const WINDOW_DAY := Color("7a8aa0")
-const WINDOW_NIGHT := Color("ffb14a")
-const FORGE_DAY := Color("ff6a1f")
-const FORGE_NIGHT := Color("ffc56a")
-
-var _elapsed := 0.0
-var _is_night := false
+const DAY_WORLD := Color(1.0, 0.99, 0.96, 1.0)
+const NIGHT_WORLD := Color(0.42, 0.50, 0.78, 1.0)
+const DAY_SKY := Color("8fa3b8")
+const NIGHT_SKY := Color("121c2e")
 
 
 func _ready() -> void:
-	set_process(true)
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_apply_day()
+	var player := AnimationPlayer.new()
+	player.name = "CyclePlayer"
+	player.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(player)
 
+	var anim := Animation.new()
+	anim.length = 20.0
+	anim.loop_mode = Animation.LOOP_LINEAR
 
-func _process(delta: float) -> void:
-	_elapsed += delta
-	if _elapsed >= 20.0:
-		_elapsed = fmod(_elapsed, 20.0)
-	var want_night := _elapsed >= 10.0
-	if want_night != _is_night:
-		_is_night = want_night
-		if _is_night:
-			_apply_night()
-		else:
-			_apply_day()
+	# Method tracks fire day/night at the boundaries.
+	var track := anim.add_track(Animation.TYPE_METHOD)
+	anim.track_set_path(track, NodePath("."))
+	anim.track_insert_key(track, 0.0, {"method": "_apply_day", "args": []})
+	anim.track_insert_key(track, 10.0, {"method": "_apply_night", "args": []})
+
+	var lib := AnimationLibrary.new()
+	lib.add_animation("day_night", anim)
+	player.add_animation_library("demo", lib)
+	player.play("demo/day_night")
 
 
 func _apply_day() -> void:
-	_set_modulate(DAY_COLOR)
+	_set_world_modulate(DAY_WORLD)
 	_set_sky(DAY_SKY)
-	_set_named_poly_color("WindowA", WINDOW_DAY)
-	_set_named_poly_color("WindowB", WINDOW_DAY)
-	_set_named_poly_color("ForgeGlow", FORGE_DAY)
+	_set_emissives_visible(false)
 
 
 func _apply_night() -> void:
-	_set_modulate(NIGHT_COLOR)
+	_set_world_modulate(NIGHT_WORLD)
 	_set_sky(NIGHT_SKY)
-	_set_named_poly_color("WindowA", WINDOW_NIGHT)
-	_set_named_poly_color("WindowB", WINDOW_NIGHT)
-	_set_named_poly_color("ForgeGlow", FORGE_NIGHT)
+	_set_emissives_visible(true)
 
 
-func _set_modulate(color: Color) -> void:
-	var m := get_parent().get_node_or_null("CanvasModulate") as CanvasModulate
-	if m:
-		m.color = color
+func _set_world_modulate(color: Color) -> void:
+	var world := get_parent().get_node_or_null("World") as Node2D
+	if world:
+		world.modulate = color
 
 
 func _set_sky(color: Color) -> void:
-	var sky := get_parent().get_node_or_null("World/Sky") as Polygon2D
+	var sky := get_parent().get_node_or_null("Sky") as Polygon2D
 	if sky:
 		sky.color = color
 
 
-func _set_named_poly_color(node_name: String, color: Color) -> void:
-	var node := get_parent().find_child(node_name, true, false)
-	if node == null:
-		return
-	# Iso boxes are Node2D roots with Polygon2D children; flat diamonds are Polygon2D.
-	if node is Polygon2D:
-		(node as Polygon2D).color = color
-		return
-	for child in node.get_children():
-		if child is Polygon2D:
-			(child as Polygon2D).color = color
+func _set_emissives_visible(visible: bool) -> void:
+	var emissives := get_parent().get_node_or_null("Emissives") as Node2D
+	if emissives:
+		emissives.visible = visible

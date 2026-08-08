@@ -46,18 +46,18 @@ func _build_room() -> void:
 	for gy in range(0, 11):
 		IsoDraw.make_box(world, Vector2(-0.35, gy), 78.0, PAL_WALL.lightened(0.05), PAL_WALL.darkened(0.22), 2)
 
-	# Dim rafters / beams across the upper volume.
+	# Dim rafters tucked near the back wall (behind props).
 	for i in range(3):
 		var beam := Polygon2D.new()
-		var y := 40.0 + float(i) * 54.0
+		var origin := IsoDraw.grid_to_screen(0.2 + float(i) * 3.2, 0.4)
 		beam.polygon = PackedVector2Array([
-			Vector2(-220.0, y),
-			Vector2(420.0, y - 120.0),
-			Vector2(420.0, y - 108.0),
-			Vector2(-220.0, y + 12.0),
+			origin + Vector2(-40.0, -70.0),
+			origin + Vector2(220.0, -130.0),
+			origin + Vector2(220.0, -122.0),
+			origin + Vector2(-40.0, -62.0),
 		])
 		beam.color = PAL_BEAM
-		beam.z_index = 8
+		beam.z_index = 3
 		world.add_child(beam)
 
 	# Cool night window on the left wall.
