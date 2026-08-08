@@ -6,6 +6,21 @@ status: active
 
 # Development log
 
+## 2026-08-08T08:25:00Z
+
+### Progress
+
+- **PR D** (`03_isometric`): runnable placeholder workshop + street scenes.
+  - `workshop/workshop.tscn` — locked iso camera on forge–anvil; required props as solid-color diamond/box placeholders.
+  - `street/street.tscn` — shop-front strip; day 0–10s / night 10–20s via `day_night.gd` (`CanvasModulate` + window/forge emissive).
+  - Shared helper: `art_style_demo/shared/placeholders/iso_draw.gd`.
+
+### Todo
+
+- Import free-store non-AI packs for `03` compare pass (optional follow-up).
+- `05_hybrid_2d_3d` only if still needed after reviewing `03`.
+- Remaining look-dev PRs A/B/C per table below.
+
 ## 2026-08-08T04:10:47Z
 
 ### Progress

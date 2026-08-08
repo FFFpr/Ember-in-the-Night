@@ -22,3 +22,7 @@ Isometric `TileMapLayer` (or equivalent diamond sprites). Same props; camera is 
 
 - Clearly readable as iso (diamond floor), not side-view 01
 - Props list satisfied; street day→night works
+
+## Status
+
+Runnable placeholder pass: `workshop/workshop.tscn` and `street/street.tscn` (F6). Solid-color iso diamonds/boxes; no imported packs yet. Street day/night driven by `street/day_night.gd` (`CanvasModulate` + window/forge emissive colors).
