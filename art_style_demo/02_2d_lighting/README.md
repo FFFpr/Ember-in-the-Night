@@ -14,6 +14,10 @@ Same spatial language as `01`, plus `PointLight2D` / `DirectionalLight2D`, optio
 4. Street: day = directional/bright ambient; at t=10 s drop ambient, enable window/lamp/forge spill lights.
 5. Occluders optional; skip if they fight placeholders.
 
+## Status
+
+Runnable (placeholder pass). Same `ArtDemoPlates` layout as `01`, plus forge/street `PointLight2D`, daytime `DirectionalLight2D`, `CanvasModulate`, and forge `GPUParticles2D` sparks. Street night enables door/window/lantern lights (not modulate-only).
+
 ## Done when
 
 - Side-by-side with 01, same framing, clearly richer light/particle read

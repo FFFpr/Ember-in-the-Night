@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://art_style_demo/02_2d_lighting/street/day_night.gd" id="1_day_night"]
+
+[sub_resource type="Gradient" id="Gradient_light"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_light"]
+gradient = SubResource("Gradient_light")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[node name="Street" type="Node2D"]
+script = ExtResource("1_day_night")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.92, 0.94, 0.98, 1)
+
+[node name="Lights" type="Node2D" parent="."]
+
+[node name="Sun" type="DirectionalLight2D" parent="Lights"]
+color = Color(0.9, 0.93, 1, 1)
+energy = 0.85
+height = 0.4
+
+[node name="ForgeLight" type="PointLight2D" parent="Lights"]
+position = Vector2(710, 450)
+color = Color(1, 0.55, 0.2, 1)
+energy = 0.7
+texture = SubResource("GradientTexture2D_light")
+texture_scale = 1.8
+
+[node name="DoorLight" type="PointLight2D" parent="Lights"]
+position = Vector2(440, 460)
+color = Color(1, 0.7, 0.35, 1)
+energy = 0.0
+texture = SubResource("GradientTexture2D_light")
+texture_scale = 1.1
+
+[node name="WindowLight" type="PointLight2D" parent="Lights"]
+position = Vector2(795, 245)
+color = Color(1, 0.72, 0.4, 1)
+energy = 0.0
+texture = SubResource("GradientTexture2D_light")
+texture_scale = 0.7
+
+[node name="LanternLight" type="PointLight2D" parent="Lights"]
+position = Vector2(180, 400)
+color = Color(1, 0.65, 0.3, 1)
+energy = 0.0
+texture = SubResource("GradientTexture2D_light")
+texture_scale = 1.0
+
+[node name="Sparks" type="GPUParticles2D" parent="Lights"]
+position = Vector2(710, 420)
+amount = 18
+lifetime = 0.8

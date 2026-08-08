@@ -26,6 +26,10 @@ Full 2D pipeline. Depth = drawn perspective + layer split + parallax / z-index. 
    - 10–20 s: night modulate + warm window/door glow sprites on
 4. Autostart; no input.
 
+## Status
+
+Runnable (placeholder pass). Layout built at runtime from `../shared/placeholders/plates.gd` into `LayerFar` / `LayerMid` / `LayerNear`. Street day/night: `street/day_night.gd` (modulate + glow sprites).
+
 ## Done when
 
 - F6 workshop: FP bench framing, required props visible  
@@ -34,4 +38,4 @@ Full 2D pipeline. Depth = drawn perspective + layer split + parallax / z-index. 
 
 ## Hand-off to 02
 
-Export or keep these scenes as the **layout source**. `02` must duplicate node layout / plates, then add lights.
+Shared plate builder is the **layout source**. `02` calls the same builder, then adds lights/particles.

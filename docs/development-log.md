@@ -6,6 +6,20 @@ status: active
 
 # Development log
 
+## 2026-08-08T08:30:00Z
+
+### Progress
+
+- **PR A (Plan A):** runnable `01_pseudo_perspective_2d` + `02_2d_lighting` workshop/street demos.
+- Shared placeholder plates under `art_style_demo/shared/placeholders/` (palette + plate builder); no third-party packs yet.
+- `01`: flat color / glow-sprite day→night. `02`: same layout + `CanvasModulate` / `PointLight2D` / `DirectionalLight2D` + forge sparks.
+
+### Todo
+
+- Gather **free-store, non-AI, open-licensed** art into `art_style_demo/shared/imported/` for a compare pass.
+- PR B: `06_pixel_2d`. PR C: `04_locked_3d_camera`. PR D optional (`03` / `05`).
+- Review in Godot 4.7 (F6 per scene); pick a production direction.
+
 ## 2026-08-08T04:10:47Z
 
 ### Progress
