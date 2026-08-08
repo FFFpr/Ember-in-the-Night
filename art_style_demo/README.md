@@ -157,5 +157,5 @@ Placeholders must still hit composition (forge/anvil readable; street facade rea
 | Item | State |
 |------|--------|
 | Build brief + references | Done (incl. pixel track) |
-| Runnable `.tscn` | Not started |
+| Runnable `.tscn` | **PR C:** `04_locked_3d_camera` workshop + street greybox |
 | Imported art packs | Not started |

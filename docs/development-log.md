@@ -6,6 +6,21 @@ status: active
 
 # Development log
 
+## 2026-08-08T08:20:00Z
+
+### Progress
+
+- **PR C** (`04_locked_3d_camera`): runnable greybox demos.
+  - `workshop/workshop.tscn` — locked FP camera (~1.6 m), required props as primitive meshes, warm forge light + mild idle sway.
+  - `street/street.tscn` — locked shop-front camera; `day_night.gd` loops day 0–10 s / night 10–20 s (≤0.5 s fade).
+  - Shared helpers: `art_style_demo/shared/placeholders/` (`palette.gd`, `greybox.gd`).
+
+### Todo
+
+- Review `04` in Godot 4.7 (F6); compare against Track A refs.
+- Remaining demo PRs: A (`01`+`02`), B (`06`), optional D (`03`/`05`).
+- Gather free-store non-AI packs under `shared/imported/` when replacing greybox.
+
 ## 2026-08-08T04:10:47Z
 
 ### Progress

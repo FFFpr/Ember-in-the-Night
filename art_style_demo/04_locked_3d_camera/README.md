@@ -6,17 +6,18 @@ Parent brief: [`../README.md`](../README.md). Project: Forward+, Jolt available 
 
 Real 3D meshes; **locked** `Camera3D` (workshop = true FP eye height ~1.6 m toward forge/anvil). No mouse look.
 
-## Build steps (workshop)
+## Scenes
 
-1. `workshop/workshop.tscn`, root `Workshop` (`Node3D`).
-2. Greybox with `MeshInstance3D` boxes; replace with pack meshes when available.
-3. `Camera3D` current, fixed transform; forge `OmniLight3D`/`SpotLight3D` warm.
-4. `WorldEnvironment` mild; avoid blinding bloom.
+| Scene | Run | Notes |
+|-------|-----|--------|
+| [`workshop/workshop.tscn`](workshop/workshop.tscn) | F6 | Greybox room + required props; forge `OmniLight3D` flicker; optional tiny idle sway |
+| [`street/street.tscn`](street/street.tscn) | F6 | Facade greybox; [`street/day_night.gd`](street/day_night.gd) drives 0–10 s day / 10–20 s night (≤0.5 s fade) |
 
-## Build steps (street)
+Shared palette / mesh helpers: [`../shared/placeholders/`](../shared/placeholders/).
 
-1. `street/street.tscn` — facade + road greybox; locked camera (curb FP or tripod).
-2. `AnimationPlayer` or script: sun energy 0–10 s; night lamps + forge door spill 10–20 s.
+## Build notes
+
+Workshop and street build primitive `MeshInstance3D` props in `_ready` (first-pass placeholders). Swap for free-store pack meshes under `shared/imported/` later without changing camera locks.
 
 ## Done when
 
