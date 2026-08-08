@@ -12,7 +12,7 @@ status: active
 
 - **PR D** (`03_isometric`): runnable placeholder workshop + street scenes.
   - `workshop/workshop.tscn` — locked iso camera on forge–anvil; required props as solid-color diamond/box placeholders.
-  - `street/street.tscn` — shop-front strip; day 0–10s / night 10–20s via `day_night.gd` (`CanvasModulate` + window/forge emissive).
+  - `street/street.tscn` — shop-front strip; day 0–10s / night 10–20s via `AnimationPlayer` (`World.modulate` + `Emissives` overlays so night windows stay warm).
   - Shared helper: `art_style_demo/shared/placeholders/iso_draw.gd`.
 
 ### Todo
