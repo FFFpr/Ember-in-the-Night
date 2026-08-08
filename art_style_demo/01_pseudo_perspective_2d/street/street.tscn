@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art_style_demo/01_pseudo_perspective_2d/street/day_night.gd" id="1_day_night"]
+
+[node name="Street" type="Node2D"]
+script = ExtResource("1_day_night")

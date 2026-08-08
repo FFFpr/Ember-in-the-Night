@@ -6,6 +6,20 @@ status: active
 
 # Development log
 
+## 2026-08-08T08:20:00Z
+
+### Progress
+
+- **PR A (runnable):** `01_pseudo_perspective_2d` + `02_2d_lighting` workshop/street scenes.
+- Shared placeholder builders under `art_style_demo/shared/placeholders/` (same layout for 01/02).
+- Street day 0–10s / night 10–20s autostart; `02` adds PointLight2D + sparks/smoke.
+
+### Todo
+
+- Review PR A in Godot 4.7 (F6); decide whether to pull free-store packs next or continue PR B/C.
+- Remaining approaches still scaffold-only (`03`–`06`).
+- Gather **free-store, non-AI, open-licensed** art into `art_style_demo/shared/imported/` when leaving placeholders.
+
 ## 2026-08-08T04:10:47Z
 
 ### Progress

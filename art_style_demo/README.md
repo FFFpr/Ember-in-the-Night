@@ -157,5 +157,5 @@ Placeholders must still hit composition (forge/anvil readable; street facade rea
 | Item | State |
 |------|--------|
 | Build brief + references | Done (incl. pixel track) |
-| Runnable `.tscn` | Not started |
-| Imported art packs | Not started |
+| Runnable `.tscn` | **PR A done:** `01` + `02` workshop/street (placeholder plates) |
+| Imported art packs | Not started (placeholders only) |

@@ -14,6 +14,10 @@ Same spatial language as `01`, plus `PointLight2D` / `DirectionalLight2D`, optio
 4. Street: day = directional/bright ambient; at t=10 s drop ambient, enable window/lamp/forge spill lights.
 5. Occluders optional; skip if they fight placeholders.
 
+## Status
+
+Runnable placeholders: `workshop/workshop.tscn`, `street/street.tscn` (clones 01 layout builders; adds lights/particles).
+
 ## Done when
 
 - Side-by-side with 01, same framing, clearly richer light/particle read

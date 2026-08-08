@@ -26,6 +26,10 @@ Full 2D pipeline. Depth = drawn perspective + layer split + parallax / z-index. 
    - 10–20 s: night modulate + warm window/door glow sprites on
 4. Autostart; no input.
 
+## Status
+
+Runnable placeholders: `workshop/workshop.tscn`, `street/street.tscn` (shared layout builders).
+
 ## Done when
 
 - F6 workshop: FP bench framing, required props visible  
