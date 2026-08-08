@@ -1,0 +1,5 @@
+Pack: Liberated Pixel Cup (LPC) Base Assets (sprites & map tiles)
+Authors: Lanea Zimmerman (Sharm), Daniel Armstrong (HughSpectrum), and LPC contributors — see CREDITS.TXT
+License: CC-BY-SA 3.0 / GPL 3.0 (see CREDITS.TXT)
+URL: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+Provenance: Human-authored Liberated Pixel Cup pack (non-AI).

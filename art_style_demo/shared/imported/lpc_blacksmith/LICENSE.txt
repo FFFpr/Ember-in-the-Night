@@ -1,0 +1,6 @@
+Pack: [LPC] Blacksmith
+Author: bluecarrot16
+License: OGA-BY 3.0 / CC-BY 3.0+ / GPL 2.0+
+URL: https://opengameart.org/content/lpc-blacksmith
+Provenance: Human-authored Liberated Pixel Cup style pack (non-AI).
+Credit: "[LPC] Blacksmith Workshop" by bluecarrot16. License: OGA-BY 3.0, CC-BY 3.0+, GPL 2.0+.

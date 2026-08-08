@@ -17,6 +17,13 @@ Classic **pixel-art 2D** (chunky pixels, limited palette), same workshop FP + st
 | Lights | Optional `Light2D` OK if it stays readable; do not soft-blur the whole framebuffer into a painted look |
 | Assets | Free-store **non-AI** pixel packs only (see parent Asset sourcing) |
 
+## Implementation notes
+
+- Internal layout: **320×180**, `Camera2D.zoom = (4, 4)` → 1280×720 integer scale.
+- Root `texture_filter = nearest`; no camera smoothing.
+- Packs: [`../shared/imported/lpc_blacksmith/`](../shared/imported/lpc_blacksmith/), [`../shared/imported/lpc_base_assets/`](../shared/imported/lpc_base_assets/) (credits in each `LICENSE.txt`).
+- Street day/night: `street/day_night.gd` (0–10 day, 10–20 night, ≤0.5 s fade).
+
 ## Build steps (workshop)
 
 1. `workshop/workshop.tscn`, root `Workshop` (`Node2D`).
@@ -33,7 +40,7 @@ Classic **pixel-art 2D** (chunky pixels, limited palette), same workshop FP + st
 
 ## Done when
 
-- Clearly reads as **pixel art** (not the painted `01` look)
-- Nearest filtering; no accidental bilinear mush
-- F6 workshop + street; street day→night unaided
-- Props list satisfied; credits under `shared/imported/`
+- [x] Clearly reads as **pixel art** (not the painted `01` look)
+- [x] Nearest filtering; no accidental bilinear mush
+- [x] F6 workshop + street; street day→night unaided
+- [x] Props list satisfied; credits under `shared/imported/`

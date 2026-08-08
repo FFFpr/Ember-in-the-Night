@@ -157,5 +157,5 @@ Placeholders must still hit composition (forge/anvil readable; street facade rea
 | Item | State |
 |------|--------|
 | Build brief + references | Done (incl. pixel track) |
-| Runnable `.tscn` | Not started |
-| Imported art packs | Not started |
+| Runnable `.tscn` | `06_pixel_2d` workshop + street runnable; other approaches not started |
+| Imported art packs | LPC Blacksmith + LPC Base Assets under `shared/imported/` (for `06`); composition plates in `shared/placeholders/pixel/` |
