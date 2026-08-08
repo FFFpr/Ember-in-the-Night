@@ -1,13 +1,15 @@
 extends Node2D
 ## 01 street: fixed shop-front camera; day 0–10s, night 10–20s, then loop.
 
-const DAY_S := 10.0
-const NIGHT_S := 10.0
+const CYCLE_S := 20.0
+const DAY_END_S := 10.0
 const FADE_S := 0.45
 
 var _sky: Polygon2D
 var _night_glows: Node2D
 var _modulate: CanvasModulate
+var _start_msec := 0
+var _is_night := false
 
 
 func _ready() -> void:
@@ -26,30 +28,40 @@ func _ready() -> void:
 	add_child(cam)
 	cam.make_current()
 
-	_run_cycle()
+	_start_msec = Time.get_ticks_msec()
+	_apply_day_instant()
 
 
-func _run_cycle() -> void:
-	while is_inside_tree():
-		await _set_day()
-		await get_tree().create_timer(DAY_S).timeout
-		await _set_night()
-		await get_tree().create_timer(NIGHT_S).timeout
+func _process(_delta: float) -> void:
+	var t := fmod(float(Time.get_ticks_msec() - _start_msec) / 1000.0, CYCLE_S)
+	var want_night := t >= DAY_END_S
+	if want_night == _is_night:
+		return
+	_is_night = want_night
+	if _is_night:
+		_tween_to_night()
+	else:
+		_tween_to_day()
 
 
-func _set_day() -> void:
+func _apply_day_instant() -> void:
+	_is_night = false
+	_sky.color = ArtPalette.COOL_SKY_DAY
+	_modulate.color = Color(1, 1, 1, 1)
+	_night_glows.visible = false
+
+
+func _tween_to_day() -> void:
 	_night_glows.visible = false
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(_sky, "color", ArtPalette.COOL_SKY_DAY, FADE_S)
 	tween.tween_property(_modulate, "color", Color(1.0, 1.0, 1.0, 1.0), FADE_S)
-	await tween.finished
 
 
-func _set_night() -> void:
+func _tween_to_night() -> void:
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(_sky, "color", ArtPalette.COOL_SKY_NIGHT, FADE_S)
 	tween.tween_property(_modulate, "color", Color(0.35, 0.38, 0.55, 1.0), FADE_S)
-	await tween.finished
-	_night_glows.visible = true
+	tween.chain().tween_callback(func() -> void: _night_glows.visible = true)

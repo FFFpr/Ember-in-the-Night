@@ -208,22 +208,22 @@ static func _build_near(layer: Node2D) -> void:
 		layer,
 		"LeftGlove",
 		PackedVector2Array([
-			Vector2(220, 620), Vector2(360, 600), Vector2(390, 680),
-			Vector2(250, 710),
+			Vector2(200, 610), Vector2(380, 585), Vector2(410, 690),
+			Vector2(230, 715),
 		]),
-		Color(0.35, 0.22, 0.14, 1.0),
+		Color(0.48, 0.30, 0.18, 1.0),
 		6,
 	)
 	PlateUtil.poly(
 		layer,
 		"RightGlove",
 		PackedVector2Array([
-			Vector2(820, 600), Vector2(980, 590), Vector2(1010, 700),
-			Vector2(850, 715),
+			Vector2(800, 590), Vector2(1000, 575), Vector2(1035, 705),
+			Vector2(830, 720),
 		]),
-		Color(0.32, 0.20, 0.12, 1.0),
+		Color(0.44, 0.27, 0.16, 1.0),
 		6,
 	)
-	PlateUtil.rect(layer, "HammerHandleFP", Vector2(900, 560), Vector2(22, 100), ArtPalette.WARM_WOOD_DARK, 7)
-	PlateUtil.rect(layer, "HammerHeadFP", Vector2(875, 545), Vector2(72, 28), ArtPalette.METAL, 8)
-	PlateUtil.rect(layer, "TongsOnBench", Vector2(140, 590), Vector2(110, 14), ArtPalette.METAL_LIGHT, 7)
+	PlateUtil.rect(layer, "HammerHandleFP", Vector2(900, 520), Vector2(24, 130), ArtPalette.WARM_WOOD_DARK, 7)
+	PlateUtil.rect(layer, "HammerHeadFP", Vector2(870, 500), Vector2(84, 34), ArtPalette.METAL, 8)
+	PlateUtil.rect(layer, "TongsOnBench", Vector2(120, 575), Vector2(130, 16), ArtPalette.METAL_LIGHT, 7)

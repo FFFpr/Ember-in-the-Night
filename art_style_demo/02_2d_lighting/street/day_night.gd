@@ -1,8 +1,8 @@
 extends Node2D
 ## 02 street: same framing as 01; day/night toggles light nodes (not modulate-only).
 
-const DAY_S := 10.0
-const NIGHT_S := 10.0
+const CYCLE_S := 20.0
+const DAY_END_S := 10.0
 const FADE_S := 0.45
 
 var _sky: Polygon2D
@@ -13,6 +13,8 @@ var _forge_light: PointLight2D
 var _door_light: PointLight2D
 var _lantern_light: PointLight2D
 var _window_lights: Array[PointLight2D] = []
+var _start_msec := 0
+var _is_night := false
 
 
 func _ready() -> void:
@@ -47,19 +49,24 @@ func _ready() -> void:
 	add_child(cam)
 	cam.make_current()
 
+	_start_msec = Time.get_ticks_msec()
 	_apply_day_instant()
-	_run_cycle()
 
 
-func _run_cycle() -> void:
-	while is_inside_tree():
-		await _set_day()
-		await get_tree().create_timer(DAY_S).timeout
-		await _set_night()
-		await get_tree().create_timer(NIGHT_S).timeout
+func _process(_delta: float) -> void:
+	var t := fmod(float(Time.get_ticks_msec() - _start_msec) / 1000.0, CYCLE_S)
+	var want_night := t >= DAY_END_S
+	if want_night == _is_night:
+		return
+	_is_night = want_night
+	if _is_night:
+		_tween_to_night()
+	else:
+		_tween_to_day()
 
 
 func _apply_day_instant() -> void:
+	_is_night = false
 	_sky.color = ArtPalette.COOL_SKY_DAY
 	_modulate.color = Color(1, 1, 1, 1)
 	_night_glows.visible = false
@@ -71,7 +78,7 @@ func _apply_day_instant() -> void:
 		wl.energy = 0.0
 
 
-func _set_day() -> void:
+func _tween_to_day() -> void:
 	_night_glows.visible = false
 	var tween := create_tween()
 	tween.set_parallel(true)
@@ -83,10 +90,9 @@ func _set_day() -> void:
 	tween.tween_property(_lantern_light, "energy", 0.0, FADE_S)
 	for wl in _window_lights:
 		tween.tween_property(wl, "energy", 0.0, FADE_S)
-	await tween.finished
 
 
-func _set_night() -> void:
+func _tween_to_night() -> void:
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(_sky, "color", ArtPalette.COOL_SKY_NIGHT, FADE_S)
@@ -97,5 +103,4 @@ func _set_night() -> void:
 	tween.tween_property(_lantern_light, "energy", 1.1, FADE_S)
 	for wl in _window_lights:
 		tween.tween_property(wl, "energy", 0.75, FADE_S)
-	await tween.finished
-	_night_glows.visible = true
+	tween.chain().tween_callback(func() -> void: _night_glows.visible = true)
