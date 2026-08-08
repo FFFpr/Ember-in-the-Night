@@ -20,6 +20,8 @@ This tree records **game design**: theme, loops, setting, narrative, and technic
 | [`tech/`](tech/) | **Technical-path discussion and alternatives** — not what the project currently ships. Present: [`art-style.md`](tech/art-style.md) (locked look-dev direction; demos in [`art_style_demo/`](../art_style_demo/)), [`gda.md`](tech/gda.md) (Godot Agent / Cursor MCP) |
 | [`ideas/`](ideas/) | Casual inspiration and notes; **no required sync or promotion workflow** with other folders |
 
+Root of `docs/` also has [`development-log.md`](development-log.md) (dated progress / todos; not design baseline).
+
 Do not pre-create a README in every subdirectory; add one later only if a folder gets complex.
 
 ## Document metadata
