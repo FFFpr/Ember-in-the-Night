@@ -6,8 +6,8 @@ const STONE := Color(0.42, 0.43, 0.46)
 const STONE_DARK := Color(0.28, 0.29, 0.32)
 const WOOD := Color(0.38, 0.24, 0.14)
 const WOOD_DARK := Color(0.22, 0.14, 0.08)
-const METAL := Color(0.18, 0.19, 0.22)
-const METAL_WARM := Color(0.32, 0.28, 0.26)
+const METAL := Color(0.28, 0.28, 0.32)
+const METAL_WARM := Color(0.45, 0.38, 0.32)
 const PLASTER := Color(0.72, 0.66, 0.56)
 const COOL_WALL := Color(0.34, 0.40, 0.48)
 const EMBERS := Color(1.0, 0.42, 0.12)
@@ -34,6 +34,6 @@ static func mat(color: Color, emission: Color = Color.BLACK, emission_energy: fl
 
 static func metal_mat(color: Color = METAL) -> StandardMaterial3D:
 	var m := mat(color)
-	m.metallic = 0.75
-	m.roughness = 0.45
+	m.metallic = 0.65
+	m.roughness = 0.4
 	return m

@@ -10,6 +10,9 @@ var _t := 0.0
 
 
 func _ready() -> void:
+	# Locked FP framing: eye height ~1.6 m, looking at anvil → forge.
+	_camera.position = Vector3(0.0, 1.62, 2.6)
+	_camera.look_at(Vector3(0.0, 1.05, -1.6), Vector3.UP)
 	_base_cam_rotation = _camera.rotation
 	_build_room()
 	_build_props()
@@ -76,14 +79,14 @@ func _build_props() -> void:
 	var ember_core := ArtDemoPalette.mat(ArtDemoPalette.EMBERS_CORE, ArtDemoPalette.EMBERS_CORE, 2.8)
 
 	# Anvil on stump — center midground, in reach.
-	ArtDemoGreybox.cylinder(props, "AnvilStump", 0.42, 0.55, Vector3(0.0, 0.28, -0.15), wood_dark)
-	ArtDemoGreybox.box(props, "AnvilBody", Vector3(0.85, 0.35, 0.38), Vector3(0.0, 0.72, -0.15), metal_warm)
-	ArtDemoGreybox.box(props, "AnvilHorn", Vector3(0.35, 0.16, 0.16), Vector3(0.55, 0.78, -0.15), metal)
-	ArtDemoGreybox.box(props, "AnvilHeel", Vector3(0.22, 0.18, 0.28), Vector3(-0.45, 0.78, -0.15), metal)
+	ArtDemoGreybox.cylinder(props, "AnvilStump", 0.45, 0.58, Vector3(0.0, 0.3, -0.55), wood_dark)
+	ArtDemoGreybox.box(props, "AnvilBody", Vector3(1.05, 0.42, 0.48), Vector3(0.0, 0.82, -0.55), metal_warm)
+	ArtDemoGreybox.box(props, "AnvilHorn", Vector3(0.42, 0.18, 0.18), Vector3(0.65, 0.9, -0.55), metal)
+	ArtDemoGreybox.box(props, "AnvilHeel", Vector3(0.28, 0.2, 0.34), Vector3(-0.55, 0.9, -0.55), metal)
 
-	# Foreground bench edge (composition anchor under "hands").
-	ArtDemoGreybox.box(props, "Bench", Vector3(1.6, 0.12, 0.55), Vector3(0.15, 0.95, 1.55), wood)
-	ArtDemoGreybox.box(props, "Tongs", Vector3(0.55, 0.04, 0.06), Vector3(-0.25, 1.04, 1.45), metal)
+	# Foreground bench edge (thin strip — don't bury the anvil).
+	ArtDemoGreybox.box(props, "Bench", Vector3(1.4, 0.1, 0.35), Vector3(0.2, 0.88, 1.75), wood)
+	ArtDemoGreybox.box(props, "Tongs", Vector3(0.5, 0.04, 0.05), Vector3(-0.15, 0.96, 1.7), metal)
 
 	# Forge fire volume.
 	ArtDemoGreybox.box(props, "CoalBed", Vector3(1.5, 0.2, 0.7), Vector3(0.0, 0.55, -2.65), coal)
