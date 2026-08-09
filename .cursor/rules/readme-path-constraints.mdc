@@ -1,0 +1,18 @@
+---
+description: Read path README.md files before writing, unless already loaded in context
+alwaysApply: true
+---
+
+# Path README constraints
+
+Before writing any file:
+
+1. Identify each directory component in the target path (e.g. writing `docs/tech/foo.md` → `docs/`, `docs/tech/`).
+2. For each of those directories, if a `README.md` exists and has **not** already been read in the current context, read it carefully.
+3. Do not violate constraints those READMEs define (directory roles, what belongs there, what must not be duplicated).
+
+```text
+# Example: editing docs/tech/art-style.md
+# → read docs/README.md (and docs/tech/README.md if present) unless already in context
+# → do not put demo build diaries under docs/tech/ if docs/README.md forbids that
+```
