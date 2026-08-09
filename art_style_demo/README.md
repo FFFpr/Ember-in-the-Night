@@ -157,5 +157,5 @@ Placeholders must still hit composition (forge/anvil readable; street facade rea
 | Item | State |
 |------|--------|
 | Build brief + references | Done (incl. pixel track) |
-| Runnable `.tscn` | `03_isometric` placeholder pass done (PR D); others not started |
-| Imported art packs | Not started |
+| Runnable `.tscn` | `03_isometric` compare pass (pack art); others not started |
+| Imported art packs | `03` packs under `shared/imported/` (CC0; see each `LICENSE.txt`) |

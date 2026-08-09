@@ -1,166 +1,132 @@
 extends Node2D
-## Locked iso workshop: forge–anvil cluster, placeholder diamonds/boxes.
+## Locked close-iso workshop: Feudal Wars blacksmith + rubberduck CC0 ground/props.
 
-const PAL_FLOOR_A := Color("2c3642")
-const PAL_FLOOR_B := Color("24303b")
-const PAL_WALL := Color("3d4a57")
-const PAL_BEAM := Color("1a222b")
-const PAL_STONE := Color("5a5854")
-const PAL_STONE_DARK := Color("3f3d3a")
-const PAL_FIRE := Color("ff6a1f")
-const PAL_EMBER := Color("ffb14a")
-const PAL_METAL := Color("1b2028")
-const PAL_METAL_HI := Color("3a4452")
-const PAL_WOOD := Color("6b4a32")
-const PAL_WOOD_DK := Color("4a3222")
-const PAL_WATER := Color("3a6a7a")
-const PAL_COOL := Color("4a78a8")
-const PAL_ORE := Color("6a5a4a")
+const GROUND := "res://art_style_demo/shared/imported/rubberduck_iso_ground/PNG/"
+const FEUDAL := "res://art_style_demo/shared/imported/feudalwars_iso_medieval/"
+const PROPS := "res://art_style_demo/shared/imported/rubberduck_iso_medieval_props/PNG/"
+
+const TILE_W := 128.0
+const TILE_H := 64.0
 
 
 func _ready() -> void:
-	_build_room()
-	_build_props()
+	_build_ambiance()
+	_build_floor()
+	_build_smithy_cluster()
+	_build_extra_props()
 	_lock_camera()
 
 
-func _build_room() -> void:
+func _grid(gx: float, gy: float) -> Vector2:
+	return Vector2((gx - gy) * TILE_W * 0.5, (gx + gy) * TILE_H * 0.5)
+
+
+func _tex(path: String) -> Texture2D:
+	return load(path) as Texture2D
+
+
+func _sprite(parent: Node, tex: Texture2D, pos: Vector2, z: int, scale := 1.0) -> Sprite2D:
+	var s := Sprite2D.new()
+	s.texture = tex
+	s.centered = true
+	s.position = pos
+	s.z_index = z
+	s.scale = Vector2(scale, scale)
+	parent.add_child(s)
+	return s
+
+
+func _build_ambiance() -> void:
+	var bg := Polygon2D.new()
+	bg.name = "Backdrop"
+	bg.polygon = PackedVector2Array([
+		Vector2(-1000, -700), Vector2(1000, -700), Vector2(1000, 800), Vector2(-1000, 800),
+	])
+	bg.color = Color("141c28")
+	bg.z_index = -40
+	add_child(bg)
+
+
+func _build_floor() -> void:
 	var world := Node2D.new()
 	world.name = "World"
 	add_child(world)
 
-	# Diamond floor (readable iso grid).
-	for gx in range(0, 11):
-		for gy in range(0, 11):
-			var checker := ((gx + gy) % 2) == 0
-			IsoDraw.make_diamond(
-				world,
-				IsoDraw.grid_to_screen(float(gx), float(gy)),
-				PAL_FLOOR_A if checker else PAL_FLOOR_B,
-				0,
-			)
-
-	# Back / left wall slabs (iso “up” faces as raised diamonds).
-	for gx in range(0, 11):
-		IsoDraw.make_box(world, Vector2(gx, -0.35), 78.0, PAL_WALL, PAL_WALL.darkened(0.18), 2)
-	for gy in range(0, 11):
-		IsoDraw.make_box(world, Vector2(-0.35, gy), 78.0, PAL_WALL.lightened(0.05), PAL_WALL.darkened(0.22), 2)
-
-	# Dim rafters tucked near the back wall (behind props).
-	for i in range(3):
-		var beam := Polygon2D.new()
-		var origin := IsoDraw.grid_to_screen(0.2 + float(i) * 3.2, 0.4)
-		beam.polygon = PackedVector2Array([
-			origin + Vector2(-40.0, -70.0),
-			origin + Vector2(220.0, -130.0),
-			origin + Vector2(220.0, -122.0),
-			origin + Vector2(-40.0, -62.0),
-		])
-		beam.color = PAL_BEAM
-		beam.z_index = 3
-		world.add_child(beam)
-
-	# Cool night window on the left wall.
-	var window := IsoDraw.make_box(world, Vector2(0.6, 2.2), 44.0, PAL_COOL, PAL_WOOD_DK, 12, 18.0, 10.0)
-	window.name = "ColdWindow"
-	IsoDraw.make_label(world, "window", IsoDraw.grid_to_screen(0.6, 2.2) + Vector2(0, -58))
+	var tiles: Array[Texture2D] = [
+		_tex(GROUND + "dirt_dark_0_0.png"),
+		_tex(GROUND + "dirt_dark_1_0.png"),
+		_tex(GROUND + "dirt_0_0.png"),
+		_tex(GROUND + "stone_path_0_0.png"),
+		_tex(GROUND + "stone_path_1_0.png"),
+		_tex(GROUND + "stone_path_2_0.png"),
+	]
+	for gx in range(0, 10):
+		for gy in range(0, 10):
+			var tex: Texture2D
+			if gx >= 3 and gx <= 6 and gy >= 3 and gy <= 6:
+				tex = tiles[3 + ((gx + gy) % 3)]
+			else:
+				tex = tiles[(gx + gy) % 3]
+			_sprite(world, tex, _grid(float(gx), float(gy)), 0, 1.0)
 
 
-func _build_props() -> void:
+func _build_smithy_cluster() -> void:
 	var props := Node2D.new()
 	props.name = "Props"
 	add_child(props)
 
-	# Forge / hearth — warm key, upper-center of cluster.
-	var forge := IsoDraw.make_box(props, Vector2(5.0, 2.2), 56.0, PAL_STONE, PAL_STONE_DARK, 10, 48.0, 24.0)
-	forge.name = "Forge"
-	var mouth := IsoDraw.make_diamond(
-		props,
-		IsoDraw.grid_to_screen(5.0, 2.55) + Vector2(0, -28),
-		PAL_FIRE,
-		25,
-		28.0,
-		14.0,
-	)
-	mouth.name = "ForgeMouth"
-	var coals := IsoDraw.make_diamond(
-		props,
-		IsoDraw.grid_to_screen(5.0, 2.55) + Vector2(0, -36),
-		PAL_EMBER,
-		26,
-		14.0,
-		8.0,
-	)
-	coals.name = "Coals"
-	IsoDraw.make_label(props, "forge", IsoDraw.grid_to_screen(5.0, 2.2) + Vector2(0, -78))
+	var smith := _sprite(props, _tex(FEUDAL + "blacksmith.png"), _grid(4.5, 3.2) + Vector2(8, -18), 10, 1.7)
+	smith.name = "Blacksmith"
 
-	# Anvil — lower-center, in front of forge (viewer side).
-	var anvil_base := IsoDraw.make_box(props, Vector2(5.2, 4.6), 28.0, PAL_WOOD, PAL_WOOD_DK, 14, 22.0, 12.0)
-	anvil_base.name = "AnvilBase"
-	var anvil := IsoDraw.make_box(props, Vector2(5.2, 4.6), 46.0, PAL_METAL_HI, PAL_METAL, 16, 30.0, 14.0)
-	anvil.name = "Anvil"
-	IsoDraw.make_label(props, "anvil", IsoDraw.grid_to_screen(5.2, 4.6) + Vector2(0, -62))
+	# Soft warm forge spill (additive-looking translucent diamond).
+	var glow := Sprite2D.new()
+	glow.name = "ForgeGlow"
+	glow.centered = true
+	glow.position = _grid(5.8, 3.5) + Vector2(85, 18)
+	glow.z_index = 12
+	glow.modulate = Color(1.0, 0.55, 0.18, 0.7)
+	glow.scale = Vector2(2.4, 1.6)
+	glow.texture = _soft_glow_texture()
+	props.add_child(glow)
 
-	# Quench barrel (left of anvil).
-	var barrel := IsoDraw.make_box(props, Vector2(3.2, 4.8), 40.0, PAL_WATER, PAL_WOOD_DK, 14, 20.0, 12.0)
-	barrel.name = "QuenchBarrel"
-	IsoDraw.make_label(props, "quench", IsoDraw.grid_to_screen(3.2, 4.8) + Vector2(0, -56))
+	var light := PointLight2D.new()
+	light.name = "ForgeLight"
+	light.color = Color(1.0, 0.55, 0.22, 1.0)
+	light.energy = 1.25
+	light.texture_scale = 2.6
+	light.position = glow.position
+	light.texture = _soft_glow_texture()
+	props.add_child(light)
 
-	# Bellows (right of forge).
-	var bellows := IsoDraw.make_box(props, Vector2(7.0, 3.0), 34.0, PAL_WOOD, PAL_WOOD_DK, 14, 26.0, 14.0)
-	bellows.name = "Bellows"
-	IsoDraw.make_label(props, "bellows", IsoDraw.grid_to_screen(7.0, 3.0) + Vector2(0, -52))
 
-	# Tool rack on left wall.
-	var rack := IsoDraw.make_box(props, Vector2(1.4, 1.6), 50.0, PAL_WOOD, PAL_WOOD_DK, 12, 34.0, 12.0)
-	rack.name = "ToolRack"
-	for i in range(3):
-		var tool := IsoDraw.make_box(
-			props,
-			Vector2(1.1 + float(i) * 0.35, 1.85),
-			38.0 + float(i) * 4.0,
-			PAL_METAL_HI,
-			PAL_METAL,
-			18,
-			6.0,
-			4.0,
-		)
-		tool.name = "Tool_%d" % i
-	IsoDraw.make_label(props, "tools", IsoDraw.grid_to_screen(1.4, 1.6) + Vector2(0, -66))
+func _soft_glow_texture() -> GradientTexture2D:
+	var grad := GradientTexture2D.new()
+	grad.width = 128
+	grad.height = 128
+	grad.fill = GradientTexture2D.FILL_RADIAL
+	grad.fill_from = Vector2(0.5, 0.5)
+	grad.fill_to = Vector2(0.5, 0.0)
+	var g := Gradient.new()
+	g.colors = PackedColorArray([Color(1, 1, 1, 1), Color(1, 1, 1, 0)])
+	g.offsets = PackedFloat32Array([0.0, 1.0])
+	grad.gradient = g
+	return grad
 
-	# Ore / ingots near forge.
-	for i in range(3):
-		var ingot := IsoDraw.make_box(
-			props,
-			Vector2(6.4 + float(i) * 0.25, 4.9 + float(i) * 0.15),
-			12.0,
-			PAL_ORE.lightened(0.08 * float(i)),
-			PAL_ORE.darkened(0.1),
-			15,
-			14.0,
-			8.0,
-		)
-		ingot.name = "Ingot_%d" % i
-	IsoDraw.make_label(props, "ore", IsoDraw.grid_to_screen(6.6, 5.0) + Vector2(0, -28))
 
-	# Hanging horseshoes on wall near window.
-	for i in range(3):
-		var shoe := IsoDraw.make_diamond(
-			props,
-			IsoDraw.grid_to_screen(0.9, 3.4) + Vector2(float(i) * 10.0, -48.0 - float(i) * 14.0),
-			PAL_METAL_HI,
-			20,
-			8.0,
-			6.0,
-		)
-		shoe.name = "Horseshoe_%d" % i
-	IsoDraw.make_label(props, "shoes", IsoDraw.grid_to_screen(0.9, 3.4) + Vector2(12, -78))
+func _build_extra_props() -> void:
+	var props := get_node("Props")
+	_sprite(props, _tex(PROPS + "medieval_props_128x64_no_shadow_18.png"), _grid(2.2, 4.8), 14, 1.05).name = "Barrels"
+	_sprite(props, _tex(PROPS + "medieval_props_128x64_no_shadow_19.png"), _grid(2.8, 5.2), 14, 1.0)
+	_sprite(props, _tex(PROPS + "medieval_props_128x64_no_shadow_12.png"), _grid(6.6, 4.9), 14, 1.05).name = "Crates"
+	_sprite(props, _tex(PROPS + "medieval_props_128x64_no_shadow_13.png"), _grid(7.1, 5.3), 14, 0.95)
+	_sprite(props, _tex(PROPS + "medieval_props_128x64_no_shadow_04.png"), _grid(1.6, 3.8), 12, 0.95)
+	_sprite(props, _tex(PROPS + "medieval_props_128x64_no_shadow_22.png"), _grid(6.2, 5.6), 14, 0.9)
 
 
 func _lock_camera() -> void:
 	var cam := Camera2D.new()
 	cam.name = "Camera2D"
-	# Focus forge–anvil cluster (lower-center of the iso read).
-	cam.position = IsoDraw.grid_to_screen(5.1, 3.6) + Vector2(0, -20)
+	cam.position = _grid(4.8, 3.6) + Vector2(50, 20)
+	cam.zoom = Vector2(1.2, 1.2)
 	cam.enabled = true
 	add_child(cam)

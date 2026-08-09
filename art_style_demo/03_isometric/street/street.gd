@@ -1,22 +1,13 @@
 extends Node2D
-## Iso shop-front street; day 0–10s / night 10–20s.
-## Night darkens `World` via modulate; emissives live on a sibling layer.
+## Iso shop-front street: Feudal Wars buildings + rubberduck ground/props (CC0).
+## Day 0–10s / night 10–20s via World.modulate + soft Emissives.
 
-const PAL_ROAD_A := Color("3a4552")
-const PAL_ROAD_B := Color("323c48")
-const PAL_STONE := Color("6a6862")
-const PAL_STONE_DK := Color("4a4844")
-const PAL_PLASTER := Color("c9c2b4")
-const PAL_TIMBER := Color("3a2a1e")
-const PAL_ROOF := Color("2a3a55")
-const PAL_WOOD := Color("6b4a32")
-const PAL_WOOD_DK := Color("4a3222")
-const PAL_DOOR := Color("2e2218")
-const PAL_SIGN := Color("1e2430")
-const PAL_FIRE := Color("ff6a1f")
-const PAL_METAL := Color("2a3038")
-const PAL_DAY_SKY := Color("8fa3b8")
-const PAL_WINDOW_DAY := Color("6a7a90")
+const GROUND := "res://art_style_demo/shared/imported/rubberduck_iso_ground/PNG/"
+const FEUDAL := "res://art_style_demo/shared/imported/feudalwars_iso_medieval/"
+const PROPS := "res://art_style_demo/shared/imported/rubberduck_iso_medieval_props/PNG/"
+
+const TILE_W := 128.0
+const TILE_H := 64.0
 
 
 func _ready() -> void:
@@ -24,16 +15,46 @@ func _ready() -> void:
 	_lock_camera()
 
 
+func _grid(gx: float, gy: float) -> Vector2:
+	return Vector2((gx - gy) * TILE_W * 0.5, (gx + gy) * TILE_H * 0.5)
+
+
+func _tex(path: String) -> Texture2D:
+	return load(path) as Texture2D
+
+
+func _sprite(parent: Node, tex: Texture2D, pos: Vector2, z: int, scale := 1.0) -> Sprite2D:
+	var s := Sprite2D.new()
+	s.texture = tex
+	s.centered = true
+	s.position = pos
+	s.z_index = z
+	s.scale = Vector2(scale, scale)
+	parent.add_child(s)
+	return s
+
+
+func _soft_glow_texture() -> GradientTexture2D:
+	var grad := GradientTexture2D.new()
+	grad.width = 128
+	grad.height = 128
+	grad.fill = GradientTexture2D.FILL_RADIAL
+	grad.fill_from = Vector2(0.5, 0.5)
+	grad.fill_to = Vector2(0.5, 0.0)
+	var g := Gradient.new()
+	g.colors = PackedColorArray([Color(1, 1, 1, 1), Color(1, 1, 1, 0)])
+	g.offsets = PackedFloat32Array([0.0, 1.0])
+	grad.gradient = g
+	return grad
+
+
 func _build_street() -> void:
 	var sky := Polygon2D.new()
 	sky.name = "Sky"
 	sky.polygon = PackedVector2Array([
-		Vector2(-900, -520),
-		Vector2(900, -520),
-		Vector2(900, 200),
-		Vector2(-900, 200),
+		Vector2(-1100, -620), Vector2(1100, -620), Vector2(1100, 280), Vector2(-1100, 280),
 	])
-	sky.color = PAL_DAY_SKY
+	sky.color = Color("8fa3b8")
 	sky.z_index = -40
 	add_child(sky)
 
@@ -41,37 +62,15 @@ func _build_street() -> void:
 	world.name = "World"
 	add_child(world)
 
-	# Cobble road strip in front of facades.
-	for gx in range(-1, 13):
-		for gy in range(5, 11):
-			var checker := ((gx + gy) % 2) == 0
-			IsoDraw.make_diamond(
-				world,
-				IsoDraw.grid_to_screen(float(gx), float(gy)),
-				PAL_ROAD_A if checker else PAL_ROAD_B,
-				0,
-			)
-
-	_build_smithy(world)
-	_build_neighbors(world)
+	_build_ground(world)
+	_build_buildings(world)
 	_build_street_props(world)
 
-	# Emissive overlays — not under World.modulate, so night glow stays warm.
 	var emissives := Node2D.new()
 	emissives.name = "Emissives"
 	emissives.visible = false
 	add_child(emissives)
-	_add_window_glow(emissives, Vector2(2.55, 2.35), "GlowWindowA")
-	_add_window_glow(emissives, Vector2(1.15, 2.55), "GlowWindowB")
-	var forge_glow := IsoDraw.make_diamond(
-		emissives,
-		IsoDraw.grid_to_screen(3.55, 3.55) + Vector2(0, -20),
-		Color("ffc56a"),
-		50,
-		18.0,
-		10.0,
-	)
-	forge_glow.name = "GlowForge"
+	_build_night_emissives(emissives)
 
 	var cycle := Node.new()
 	cycle.name = "DayNight"
@@ -79,87 +78,88 @@ func _build_street() -> void:
 	add_child(cycle)
 
 
-func _add_window_glow(parent: Node, grid: Vector2, node_name: String) -> void:
-	var glow := IsoDraw.make_box(
-		parent,
-		grid,
-		118.0,
-		Color("ffb14a"),
-		Color("ff8a2a"),
-		48,
-		12.0,
-		7.0,
-	)
-	glow.name = node_name
+func _build_ground(world: Node2D) -> void:
+	var dirt: Array[Texture2D] = [
+		_tex(GROUND + "dirt_0_0.png"),
+		_tex(GROUND + "dirt_1_0.png"),
+		_tex(GROUND + "dirt_2_0.png"),
+		_tex(GROUND + "grass_medium_0_0.png"),
+	]
+	var road: Array[Texture2D] = [
+		_tex(GROUND + "stone_path_0_0.png"),
+		_tex(GROUND + "stone_path_1_0.png"),
+		_tex(GROUND + "stone_path_2_0.png"),
+		_tex(GROUND + "stone_path_3_0.png"),
+	]
+	for gx in range(-1, 12):
+		for gy in range(2, 10):
+			var on_road := gy >= 5 and gy <= 7
+			var tex: Texture2D
+			if on_road:
+				tex = road[(gx + gy) % road.size()]
+			else:
+				tex = dirt[(gx * 3 + gy) % dirt.size()]
+			_sprite(world, tex, _grid(float(gx), float(gy)), 0, 1.0)
 
 
-func _build_smithy(world: Node2D) -> void:
-	# One readable facade mass (stone body + timber band + roof cap).
-	var body := IsoDraw.make_box(world, Vector2(2.0, 2.4), 88.0, PAL_STONE, PAL_STONE_DK, 8, 72.0, 36.0)
-	body.name = "SmithyBody"
-	var timber := IsoDraw.make_box(world, Vector2(2.0, 2.25), 130.0, PAL_PLASTER, PAL_TIMBER, 9, 70.0, 34.0)
-	timber.name = "SmithyTimber"
-	var roof := IsoDraw.make_box(world, Vector2(2.0, 2.05), 158.0, PAL_ROOF, PAL_ROOF.darkened(0.12), 10, 76.0, 30.0)
-	roof.name = "SmithyRoof"
-
-	var door := IsoDraw.make_box(world, Vector2(1.45, 3.15), 48.0, PAL_DOOR, PAL_WOOD_DK, 14, 15.0, 9.0)
-	door.name = "Door"
-
-	var arm := Polygon2D.new()
-	arm.polygon = PackedVector2Array([
-		Vector2(0, 0), Vector2(52, -10), Vector2(52, -5), Vector2(0, 5),
-	])
-	arm.position = IsoDraw.grid_to_screen(2.7, 2.7) + Vector2(0, -64)
-	arm.color = PAL_WOOD_DK
-	arm.z_index = 22
-	world.add_child(arm)
-	var sign := IsoDraw.make_box(world, Vector2(3.45, 2.55), 64.0, PAL_SIGN, PAL_METAL, 22, 16.0, 9.0)
-	sign.name = "Sign"
-	IsoDraw.make_label(world, "sign", IsoDraw.grid_to_screen(3.45, 2.55) + Vector2(0, -80))
-
-	var forge := IsoDraw.make_box(world, Vector2(3.55, 3.45), 34.0, PAL_STONE, PAL_STONE_DK, 16, 26.0, 13.0)
-	forge.name = "OutdoorForge"
-	var forge_mouth := IsoDraw.make_diamond(
-		world,
-		IsoDraw.grid_to_screen(3.55, 3.55) + Vector2(0, -20),
-		PAL_FIRE,
-		24,
-		14.0,
-		8.0,
-	)
-	forge_mouth.name = "ForgeMouth"
-
-	var win_a := IsoDraw.make_box(world, Vector2(2.55, 2.35), 118.0, PAL_WINDOW_DAY, PAL_TIMBER, 18, 12.0, 7.0)
-	win_a.name = "WindowA"
-	var win_b := IsoDraw.make_box(world, Vector2(1.15, 2.55), 118.0, PAL_WINDOW_DAY, PAL_TIMBER, 18, 12.0, 7.0)
-	win_b.name = "WindowB"
-
-	IsoDraw.make_label(world, "smithy", IsoDraw.grid_to_screen(2.0, 2.4) + Vector2(0, -168))
-
-
-func _build_neighbors(world: Node2D) -> void:
-	var n1 := IsoDraw.make_box(world, Vector2(7.2, 2.0), 100.0, PAL_PLASTER.darkened(0.06), PAL_TIMBER, 6, 52.0, 28.0)
-	n1.name = "NeighborA"
-	var n1_roof := IsoDraw.make_box(world, Vector2(7.2, 1.85), 128.0, PAL_ROOF.lightened(0.06), PAL_ROOF, 7, 56.0, 24.0)
-	n1_roof.name = "NeighborARoof"
-
-	var n2 := IsoDraw.make_box(world, Vector2(10.2, 2.6), 86.0, PAL_STONE.lightened(0.06), PAL_STONE_DK, 6, 46.0, 24.0)
-	n2.name = "NeighborB"
-	var n2_roof := IsoDraw.make_box(world, Vector2(10.2, 2.45), 114.0, PAL_ROOF, PAL_ROOF.darkened(0.1), 7, 50.0, 22.0)
-	n2_roof.name = "NeighborBRoof"
+func _build_buildings(world: Node2D) -> void:
+	_sprite(world, _tex(FEUDAL + "house1c.png"), _grid(0.4, 2.6) + Vector2(0, -18), 5, 1.2).name = "NeighborC"
+	_sprite(world, _tex(FEUDAL + "blacksmith.png"), _grid(3.2, 3.0) + Vector2(0, -28), 8, 1.4).name = "Smithy"
+	_sprite(world, _tex(FEUDAL + "house1.png"), _grid(7.4, 2.5) + Vector2(0, -16), 6, 1.25).name = "NeighborA"
+	_sprite(world, _tex(FEUDAL + "house1b.png"), _grid(9.8, 3.3) + Vector2(0, -8), 5, 1.2).name = "NeighborB"
 
 
 func _build_street_props(world: Node2D) -> void:
-	IsoDraw.make_box(world, Vector2(4.5, 5.2), 28.0, PAL_WOOD, PAL_WOOD_DK, 12, 16.0, 10.0).name = "BarrelA"
-	IsoDraw.make_box(world, Vector2(5.15, 5.45), 22.0, PAL_WOOD.lightened(0.05), PAL_WOOD_DK, 12, 14.0, 9.0).name = "BarrelB"
-	IsoDraw.make_box(world, Vector2(5.9, 5.0), 20.0, PAL_WOOD.darkened(0.05), PAL_WOOD_DK, 12, 18.0, 11.0).name = "Crate"
-	IsoDraw.make_box(world, Vector2(4.05, 4.35), 30.0, PAL_METAL.lightened(0.15), PAL_METAL, 14, 18.0, 10.0).name = "StreetAnvil"
-	IsoDraw.make_label(world, "props", IsoDraw.grid_to_screen(5.1, 5.2) + Vector2(0, -40))
+	_sprite(world, _tex(PROPS + "medieval_props_128x64_no_shadow_18.png"), _grid(4.8, 5.5), 12, 1.0).name = "Barrels"
+	_sprite(world, _tex(PROPS + "medieval_props_128x64_no_shadow_19.png"), _grid(5.4, 5.9), 12, 0.95)
+	_sprite(world, _tex(PROPS + "medieval_props_128x64_no_shadow_12.png"), _grid(6.0, 5.3), 12, 1.0).name = "Crate"
+	_sprite(world, _tex(PROPS + "medieval_props_128x64_no_shadow_13.png"), _grid(6.6, 5.7), 12, 0.9)
+	_sprite(world, _tex(PROPS + "medieval_props_128x64_no_shadow_22.png"), _grid(4.2, 6.1), 12, 0.85)
+	_sprite(world, _tex(PROPS + "medieval_props_128x64_no_shadow_04.png"), _grid(5.0, 6.4), 12, 0.8)
+
+
+func _build_night_emissives(emissives: Node2D) -> void:
+	var glow_tex := _soft_glow_texture()
+
+	var window_a := Sprite2D.new()
+	window_a.name = "GlowWindowA"
+	window_a.texture = glow_tex
+	window_a.centered = true
+	window_a.modulate = Color(1.0, 0.75, 0.35, 0.9)
+	window_a.scale = Vector2(0.55, 0.7)
+	window_a.position = _grid(2.7, 2.5) + Vector2(-28, -98)
+	window_a.z_index = 40
+	emissives.add_child(window_a)
+
+	var window_b := window_a.duplicate() as Sprite2D
+	window_b.name = "GlowWindowB"
+	window_b.position = _grid(3.0, 2.4) + Vector2(8, -102)
+	emissives.add_child(window_b)
+
+	var forge := Sprite2D.new()
+	forge.name = "GlowForge"
+	forge.texture = glow_tex
+	forge.centered = true
+	forge.modulate = Color(1.0, 0.5, 0.15, 0.95)
+	forge.scale = Vector2(1.8, 1.3)
+	forge.position = _grid(4.4, 3.5) + Vector2(100, 20)
+	forge.z_index = 41
+	emissives.add_child(forge)
+
+	var light := PointLight2D.new()
+	light.name = "NightForgeLight"
+	light.color = Color(1.0, 0.55, 0.22, 1.0)
+	light.energy = 1.4
+	light.texture_scale = 3.0
+	light.position = forge.position
+	light.texture = glow_tex
+	emissives.add_child(light)
 
 
 func _lock_camera() -> void:
 	var cam := Camera2D.new()
 	cam.name = "Camera2D"
-	cam.position = IsoDraw.grid_to_screen(4.8, 4.0) + Vector2(10, -55)
+	cam.position = _grid(5.2, 4.2) + Vector2(10, -35)
+	cam.zoom = Vector2(0.92, 0.92)
 	cam.enabled = true
 	add_child(cam)

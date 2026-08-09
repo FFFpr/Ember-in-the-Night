@@ -1,0 +1,5 @@
+Pack: isometric medieval props (selected sprites)
+Author: rubberduck (OpenGameArt); based on CC0 sources credited on the OGA page
+License: CC0 1.0
+Provenance: Human-authored / CC0-derived isometric props; non-AI.
+Source: https://opengameart.org/content/isometric-medieval-props

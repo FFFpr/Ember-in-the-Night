@@ -1,0 +1,5 @@
+Pack: isometric ground tiles (selected 128x64 slices)
+Author: rubberduck (OpenGameArt)
+License: CC0 1.0
+Provenance: Human-authored / CC0 isometric ground spritesheets; non-AI.
+Source: https://opengameart.org/content/isometric-ground-tiles

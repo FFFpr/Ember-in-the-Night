@@ -6,6 +6,20 @@ status: active
 
 # Development log
 
+## 2026-08-09T05:15:00Z
+
+### Progress
+
+- **PR D compare pass** (`03_isometric`): replaced solid-color placeholders with free CC0 pack art.
+  - Imported under `art_style_demo/shared/imported/`: `feudalwars_iso_medieval`, `rubberduck_iso_ground`, `rubberduck_iso_medieval_props` — each with `LICENSE.txt`.
+  - Workshop/street rebuild to read as smithy street + close-iso forge–anvil cluster; day/night unchanged contract.
+
+### Todo
+
+- Attach/review screenshots on the PR; merge when compare-pass bar is satisfied.
+- `05_hybrid_2d_3d` only if still needed after reviewing `03`.
+- Remaining look-dev PRs A/B/C per table below.
+
 ## 2026-08-08T08:25:00Z
 
 ### Progress

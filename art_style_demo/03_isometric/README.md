@@ -25,4 +25,4 @@ Isometric `TileMapLayer` (or equivalent diamond sprites). Same props; camera is 
 
 ## Status
 
-Runnable placeholder pass: `workshop/workshop.tscn` and `street/street.tscn` (F6). Solid-color iso diamonds/boxes; no imported packs yet. Street day/night driven by `street/day_night.gd` (`World.modulate` + `Emissives` overlays so night windows stay warm).
+Compare pass: `workshop/workshop.tscn` and `street/street.tscn` use free CC0 pack art under `../shared/imported/` (Feudal Wars iso medieval buildings; rubberduck iso ground + props). Street day/night via `street/day_night.gd` (`World.modulate` + soft `Emissives`).

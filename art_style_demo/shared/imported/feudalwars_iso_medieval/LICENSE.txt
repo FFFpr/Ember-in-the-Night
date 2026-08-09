@@ -1,0 +1,9 @@
+Pack: Feudal Wars isometric 2.5D medieval buildings (selected sprites)
+Author: feudalwars (OpenGameArt)
+License: CC0 1.0 (public domain)
+Provenance: Human-authored game art published to public domain on OpenGameArt; non-AI.
+Sources:
+  - https://opengameart.org/content/medieval-blacksmith-isometric-25d
+  - https://opengameart.org/content/western-european-medieval-houses-isometric-25d
+  - Collection: https://opengameart.org/content/isometric-25d-medieval-set
+Files used: blacksmith.png, house1.png, house1b.png, house1c.png
