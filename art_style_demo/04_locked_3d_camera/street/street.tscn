@@ -57,4 +57,4 @@ light_color = Color(1, 0.55, 0.25, 1)
 light_energy = 0.15
 omni_range = 3.5
 
-[node name="Greybox" type="Node3D" parent="."]
+[node name="World" type="Node3D" parent="."]

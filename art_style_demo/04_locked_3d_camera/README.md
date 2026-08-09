@@ -10,10 +10,10 @@ Real 3D meshes; **locked** `Camera3D` (workshop = true FP eye height ~1.6 m towa
 
 | Scene | Run | Notes |
 |-------|-----|--------|
-| [`workshop/workshop.tscn`](workshop/workshop.tscn) | F6 | Locked FP; Kenney room shell + sandsound forge/anvil/tub/hammers + Quaternius crate |
-| [`street/street.tscn`](street/street.tscn) | F6 | Locked shop-front; Kenney facade/neighbors; forge spill day→night via [`day_night.gd`](street/day_night.gd) |
+| [`workshop/workshop.tscn`](workshop/workshop.tscn) | F6 | Locked FP; pack meshes only (Kenney / Quaternius / OGA). Tiny emissive glow helper allowed. |
+| [`street/street.tscn`](street/street.tscn) | F6 | Locked shop-front; pack facade/props; day→night via [`day_night.gd`](street/day_night.gd) |
 
-Imported packs (credits under each folder): [`../shared/imported/`](../shared/imported/).
+No untextured `BoxMesh` / `CylinderMesh` hero pieces. Imported packs: [`../shared/imported/`](../shared/imported/).
 
 ## Done when
 

@@ -1,5 +1,5 @@
 extends Node3D
-## Street day→night — Compare pass with imported stylized packs.
+## Street day→night — pack meshes only (tiny emissive glow helpers allowed).
 
 const CYCLE := 20.0
 const DAY_LEN := 10.0
@@ -8,6 +8,7 @@ const FADE := 0.45
 const KENNEY := "res://art_style_demo/shared/imported/kenney_fantasy_town_kit/Models/GLB format/"
 const BLACKSMITH := "res://art_style_demo/shared/imported/oga_sandsound_blacksmith/"
 const QUAT := "res://art_style_demo/shared/imported/quaternius_medieval_village/glTF/"
+const RTS := "res://art_style_demo/shared/imported/quaternius_ultimate_fantasy_rts/FBX/"
 
 @onready var _sun: DirectionalLight3D = $Sun
 @onready var _forge_spill: OmniLight3D = $ForgeSpill
@@ -17,7 +18,6 @@ const QUAT := "res://art_style_demo/shared/imported/quaternius_medieval_village/
 
 var _t := 0.0
 var _ember_mats: Array[StandardMaterial3D] = []
-var _window_mats: Array[StandardMaterial3D] = []
 
 
 func _ready() -> void:
@@ -59,9 +59,6 @@ func _apply_look(night: float) -> void:
 
 	for m in _ember_mats:
 		m.emission_energy_multiplier = lerpf(1.0, 3.0, night)
-	for m in _window_mats:
-		m.emission_energy_multiplier = lerpf(0.08, 1.8, night)
-		m.albedo_color = Color(0.55, 0.5, 0.4).lerp(ArtDemoPalette.EMBERS_CORE, night * 0.7)
 
 
 func _tile(parent: Node3D, name_: String, path: String, pos: Vector3, rot_y: float = 0.0, scl: Vector3 = Vector3.ONE) -> void:
@@ -69,22 +66,20 @@ func _tile(parent: Node3D, name_: String, path: String, pos: Vector3, rot_y: flo
 
 
 func _build_street() -> void:
-	var root := $Greybox
-	var embers := ArtDemoPalette.mat(ArtDemoPalette.EMBERS, ArtDemoPalette.EMBERS, 1.3)
+	var root := $World
 	var ember_core := ArtDemoPalette.mat(ArtDemoPalette.EMBERS_CORE, ArtDemoPalette.EMBERS_CORE, 2.2)
-	var window_mat := ArtDemoPalette.mat(Color(0.55, 0.5, 0.4), ArtDemoPalette.EMBERS_CORE, 0.08)
-	_ember_mats = [embers, ember_core]
-	_window_mats = [window_mat]
+	_ember_mats = [ember_core]
 
-	var face_street := PI * 0.5  # wall thin-X → face +Z toward camera
+	var face_street := PI * 0.5
 
-	# Ground plane + road tiles (roads sit on XZ).
-	ArtDemoGreybox.box(root, "Ground", Vector3(18.0, 0.1, 14.0), Vector3(1.0, -0.05, 1.0), ArtDemoPalette.mat(ArtDemoPalette.ROAD))
-	for x in range(-2, 5):
-		for z in range(1, 4):
+	# Ground entirely from Kenney road tiles (no flat BoxMesh ground).
+	for x in range(-6, 7):
+		for z in range(-2, 6):
 			_tile(root, "Road_%d_%d" % [x, z], KENNEY + "road.glb", Vector3(float(x), 0.0, float(z)), 0.0)
+	for x in range(-6, 7):
+		_tile(root, "Curb_%d" % x, KENNEY + "road-curb.glb", Vector3(float(x), 0.0, -0.5), 0.0)
 
-	# Smithy facade facing street (+Z).
+	# Smithy facade.
 	for x in [-3.0, -2.0, -1.0, 0.0, 1.0]:
 		_tile(root, "Base_%s" % x, KENNEY + "wall.glb", Vector3(x, 0.0, -2.2), face_street)
 		_tile(root, "Upper_%s" % x, KENNEY + "wall.glb", Vector3(x, 1.0, -2.2), face_street)
@@ -105,25 +100,31 @@ func _build_street() -> void:
 	var anvil_tex: Texture2D = load(BLACKSMITH + "anvil/anvil_skin.png")
 	ArtDemoPackLoader.add_asset(root, "Furnace", BLACKSMITH + "furnace/furnace.obj", Vector3(-0.5, 0.0, -1.55), PI, Vector3(0.28, 0.28, 0.28), furnace_tex)
 	ArtDemoPackLoader.add_asset(root, "Anvil", BLACKSMITH + "anvil/anvil.obj", Vector3(0.55, 0.0, -0.9), deg_to_rad(25.0), Vector3(0.32, 0.32, 0.32), anvil_tex)
-	ArtDemoGreybox.box(root, "Embers", Vector3(0.4, 0.15, 0.25), Vector3(-0.5, 0.5, -1.25), embers)
-	ArtDemoGreybox.sphere(root, "EmberCore", 0.11, Vector3(-0.5, 0.68, -1.1), ember_core)
+	# Allowed tiny emissive helper.
+	ArtDemoGreybox.sphere(root, "EmberCore", 0.1, Vector3(-0.5, 0.65, -1.15), ember_core)
 
 	_tile(root, "SignBanner", KENNEY + "banner-red.glb", Vector3(0.95, 1.55, -0.95), deg_to_rad(-15.0), Vector3(0.9, 0.9, 0.9))
 	_tile(root, "SignBlade", KENNEY + "blade.glb", Vector3(1.0, 1.9, -0.8), deg_to_rad(90.0), Vector3(0.6, 0.6, 0.6))
 	_tile(root, "LanternMesh", KENNEY + "lantern.glb", Vector3(1.05, 1.75, 0.05), 0.0)
-	_tile(root, "Crate", QUAT + "Prop_Crate.gltf", Vector3(-4.1, 0.0, 0.7), deg_to_rad(10.0))
+	_tile(root, "Crate", RTS + "Crate.fbx", Vector3(-4.1, 0.0, 0.7), deg_to_rad(10.0), Vector3(1.2, 1.2, 1.2))
+	_tile(root, "CrateStack", RTS + "Crate_Stack1.fbx", Vector3(-4.6, 0.0, -0.2), deg_to_rad(-8.0), Vector3(1.0, 1.0, 1.0))
 	_tile(root, "Wagon", QUAT + "Prop_Wagon.gltf", Vector3(2.8, 0.0, 1.4), deg_to_rad(-30.0), Vector3(0.8, 0.8, 0.8))
 	_tile(root, "Cart", KENNEY + "cart.glb", Vector3(-4.4, 0.0, 1.5), deg_to_rad(18.0), Vector3(0.85, 0.85, 0.85))
 	_tile(root, "Stall", KENNEY + "stall-red.glb", Vector3(1.9, 0.0, 0.4), deg_to_rad(-12.0), Vector3(0.85, 0.85, 0.85))
+	_tile(root, "BarrelA", RTS + "Barrel.fbx", Vector3(2.2, 0.0, 0.9), deg_to_rad(20.0), Vector3(1.1, 1.1, 1.1))
+	_tile(root, "BarrelB", RTS + "Barrel.fbx", Vector3(2.55, 0.0, 0.45), deg_to_rad(-15.0), Vector3(0.95, 0.95, 0.95))
+	_tile(root, "FenceA", KENNEY + "fence.glb", Vector3(-5.2, 0.0, -0.8), face_street)
+	_tile(root, "Stairs", KENNEY + "stairs-wood.glb", Vector3(-3.8, 0.0, -0.9), face_street)
+	_tile(root, "Logs", RTS + "Logs.fbx", Vector3(0.9, 0.0, -0.55), deg_to_rad(40.0), Vector3(0.9, 0.9, 0.9))
 
-	# Neighbors.
+	# Neighbors — deeper massing with side returns.
 	for x in [3.5, 4.5, 5.5]:
 		_tile(root, "NBase_%s" % x, KENNEY + "wall.glb", Vector3(x, 0.0, -3.8), face_street)
 		_tile(root, "NUpper_%s" % x, KENNEY + "wall.glb", Vector3(x, 1.0, -3.8), face_street)
 		_tile(root, "NRoof_%s" % x, KENNEY + "roof-gable.glb", Vector3(x, 2.0, -3.8), face_street)
+		_tile(root, "NSide_%s" % x, KENNEY + "wall.glb", Vector3(x + 0.5, 0.0, -4.3), 0.0)
+		_tile(root, "NSideUp_%s" % x, KENNEY + "wall.glb", Vector3(x + 0.5, 1.0, -4.3), 0.0)
 	for x in [-5.5, -4.5]:
 		_tile(root, "FBase_%s" % x, KENNEY + "wall.glb", Vector3(x, 0.0, -5.8), face_street)
 		_tile(root, "FUpper_%s" % x, KENNEY + "wall.glb", Vector3(x, 1.0, -5.8), face_street)
 		_tile(root, "FRoof_%s" % x, KENNEY + "roof.glb", Vector3(x, 2.0, -5.8), face_street)
-
-	ArtDemoGreybox.box(root, "WindowPane", Vector3(0.4, 0.4, 0.04), Vector3(-3.0, 1.45, -1.55), window_mat)

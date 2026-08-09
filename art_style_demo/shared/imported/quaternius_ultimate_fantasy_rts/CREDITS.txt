@@ -1,0 +1,5 @@
+Ultimate Fantasy RTS (selected props)
+Author: Quaternius (https://quaternius.com)
+License: CC0 1.0 Universal
+Source: https://quaternius.com/packs/ultimatefantasyrts.html
+Notes: Human-authored (non-AI). Barrel/Crate/Logs subset only.
