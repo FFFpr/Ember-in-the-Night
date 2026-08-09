@@ -1,12 +1,12 @@
 ---
 author: F
-updated: 2026-08-07
+updated: 2026-08-09
 status: active
 ---
 
 # Godot Agent (`gda`) integration
 
-> **This file:** Technical-path notes for wiring [godot-agent / `gda`](https://github.com/aigengame/godot-agent) into this Godot 4.7 project (CLI, Skill, Cursor MCP) and what we verified end-to-end. Not a substitute for upstream docs.
+> **This file:** Chosen integration path for [godot-agent / `gda`](https://github.com/aigengame/godot-agent) in this Godot 4.7 project (CLI, Skill, Cursor MCP). Not a substitute for upstream docs.
 
 ## Why
 
@@ -44,21 +44,9 @@ Remove with `gda daemon uninstall` if you decide live control is unwanted. Headl
 
 Upstream registration recipes: [gda-mcp-registration.md](https://github.com/aigengame/godot-agent/blob/main/docs/gda-mcp-registration.md).
 
-## Verification (2026-08-07, gda 0.9.0 + Godot 4.7.1)
+## Verification
 
-Exercised against this repo’s main scene (`levels/test_scene.tscn`):
-
-| Check | Outcome |
-|-------|---------|
-| `gda info` / `project info` / `statistics` | OK |
-| `scene get` / `script get` | OK after import; before import, stderr may show UID / `BaseEntity` noise while stdout JSON still returns |
-| `daemon start` + `game tree` | Runtime tree matches Metal / Hammer / Platform / Camera2D / DragController |
-| `game get … --property position` | Live `RigidBody2D` positions |
-| `perf monitors` | e.g. `node_count=14`, `physics_2d_active_objects=2` |
-| `diag errors` | empty |
-| `input action grab` / `input mouse-click` | accepted |
-| `gda-mcp` `initialize` + `tools/list` | **67** tools |
-| `screen capture` (`--windowed`) | API OK; capture in a cloud/VNC session was a blank dark frame — treat pixel capture as environment-dependent |
+Verified 2026-08-07 against the main scene with gda 0.9.0 + Godot 4.7.1 (CLI, live daemon, MCP `tools/list`). Treat `screen capture` pixel output as environment-dependent in cloud/VNC sessions.
 
 ## Open questions
 

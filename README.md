@@ -34,32 +34,10 @@ Open the project folder in Godot 4.7+. Main scene is set in `project.godot`.
 | `art_style_demo/` | Art-direction demos (docs + future scenes; not shipping gameplay) |
 | `docs/` | Game design docs (not a description of current code) |
 
-Design intent, themes, and discussion live under [`docs/`](docs/). See [`docs/README.md`](docs/README.md). Stack and environment facts stay in this file; `docs/tech/` is for technical *discussion* only. Art-style comparison demos: [`art_style_demo/`](art_style_demo/).
+Design intent, themes, and discussion live under [`docs/`](docs/). See [`docs/README.md`](docs/README.md). Stack and environment facts stay in this file; `docs/tech/` records **chosen** technical routes only. Art-style comparison demos: [`art_style_demo/`](art_style_demo/).
 
 ## Premise
 
-The medieval world is a long night: guild rules, social law, and the pressure to survive weave a dark net around every craft. You are a blacksmith. The forge fire is the only light you can hold—an **ember in the night**.
+The medieval world is a long night. You are a blacksmith; the forge fire is the only light you can hold—an **ember in the night**. The game offers two paths bound by the same flame: keep the guild’s order, or forge outside it.
 
-The game offers two sharply different paths, bound by the same flame:
-
-### The Guild Path
-
-Play a blacksmith who keeps the guild's rules and struggles to run a shop in a chaotic, oppressive medieval society. Survive within order and reputation. Build skill, trust, and influence until you become a master craftsman with standing in the guild.
-
-This is the path of **lawful resolve** in the dark: a lawful forge fire that guards survival and dignity.
-
-### The Outlaw Path
-
-Play an independent smith in the slums or a shadowed attic, rejecting the guild—and even the law. Carve a living outside surveillance and exclusion. Keep alive a fire that was never meant to burn in the open.
-
-This is the path that moves **through the night**: another way to tend the flame of survival.
-
-## Themes
-
-- **The forge fire** — craft, livelihood, and hope; also a mark of identity and choice
-- **The long night** — a society darkened by guilds, law, and class
-- **The ember** — a glow not yet gone out, that someone must keep alive—whether by order or by defiance
-
-The two paths are not a simple split of good and evil. They are two ways to live in the same darkness: one climbs within the order; the other lights its own fire outside it.
-
-Design-side write-up: [`docs/design/theme.md`](docs/design/theme.md).
+Full theme, dual-path framing, and motifs: [`docs/design/theme.md`](docs/design/theme.md).

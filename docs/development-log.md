@@ -6,15 +6,26 @@ status: active
 
 # Development log
 
+## 2026-08-09T15:40:00Z
+
+### Progress
+
+- Cleaned `docs/tech/art-style.md`: keep only the **selected** pixel (Plan B) look-dev route + decision snapshot; removed demo build details and closed Plan A / E implementation write-ups that belonged under `art_style_demo/`.
+- Slimmed root `README.md` Premise/Themes to a short premise linking [`design/theme.md`](design/theme.md); clarified `docs/README.md` `tech/` role wording.
+
+### Todo
+
+- Continue look-dev from the merged Plan B pixel track (`06_pixel_2d`) unless direction changes.
+
 ## 2026-08-09T05:51:00Z
 
 ### Progress
 
 - Merged **PR #11** (Plan B / `06_pixel_2d`) because that demo had the highest completeness against the look-dev review bar.
 - Closed the other art-demo PRs (Plan A [#7](https://github.com/FFFpr/Ember-in-the-Night/pull/7), Plan E [#10](https://github.com/FFFpr/Ember-in-the-Night/pull/10), Plan C [#9](https://github.com/FFFpr/Ember-in-the-Night/pull/9), Plan D [#8](https://github.com/FFFpr/Ember-in-the-Night/pull/8)).
-- **Plan A** and **Plan E**: technical approach is still considered correct (soft illustrative `01` + lit `02`); demos were not good enough after iteration, so those PRs are closed.
+- **Plan A** and **Plan E**: demos were not good enough after iteration, so those PRs are closed (not selected for production look-dev).
 - **Plans C / D** (and other non-B scopes): not considered for now.
-- Documented Plan A / B / E technical approaches in [`docs/tech/art-style.md`](tech/art-style.md).
+- Recorded the look-dev **decision** (B selected) in [`docs/tech/art-style.md`](tech/art-style.md); demo construction details stay under `art_style_demo/` (later cleanup removed A/E implementation tables from tech).
 
 ### Todo
 
@@ -52,7 +63,7 @@ status: active
 
 #### PR split (historical — superseded 2026-08-09)
 
-> Outcome: only **PR B** merged; Plan A / E demos closed (approach kept in tech docs); C / D not pursued for now. See the 2026-08-09 entry and [`tech/art-style.md`](tech/art-style.md).
+> Outcome: only **PR B** merged; Plan A / E demos closed (not selected); C / D not pursued for now. See the 2026-08-09 entries and [`tech/art-style.md`](tech/art-style.md) (selected route only).
 
 | PR | Scope | Why together |
 |----|--------|----------------|

@@ -154,12 +154,14 @@ Historical compare order (superseded 2026-08-09 — only Plan B shipped):
 4. `04` greybox FP workshop + street cycle  
 5. `03` / `05` only if still needed for the comparison
 
-Current direction: continue from merged `06_pixel_2d` unless [`docs/tech/art-style.md`](../docs/tech/art-style.md) / the development log reopen other plans.  
+Current direction: continue from merged `06_pixel_2d` (the selected tech route in [`docs/tech/art-style.md`](../docs/tech/art-style.md)). `01`–`05` remain scaffolds for reference only unless the development log reopens them.
 
 ## Status
 
 | Item | State |
 |------|--------|
 | Build brief + references | Done (incl. pixel track) |
-| Runnable `.tscn` | **Plan B** `06_pixel_2d` workshop + street merged; Plan A / E illustrative demos closed; C / D not pursued for now ([`docs/tech/art-style.md`](../docs/tech/art-style.md), [`docs/development-log.md`](../docs/development-log.md)) |
+| Selected look-dev track | **`06_pixel_2d`** (Plan B) — production continues here ([`docs/tech/art-style.md`](../docs/tech/art-style.md)) |
+| `01`–`05` scaffolds | Reference / not pursued for now (illustrative A/E demos closed; C/D deferred) |
+| Runnable `.tscn` | `06_pixel_2d` workshop + street merged; see [`docs/development-log.md`](../docs/development-log.md) |
 | Imported art packs | LPC Blacksmith + LPC Base Assets under `shared/imported/` drive `06` walls/floors/props |
