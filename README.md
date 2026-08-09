@@ -7,7 +7,7 @@ A blacksmith RPG and business simulation (Godot).
 | Item | Value |
 |------|--------|
 | Engine | Godot **4.7** (Forward Plus) |
-| Presentation | 2D (current demo: hammer physics) |
+| Presentation | 2D (gameplay prototype: hammer physics under `app/`) |
 | Physics | Jolt (as configured in `project.godot`) |
 | Multiplayer | None (solo project) |
 | Cloud agents | Tool install for Cursor Cloud is defined in [`.cursor/environment.json`](.cursor/environment.json) (runs [`.cursor/install.sh`](.cursor/install.sh)) |
@@ -27,14 +27,16 @@ Open the project folder in Godot 4.7+. Main scene is set in `project.godot`.
 
 | Path | Role |
 |------|------|
-| `entities/` | Game entities (hammer, metal, etc.) |
-| `systems/` | Controllers / interaction systems |
-| `levels/` | Scenes |
-| `resources/` | Shared resources (materials, etc.) |
-| `art_style_demo/` | Art-direction demos (docs + future scenes; not shipping gameplay) |
+| `app/` | Shipping gameplay code (entities, systems, levels, resources, addons) |
+| `app/entities/` | Game entities (hammer, metal, etc.) |
+| `app/systems/` | Controllers / interaction systems |
+| `app/levels/` | Scenes (main scene: hammer physics prototype) |
+| `app/resources/` | Shared resources (materials, etc.) |
+| `app/addons/` | Project addons (e.g. gda harness autoload) |
+| `art_style_demo/` | Look-dev demos (not shipping gameplay); open with F6 |
 | `docs/` | Game design docs (not a description of current code) |
 
-Design intent, themes, and discussion live under [`docs/`](docs/). See [`docs/README.md`](docs/README.md). Stack and environment facts stay in this file; `docs/tech/` is for technical *discussion* only. Art-style comparison demos: [`art_style_demo/`](art_style_demo/).
+Design intent, themes, and discussion live under [`docs/`](docs/). See [`docs/README.md`](docs/README.md). Stack and environment facts stay in this file; `docs/tech/` is for technical *discussion* only. Art-style comparison demos stay at the repo root: [`art_style_demo/`](art_style_demo/).
 
 ## Premise
 

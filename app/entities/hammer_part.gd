@@ -1,4 +1,4 @@
-# res://entities/hammer_part.gd
+# res://app/entities/hammer_part.gd
 class_name HammerPart
 extends Node2D          # 注意：不是 RigidBody2D，只是数据+形状的子节点
 

@@ -1,4 +1,4 @@
-# res://entities/hammer/hammer.gd
+# res://app/entities/hammer/hammer.gd
 class_name Hammer
 extends BaseEntity
 

@@ -6,6 +6,16 @@ status: active
 
 # Development log
 
+## 2026-08-09T15:26:00Z
+
+### Progress
+
+- Moved gameplay code into `app/` (`entities/`, `systems/`, `levels/`, `resources/`, `addons/`). Root keeps `project.godot`, `art_style_demo/`, and `docs/`.
+
+### Todo
+
+- Continue look-dev from the merged Plan B pixel track (`06_pixel_2d`) unless direction changes.
+
 ## 2026-08-09T05:51:00Z
 
 ### Progress

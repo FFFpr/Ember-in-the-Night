@@ -1,4 +1,4 @@
-# res://systems/interaction/drag_controller.gd
+# res://app/systems/interaction/drag_controller.gd
 class_name DragController
 extends Node2D
 

@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://b5gcpimc5trj6"]
 
-[ext_resource type="Script" uid="uid://cwr71it4gvl61" path="res://entities/hammer/hammer.gd" id="1_bs4ul"]
-[ext_resource type="Script" uid="uid://bc7j1tmigsd2q" path="res://entities/hammer_part.gd" id="1_cwedc"]
-[ext_resource type="Resource" uid="uid://c4vnw6wglnhjq" path="res://resources/materials/metal_material.tres" id="2_bs4ul"]
-[ext_resource type="Resource" uid="uid://c5gctnbfk4xy0" path="res://resources/materials/wood_metarial.tres" id="3_0sjec"]
+[ext_resource type="Script" uid="uid://cwr71it4gvl61" path="res://app/entities/hammer/hammer.gd" id="1_bs4ul"]
+[ext_resource type="Script" uid="uid://bc7j1tmigsd2q" path="res://app/entities/hammer_part.gd" id="1_cwedc"]
+[ext_resource type="Resource" uid="uid://c4vnw6wglnhjq" path="res://app/resources/materials/metal_material.tres" id="2_bs4ul"]
+[ext_resource type="Resource" uid="uid://c5gctnbfk4xy0" path="res://app/resources/materials/wood_metarial.tres" id="3_0sjec"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kbgb4"]
 
