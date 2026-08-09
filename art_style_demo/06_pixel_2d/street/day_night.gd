@@ -6,6 +6,10 @@ const NIGHT_LEN := 10.0
 const CYCLE_LEN := DAY_LEN + NIGHT_LEN
 const FADE := 0.45
 
+const WIN_DAY := "res://art_style_demo/shared/imported/lpc_base_assets/slices/window_house_a.png"
+const WIN_DAY_B := "res://art_style_demo/shared/imported/lpc_base_assets/slices/window_house_b.png"
+const WIN_NIGHT := "res://art_style_demo/shared/imported/lpc_base_assets/slices/window_house_night.png"
+
 var _root: Node2D
 var _time: float = 0.0
 var _running: bool = false
@@ -23,7 +27,7 @@ var _neighbor_window: Sprite2D
 
 var _day_sky := Color("7ec8e8")
 var _night_sky := Color("0d1830")
-var _day_mountain := Color(0.75, 0.85, 0.95, 0.55)
+var _day_mountain := Color(0.75, 0.85, 0.95, 0.7)
 var _night_mountain := Color(0.2, 0.28, 0.45, 0.9)
 
 
@@ -66,22 +70,28 @@ func _apply(t: float) -> void:
 	if _mountains:
 		_mountains.modulate = _day_mountain.lerp(_night_mountain, night_w)
 	if _forge_glow:
-		_forge_glow.color = Color("ff7a30", lerpf(0.35, 0.9, night_w))
+		_forge_glow.color = Color("ff7a30", lerpf(0.35, 0.95, night_w))
 	if _window_glow:
-		_window_glow.color = Color("ffcc66", lerpf(0.12, 0.85, night_w))
+		_window_glow.color = Color("ffcc66", lerpf(0.12, 0.9, night_w))
 	if _door_glow:
-		_door_glow.color = Color("ff9944", lerpf(0.1, 0.65, night_w))
+		_door_glow.color = Color("ff9944", lerpf(0.1, 0.7, night_w))
 	if _lamp:
 		_lamp.color = Color("ffcc66", lerpf(0.2, 0.95, night_w))
 	if _shop_light:
-		_shop_light.energy = lerpf(0.25, 1.4, night_w)
+		_shop_light.energy = lerpf(0.25, 1.45, night_w)
 
-	var win_tex_day := load("res://art_style_demo/shared/placeholders/pixel/window_day.png") as Texture2D
-	var win_tex_night := load("res://art_style_demo/shared/placeholders/pixel/window_night.png") as Texture2D
-	var win_tex := win_tex_night if night_w > 0.5 else win_tex_day
-	for w in [_window_a, _window_b, _neighbor_window]:
-		if w and win_tex:
-			w.texture = win_tex
+	var night := night_w > 0.5
+	_set_win(_window_a, WIN_NIGHT if night else WIN_DAY)
+	_set_win(_window_b, WIN_NIGHT if night else WIN_DAY_B)
+	_set_win(_neighbor_window, WIN_NIGHT if night else WIN_DAY)
 
 	if _root:
 		_root.modulate = Color.WHITE.lerp(Color(0.78, 0.85, 1.05), night_w * 0.35)
+
+
+func _set_win(node: Sprite2D, path: String) -> void:
+	if node == null:
+		return
+	var tex := load(path) as Texture2D
+	if tex:
+		node.texture = tex

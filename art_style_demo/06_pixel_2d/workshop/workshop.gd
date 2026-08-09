@@ -1,5 +1,6 @@
 extends Node2D
 ## 06 pixel workshop — locked FP bench framing; forge + anvil dominant.
+## Structural tiles + hero props from shared/imported (LPC).
 
 const C := preload("res://art_style_demo/06_pixel_2d/pixel_demo_common.gd")
 
@@ -40,61 +41,52 @@ func _process(delta: float) -> void:
 
 func _build_room() -> void:
 	C.solid(self, Rect2(0, 0, 320, 180), Color("1a2230"), -20)
-	# Back wall — stone brick placeholders (composition plate)
-	C.tiled_rect(self, C.PATH_PLACE + "wall_stone.png", Vector2(0, 16), Vector2i(320, 100), -10)
+	# Back wall — LPC house grey brick
+	C.tiled_rect(self, C.PATH_SLICES + "wall_grey_fill.png", Vector2(0, 16), Vector2i(320, 96), -10)
+	C.tiled_rect(self, C.PATH_SLICES + "wall_grey_top.png", Vector2(0, 16), Vector2i(320, 32), -9)
 	# Cool side washes
-	C.solid(self, Rect2(0, 16, 40, 100), Color(0.25, 0.35, 0.55, 0.4), -5)
-	C.solid(self, Rect2(280, 16, 40, 100), Color(0.25, 0.35, 0.55, 0.4), -5)
-	# Warm wash near forge center
-	C.solid(self, Rect2(120, 40, 80, 70), Color(1.0, 0.45, 0.15, 0.12), -4)
+	C.solid(self, Rect2(0, 16, 36, 96), Color(0.25, 0.35, 0.55, 0.35), -5)
+	C.solid(self, Rect2(284, 16, 36, 96), Color(0.25, 0.35, 0.55, 0.35), -5)
+	# Warm wash near forge
+	C.solid(self, Rect2(120, 40, 80, 70), Color(1.0, 0.45, 0.15, 0.1), -4)
 	# Rafters
 	C.solid(self, Rect2(0, 0, 320, 16), Color("2a1e14"), -8)
-	for x in [36, 100, 164, 228, 292]:
-		C.solid(self, Rect2(x, 0, 5, 26), Color("4a3424"), -6)
-	C.tiled_rect(self, C.PATH_PLACE + "beam.png", Vector2(8, 12), Vector2i(304, 6), -7)
-	# Floor
-	C.tiled_rect(self, C.PATH_PLACE + "floor_cobble.png", Vector2(0, 116), Vector2i(320, 44), -12, Color("7a8088"))
-	# Bench lip (FP foreground)
+	C.tiled_rect(self, C.PATH_SLICES + "beam_wood.png", Vector2(0, 8), Vector2i(320, 32), -7)
+	for x in [40, 104, 168, 232, 296]:
+		C.solid(self, Rect2(x, 0, 4, 24), Color("3a2a1c"), -6)
+	# Floor — LPC cobble
+	C.tiled_rect(self, C.PATH_SLICES + "floor_cobble.png", Vector2(0, 112), Vector2i(320, 44), -12)
+	# Bench lip
 	C.solid(self, Rect2(0, 156, 320, 24), Color("2b241c"), 20)
 	C.solid(self, Rect2(0, 154, 320, 3), Color("5a4a38"), 21)
-	# Cold window
-	C.sprite(self, C.PATH_PLACE + "window_day.png", Vector2(24, 48), 1)
+	# Cold window — LPC house window
+	C.sprite(self, C.PATH_SLICES + "window_house_a.png", Vector2(24, 56), 1, true, 1)
 
 
 func _build_props() -> void:
 	for i in 4:
-		var hs := C.sprite(self, C.PATH_BS_PROPS + "horseshoe.png", Vector2(214 + i * 16, 36), 2)
-		hs.scale = Vector2(0.65, 0.65)
+		C.sprite(self, C.PATH_BS_PROPS + "horseshoe.png", Vector2(214 + i * 18, 38), 2, true, 1)
 
-	var rack := C.sprite(self, C.PATH_BS_PROPS + "tool_rack_tall.png", Vector2(42, 86), 3)
-	rack.scale = Vector2(0.8, 0.8)
+	C.sprite(self, C.PATH_BS_PROPS + "tool_rack_tall.png", Vector2(44, 88), 3, true, 1)
+	C.sprite(self, C.PATH_BS_PROPS + "quench_barrel.png", Vector2(64, 128), 4, true, 1)
+	C.sprite(self, C.PATH_BS_PROPS + "coal_pile_large.png", Vector2(252, 128), 3, true, 1)
+	C.sprite(self, C.PATH_BS_PROPS + "bellows_a.png", Vector2(220, 118), 4, true, 1)
+	C.sprite(self, C.PATH_BS_PROPS + "workbench_tools.png", Vector2(292, 120), 3, true, 1)
 
-	var quench := C.sprite(self, C.PATH_BS_PROPS + "quench_barrel.png", Vector2(62, 128), 4)
-	quench.scale = Vector2(0.65, 0.65)
+	# Hero forge — wall forge + chimney forge body (integer 1x, region-clipped)
+	var wall_forge := C.sprite(self, C.PATH_BS_PROPS + "forge_wall_lit.png", Vector2(160, 72), 1, true, 1)
+	wall_forge.modulate = Color(1, 1, 1, 0.85)
+	_forge = C.sprite(self, C.PATH_BS_PROPS + "forge_chimney_lit.png", Vector2(160, 78), 5, true, 1)
+	_forge.region_enabled = true
+	_forge.region_rect = Rect2(0, 50, 62, 110)
 
-	var coal := C.sprite(self, C.PATH_BS_PROPS + "coal_pile_large.png", Vector2(248, 126), 3)
-	coal.scale = Vector2(0.42, 0.42)
-
-	var bellows := C.sprite(self, C.PATH_BS_PROPS + "bellows_a.png", Vector2(218, 116), 4)
-	bellows.scale = Vector2(0.85, 0.85)
-
-	var bench := C.sprite(self, C.PATH_BS_PROPS + "workbench_tools.png", Vector2(290, 118), 3)
-	bench.scale = Vector2(0.65, 0.65)
-
-	_forge = C.sprite(self, C.PATH_BS_PROPS + "forge_chimney_lit.png", Vector2(160, 76), 5)
-	_forge.scale = Vector2(0.7, 0.7)
-
-	var anvil := C.sprite(self, C.PATH_BS_PROPS + "anvil_block.png", Vector2(160, 146), 10)
-	anvil.scale = Vector2(2.4, 2.4)
-
+	C.sprite(self, C.PATH_BS_PROPS + "anvil_block.png", Vector2(160, 146), 10, true, 2)
 	C.solid(self, Rect2(146, 138, 28, 5), Color("ff6a2a"), 11)
 	C.solid(self, Rect2(148, 139, 24, 3), Color("ffcc66"), 12)
 
-	var hammer := C.sprite(self, C.PATH_BS_PROPS + "hammer_tool.png", Vector2(100, 168), 22)
-	hammer.scale = Vector2(1.05, 1.05)
+	var hammer := C.sprite(self, C.PATH_BS_PROPS + "hammer_tool.png", Vector2(100, 168), 22, true, 1)
 	hammer.rotation_degrees = -28
-	var tongs := C.sprite(self, C.PATH_BS_PROPS + "tongs_tool.png", Vector2(224, 168), 22)
-	tongs.scale = Vector2(1.05, 1.05)
+	var tongs := C.sprite(self, C.PATH_BS_PROPS + "tongs_tool.png", Vector2(224, 168), 22, true, 1)
 	tongs.rotation_degrees = 22
 
 	_embers = Node2D.new()

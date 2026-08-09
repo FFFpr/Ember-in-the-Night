@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bymmr1n0ibk3"
-path="res://.godot/imported/dirt_fill.png-586136664071b26a8055d068b94796ce.ctex"
+uid="uid://0r322tko3rym"
+path="res://.godot/imported/roof_slate.png-d6a3e0fdc65903144d708ee6ca37f7fe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art_style_demo/shared/imported/lpc_base_assets/slices/dirt_fill.png"
-dest_files=["res://.godot/imported/dirt_fill.png-586136664071b26a8055d068b94796ce.ctex"]
+source_file="res://art_style_demo/shared/imported/lpc_base_assets/slices/roof_slate.png"
+dest_files=["res://.godot/imported/roof_slate.png-d6a3e0fdc65903144d708ee6ca37f7fe.ctex"]
 
 [params]
 

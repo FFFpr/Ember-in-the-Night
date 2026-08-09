@@ -1,4 +1,4 @@
 # Pixel placeholders
 
-Geometric solid-color / patterned tiles used as composition plates for look-dev.
-Not third-party pack art. Demo props (forge, anvil, etc.) come from `../imported/`.
+Deprecated for `06_pixel_2d` scenes — workshop/street now use LPC tiles under `../imported/`.
+Kept only so older local experiments do not break; safe to delete in a follow-up.

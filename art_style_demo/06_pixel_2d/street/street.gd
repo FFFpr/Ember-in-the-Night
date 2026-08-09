@@ -1,5 +1,6 @@
 extends Node2D
 ## 06 pixel street — fixed shop-front; day 0–10s / night 10–20s.
+## Facade/road/props from shared/imported (LPC).
 
 const C := preload("res://art_style_demo/06_pixel_2d/pixel_demo_common.gd")
 
@@ -20,70 +21,67 @@ func _ready() -> void:
 func _build_sky() -> void:
 	var sky := C.solid(self, Rect2(0, 0, 320, 90), Color("7ec8e8"), -30)
 	sky.name = "Sky"
-	# Distant hill masses (simple plates)
 	C.solid(self, Rect2(20, 62, 90, 28), Color("5a7a5a"), -28)
 	C.solid(self, Rect2(180, 55, 120, 35), Color("4f6f4f"), -28)
-	var mountains := C.sprite(self, C.PATH_SLICES + "mountains.png", Vector2(160, 70), -25)
+	var mountains := C.sprite(self, C.PATH_SLICES + "mountains.png", Vector2(160, 70), -25, true, 1)
 	mountains.name = "Mountains"
-	mountains.scale = Vector2(0.5, 0.4)
-	mountains.modulate = Color(0.75, 0.85, 0.95, 0.55)
+	# mountains sheet is large; keep 1x and center — may overflow; clip via modulate size by region
+	mountains.region_enabled = true
+	mountains.region_rect = Rect2(0, 0, 320, 100)
+	mountains.modulate = Color(0.75, 0.85, 0.95, 0.7)
 
 
 func _build_street() -> void:
-	# Neighbor mass (left)
-	C.tiled_rect(self, C.PATH_PLACE + "wall_timber.png", Vector2(0, 48), Vector2i(88, 80), -8, Color("c4b49a"))
-	C.tiled_rect(self, C.PATH_PLACE + "roof_tile.png", Vector2(0, 40), Vector2i(88, 16), -7)
-	C.sprite(self, C.PATH_PLACE + "window_day.png", Vector2(28, 68), -6).name = "NeighborWindow"
-	C.sprite(self, C.PATH_PLACE + "door_wood.png", Vector2(58, 96), -6)
-	# Road
-	C.tiled_rect(self, C.PATH_PLACE + "floor_dirt.png", Vector2(0, 128), Vector2i(320, 52), -15)
-	C.tiled_rect(self, C.PATH_PLACE + "floor_cobble.png", Vector2(0, 128), Vector2i(320, 52), -14, Color(1, 1, 1, 0.55))
+	# Neighbor mass — LPC grey brick
+	C.tiled_rect(self, C.PATH_SLICES + "wall_grey_fill.png", Vector2(0, 48), Vector2i(96, 80), -8)
+	C.tiled_rect(self, C.PATH_SLICES + "roof_slate.png", Vector2(0, 40), Vector2i(96, 16), -7)
+	C.sprite(self, C.PATH_SLICES + "window_house_a.png", Vector2(28, 72), -6, true, 1).name = "NeighborWindow"
+	C.sprite(self, C.PATH_SLICES + "door_wood.png", Vector2(64, 96), -6, true, 1)
+	# Road — LPC dirt + cobble
+	C.tiled_rect(self, C.PATH_SLICES + "dirt_fill.png", Vector2(0, 128), Vector2i(320, 52), -15)
+	C.tiled_rect(self, C.PATH_SLICES + "floor_cobble.png", Vector2(0, 128), Vector2i(320, 52), -14, Color(1, 1, 1, 0.65))
 
 
 func _build_smithy() -> void:
-	# Smithy body (right shop-front)
-	C.tiled_rect(self, C.PATH_PLACE + "wall_brick.png", Vector2(140, 44), Vector2i(180, 84), -5)
-	C.tiled_rect(self, C.PATH_PLACE + "roof_tile.png", Vector2(132, 32), Vector2i(196, 16), -4)
-	# Open arch / forge bay
+	# Smithy body — LPC red brick
+	C.tiled_rect(self, C.PATH_SLICES + "wall_brick_fill.png", Vector2(140, 44), Vector2i(180, 84), -5)
+	C.tiled_rect(self, C.PATH_SLICES + "wall_brick_top.png", Vector2(140, 44), Vector2i(180, 32), -4)
+	C.tiled_rect(self, C.PATH_SLICES + "roof_slate.png", Vector2(132, 32), Vector2i(196, 16), -3)
+	# Open forge bay
 	C.solid(self, Rect2(168, 72, 56, 56), Color("1a1210"), 0)
 	var forge_glow := C.solid(self, Rect2(172, 76, 48, 48), Color("ff7a30"), 1)
 	forge_glow.name = "ForgeGlow"
 	forge_glow.color.a = 0.55
-	var forge := C.sprite(self, C.PATH_BS_PROPS + "forge_wall_lit.png", Vector2(196, 98), 2)
-	forge.scale = Vector2(0.38, 0.38)
-	var anvil := C.sprite(self, C.PATH_BS_PROPS + "anvil_block.png", Vector2(196, 122), 3)
-	anvil.scale = Vector2(1.3, 1.3)
+	var forge := C.sprite(self, C.PATH_BS_PROPS + "forge_wall_lit.png", Vector2(196, 100), 2, true, 1)
+	forge.region_enabled = true
+	forge.region_rect = Rect2(32, 16, 64, 64)
+	C.sprite(self, C.PATH_BS_PROPS + "anvil_block.png", Vector2(196, 124), 3, true, 2)
 
-	# Door + windows
-	C.sprite(self, C.PATH_PLACE + "door_wood.png", Vector2(248, 92), 2)
-	var win_a := C.sprite(self, C.PATH_PLACE + "window_day.png", Vector2(280, 68), 2)
+	C.sprite(self, C.PATH_SLICES + "door_wood.png", Vector2(252, 92), 2, true, 1)
+	var win_a := C.sprite(self, C.PATH_SLICES + "window_house_a.png", Vector2(284, 72), 2, true, 1)
 	win_a.name = "WindowA"
-	var win_b := C.sprite(self, C.PATH_PLACE + "window_day.png", Vector2(302, 68), 2)
+	var win_b := C.sprite(self, C.PATH_SLICES + "window_house_b.png", Vector2(308, 72), 2, true, 1)
 	win_b.name = "WindowB"
 
-	var window_glow := C.solid(self, Rect2(272, 60, 40, 28), Color("ffcc66"), 1)
+	var window_glow := C.solid(self, Rect2(268, 60, 52, 36), Color("ffcc66"), 1)
 	window_glow.name = "WindowGlow"
 	window_glow.color.a = 0.2
 
-	var door_glow := C.solid(self, Rect2(238, 90, 24, 38), Color("ff9944"), 1)
+	var door_glow := C.solid(self, Rect2(236, 90, 32, 38), Color("ff9944"), 1)
 	door_glow.name = "DoorGlow"
 	door_glow.color.a = 0.15
 
-	# Hanging sign
+	# Hanging sign — LPC sword board + blacksmith hammer mark
 	C.solid(self, Rect2(150, 48, 3, 28), Color("3a2a1c"), 4)
-	var board := C.sprite(self, C.PATH_PLACE + "sign_hammer.png", Vector2(162, 58), 5)
-	board.scale = Vector2(1.2, 1.2)
+	C.sprite(self, C.PATH_SLICES + "sign_sword.png", Vector2(166, 58), 5, true, 1)
+	C.sprite(self, C.PATH_BS_PROPS + "hammer_tool.png", Vector2(166, 58), 6, true, 1)
 
 
 func _build_props() -> void:
-	var b0 := C.sprite(self, C.PATH_SLICES + "barrel_0.png", Vector2(118, 138), 8)
-	b0.scale = Vector2(1.15, 1.15)
-	var b1 := C.sprite(self, C.PATH_SLICES + "barrel_1.png", Vector2(136, 140), 8)
-	b1.scale = Vector2(1.05, 1.05)
-	var crate := C.sprite(self, C.PATH_BS_PROPS + "workbench_b.png", Vector2(98, 140), 7)
-	crate.scale = Vector2(0.4, 0.4)
-	var coal := C.sprite(self, C.PATH_BS_PROPS + "coal_pile_c.png", Vector2(268, 140), 7)
-	coal.scale = Vector2(0.38, 0.38)
+	C.sprite(self, C.PATH_SLICES + "barrel_0.png", Vector2(118, 140), 8, true, 1)
+	C.sprite(self, C.PATH_SLICES + "barrel_1.png", Vector2(138, 142), 8, true, 1)
+	C.sprite(self, C.PATH_BS_PROPS + "workbench_b.png", Vector2(98, 142), 7, true, 1)
+	C.sprite(self, C.PATH_BS_PROPS + "coal_pile_c.png", Vector2(270, 142), 7, true, 1)
 
 	C.solid(self, Rect2(158, 70, 3, 16), Color("3a2a1c"), 9)
 	var lamp := C.solid(self, Rect2(154, 68, 11, 8), Color("ffcc66"), 10)

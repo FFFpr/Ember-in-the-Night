@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6f6ys4npenrx"
-path="res://.godot/imported/floor_stone.png-b617f48b7466bb74585a0356268125d9.ctex"
+uid="uid://dcnxdm0caw8wj"
+path="res://.godot/imported/wall_castle_fill_b.png-a2b90770d18e0c581de7362a6faf4028.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art_style_demo/shared/imported/lpc_base_assets/slices/floor_stone.png"
-dest_files=["res://.godot/imported/floor_stone.png-b617f48b7466bb74585a0356268125d9.ctex"]
+source_file="res://art_style_demo/shared/imported/lpc_base_assets/slices/wall_castle_fill_b.png"
+dest_files=["res://.godot/imported/wall_castle_fill_b.png-a2b90770d18e0c581de7362a6faf4028.ctex"]
 
 [params]
 

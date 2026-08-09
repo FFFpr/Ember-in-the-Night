@@ -6,7 +6,6 @@ const PIXEL_SCALE := 4
 
 const PATH_BS_PROPS := "res://art_style_demo/shared/imported/lpc_blacksmith/props/"
 const PATH_SLICES := "res://art_style_demo/shared/imported/lpc_base_assets/slices/"
-const PATH_PLACE := "res://art_style_demo/shared/placeholders/pixel/"
 
 
 static func apply_pixel_filter(root: CanvasItem) -> void:
@@ -31,18 +30,34 @@ static func load_tex(path: String) -> Texture2D:
 	return tex
 
 
-static func sprite(parent: Node, path: String, pos: Vector2, z: int = 0, centered: bool = true) -> Sprite2D:
+static func sprite(
+	parent: Node,
+	path: String,
+	pos: Vector2,
+	z: int = 0,
+	centered: bool = true,
+	scale_i: int = 1
+) -> Sprite2D:
 	var s := Sprite2D.new()
 	s.texture = load_tex(path)
 	s.position = pos
 	s.centered = centered
 	s.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	s.z_index = z
+	var si := maxi(scale_i, 1)
+	s.scale = Vector2(si, si)
 	parent.add_child(s)
 	return s
 
 
-static func tiled_rect(parent: Node, path: String, origin: Vector2, size: Vector2i, z: int = 0, modulate: Color = Color.WHITE) -> void:
+static func tiled_rect(
+	parent: Node,
+	path: String,
+	origin: Vector2,
+	size: Vector2i,
+	z: int = 0,
+	modulate: Color = Color.WHITE
+) -> void:
 	var tex := load_tex(path)
 	if tex == null:
 		return

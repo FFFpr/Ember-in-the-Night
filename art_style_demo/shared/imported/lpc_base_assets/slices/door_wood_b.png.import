@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bymmr1n0ibk3"
-path="res://.godot/imported/dirt_fill.png-586136664071b26a8055d068b94796ce.ctex"
+uid="uid://bdqy62grxwus4"
+path="res://.godot/imported/door_wood_b.png-04db04791ee7b0dcf9083401e28dc8a3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art_style_demo/shared/imported/lpc_base_assets/slices/dirt_fill.png"
-dest_files=["res://.godot/imported/dirt_fill.png-586136664071b26a8055d068b94796ce.ctex"]
+source_file="res://art_style_demo/shared/imported/lpc_base_assets/slices/door_wood_b.png"
+dest_files=["res://.godot/imported/door_wood_b.png-04db04791ee7b0dcf9083401e28dc8a3.ctex"]
 
 [params]
 

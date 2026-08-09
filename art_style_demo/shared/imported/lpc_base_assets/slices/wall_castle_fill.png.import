@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bymmr1n0ibk3"
-path="res://.godot/imported/dirt_fill.png-586136664071b26a8055d068b94796ce.ctex"
+uid="uid://bbgl4xmd2kxgy"
+path="res://.godot/imported/wall_castle_fill.png-c97ba2ae01cf46e8b011e15943c6b7dd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art_style_demo/shared/imported/lpc_base_assets/slices/dirt_fill.png"
-dest_files=["res://.godot/imported/dirt_fill.png-586136664071b26a8055d068b94796ce.ctex"]
+source_file="res://art_style_demo/shared/imported/lpc_base_assets/slices/wall_castle_fill.png"
+dest_files=["res://.godot/imported/wall_castle_fill.png-c97ba2ae01cf46e8b011e15943c6b7dd.ctex"]
 
 [params]
 
