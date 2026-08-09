@@ -1,0 +1,5 @@
+Pack: Platformer Art Deluxe (selected tiles)
+Author: Kenney (www.kenney.nl)
+License: CC0 1.0
+Source: https://kenney.nl/assets/platformer-art-deluxe
+Provenance: Human-authored free game assets. Not AI-generated.

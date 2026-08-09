@@ -1,0 +1,5 @@
+Pack: Medieval RTS (selected structure/environment sprites)
+Author: Kenney (www.kenney.nl)
+License: CC0 1.0
+Source: https://kenney.nl/assets/medieval-rts
+Provenance: Human-authored free game assets. Not AI-generated.

@@ -1,0 +1,8 @@
+[LPC] Blacksmith / LPC Revised Blacksmith Workshop tiles
+Authors: bluecarrot16 et al. (see CREDITS.txt)
+License: OGA-BY 3.0 / CC-BY 3.0+ / GPL 2.0+ (multi-license; project uses CC-BY 3.0+)
+Sources:
+- https://opengameart.org/content/lpc-blacksmith
+- https://opengameart.org/content/lpc-revised-workshop-tilesets
+Provenance: Human-authored Liberated Pixel Cup family art. Not AI-generated.
+Credit: "[LPC] Blacksmith" / LPC revised workshop tiles by bluecarrot16 (and contributors listed in CREDITS).
