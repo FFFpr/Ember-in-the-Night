@@ -146,16 +146,20 @@ Placeholders must still hit composition (forge/anvil readable; street facade rea
 
 ## Implementation order
 
+Historical compare order (superseded 2026-08-09 — only Plan B shipped):
+
 1. `01` workshop + street (placeholders OK)  
 2. `02` clone 01 layout, add lights/particles  
 3. `06` pixel track (can proceed in parallel with 01/02 once packs are chosen)  
 4. `04` greybox FP workshop + street cycle  
-5. `03` / `05` only if still needed for the comparison  
+5. `03` / `05` only if still needed for the comparison
+
+Current direction: continue from merged `06_pixel_2d` unless [`docs/tech/art-style.md`](../docs/tech/art-style.md) / the development log reopen other plans.  
 
 ## Status
 
 | Item | State |
 |------|--------|
 | Build brief + references | Done (incl. pixel track) |
-| Runnable `.tscn` | `06_pixel_2d` workshop + street runnable; other approaches not started |
+| Runnable `.tscn` | **Plan B** `06_pixel_2d` workshop + street merged; Plan A / E illustrative demos closed; C / D not pursued for now ([`docs/tech/art-style.md`](../docs/tech/art-style.md), [`docs/development-log.md`](../docs/development-log.md)) |
 | Imported art packs | LPC Blacksmith + LPC Base Assets under `shared/imported/` drive `06` walls/floors/props |
