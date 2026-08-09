@@ -1,4 +1,4 @@
-# res://entities/metal/metal.gd
+# res://app/entities/metal/metal.gd
 class_name Metal
 extends BaseEntity
 

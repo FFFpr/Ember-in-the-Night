@@ -38,4 +38,4 @@ rendering_device/driver.windows="d3d12"
 
 [autoload]
 
-GdaHarness="*res://addons/gda_harness/gda_harness.gd"
+GdaHarness="*res://app/addons/gda_harness/gda_harness.gd"

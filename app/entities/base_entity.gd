@@ -1,4 +1,4 @@
-# res://entities/object.gd
+# res://app/entities/object.gd
 class_name BaseEntity
 extends RigidBody2D
 

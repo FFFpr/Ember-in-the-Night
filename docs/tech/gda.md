@@ -1,6 +1,6 @@
 ---
 author: F
-updated: 2026-08-07
+updated: 2026-08-09
 status: active
 ---
 
@@ -30,7 +30,7 @@ Reload Cursor after editing MCP config (Settings → Tools & MCP). If `uvx` is m
 
 `gda daemon start` installs an inert autoload harness. This project keeps it so live ops do not rewrite the tree on first use:
 
-- `addons/gda_harness/gda_harness.gd`
+- `app/addons/gda_harness/gda_harness.gd`
 - `project.godot` → `[autoload] GdaHarness=*`
 
 Remove with `gda daemon uninstall` if you decide live control is unwanted. Headless commands do not need the harness.
@@ -39,14 +39,14 @@ Remove with `gda daemon uninstall` if you decide live control is unwanted. Headl
 
 1. Point env: `export GDA_PROJECT=/path/to/Ember-in-the-Night` and `GDA_GODOT` if Godot is not on `PATH`.
 2. Warm `.godot` once (class cache / UIDs): `godot --path "$GDA_PROJECT" --headless --import`.
-3. Headless inspect/edit: `gda project info --json`, `gda scene get levels/test_scene.tscn --json`, …
+3. Headless inspect/edit: `gda project info --json`, `gda scene get app/levels/test_scene.tscn --json`, …
 4. Live: `gda daemon start` (add `--windowed` for `screen capture`), then `game` / `perf` / `input` / `diag`, then `gda daemon stop`.
 
 Upstream registration recipes: [gda-mcp-registration.md](https://github.com/aigengame/godot-agent/blob/main/docs/gda-mcp-registration.md).
 
 ## Verification (2026-08-07, gda 0.9.0 + Godot 4.7.1)
 
-Exercised against this repo’s main scene (`levels/test_scene.tscn`):
+Exercised against this repo’s main scene (`app/levels/test_scene.tscn`):
 
 | Check | Outcome |
 |-------|---------|

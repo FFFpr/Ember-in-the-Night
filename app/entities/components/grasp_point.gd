@@ -1,4 +1,4 @@
-# res://entities/components/grasp_point.gd
+# res://app/entities/components/grasp_point.gd
 class_name GraspPoint
 extends Node2D
 

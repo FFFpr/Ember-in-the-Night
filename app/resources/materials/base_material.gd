@@ -1,4 +1,4 @@
-# res://resources/materials/material.gd
+# res://app/resources/materials/material.gd
 class_name BaseMaterial
 extends Resource
 

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c7w42v5lxdas4"]
 
-[ext_resource type="Script" uid="uid://rjpr7bsbqxjs" path="res://entities/metal/metal.gd" id="1_2738q"]
-[ext_resource type="Resource" uid="uid://c4vnw6wglnhjq" path="res://resources/materials/metal_material.tres" id="2_xkcbk"]
+[ext_resource type="Script" uid="uid://rjpr7bsbqxjs" path="res://app/entities/metal/metal.gd" id="1_2738q"]
+[ext_resource type="Resource" uid="uid://c4vnw6wglnhjq" path="res://app/resources/materials/metal_material.tres" id="2_xkcbk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yo0wm"]
 

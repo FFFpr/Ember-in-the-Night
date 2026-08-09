@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://p7quvwxpbutc"]
 
-[ext_resource type="PackedScene" uid="uid://c7w42v5lxdas4" path="res://entities/metal/metal.tscn" id="1_0wynk"]
-[ext_resource type="PackedScene" uid="uid://b5gcpimc5trj6" path="res://entities/hammer/hammer.tscn" id="2_x46hq"]
-[ext_resource type="PackedScene" uid="uid://bnxqbvmcoux12" path="res://entities/platform/platform.tscn" id="3_ohqux"]
-[ext_resource type="Script" uid="uid://dnj72orhljifm" path="res://systems/interaction/drag_controller.gd" id="4_x46hq"]
+[ext_resource type="PackedScene" uid="uid://c7w42v5lxdas4" path="res://app/entities/metal/metal.tscn" id="1_0wynk"]
+[ext_resource type="PackedScene" uid="uid://b5gcpimc5trj6" path="res://app/entities/hammer/hammer.tscn" id="2_x46hq"]
+[ext_resource type="PackedScene" uid="uid://bnxqbvmcoux12" path="res://app/entities/platform/platform.tscn" id="3_ohqux"]
+[ext_resource type="Script" uid="uid://dnj72orhljifm" path="res://app/systems/interaction/drag_controller.gd" id="4_x46hq"]
 
 [node name="TestScene" type="Node2D" unique_id=1115333273]
 
