@@ -1,0 +1,6 @@
+Pack: [LPC] Ore and Forge
+Author: bluecarrot16 (commissioned by Pierre Vigier / pvigier)
+License: CC-BY 3.0+ / GPL 3.0+ / OGA-BY 3.0+
+URL: https://opengameart.org/content/lpc-ore-and-forge
+Attribution: "[LPC] Ore and Forge" by bluecarrot16, commissioned by Pierre Vigier
+Provenance: Human-authored Liberated Pixel Cup style art (non-AI).

@@ -28,7 +28,7 @@ Full 2D pipeline. Depth = drawn perspective + layer split + parallax / z-index. 
 
 ## Status
 
-Runnable (placeholder pass). Layout built at runtime from `../shared/placeholders/plates.gd` into `LayerFar` / `LayerMid` / `LayerNear`. Street day/night: `street/day_night.gd` (modulate + glow sprites).
+Runnable **compare pass** (imported free packs under `../shared/imported/`). Layout from `../shared/placeholders/plates.gd` into `LayerFar` / `LayerMid` / `LayerNear`. Street day/night: `street/day_night.gd` (modulate + glow sprites).
 
 ## Done when
 

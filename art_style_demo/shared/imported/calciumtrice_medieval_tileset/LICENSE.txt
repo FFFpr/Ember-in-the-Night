@@ -1,0 +1,6 @@
+Pack: Medieval Tileset (exterior + interior)
+Author: Calciumtrice
+License: Creative Commons Attribution 3.0 (CC-BY 3.0)
+URL: https://opengameart.org/content/medieval-tileset
+Attribution: "Medieval Tileset by Calciumtrice"
+Provenance: Human-authored OpenGameArt submission (non-AI).

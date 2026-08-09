@@ -1,0 +1,6 @@
+Pack: ambientCG material Color maps (WoodFloor051, Rock023, Rock022, Metal032, PavingStones130)
+Author: ambientCG / Lennart Demes
+License: CC0 1.0
+URL: https://ambientcg.com/
+Provenance: Photogrammetry / procedural PBR materials published as CC0 (non-AI).
+Only Color/albedo maps are vendored here for 2D look-dev plates.

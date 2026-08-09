@@ -6,6 +6,19 @@ status: active
 
 # Development log
 
+## 2026-08-09T05:20:00Z
+
+### Progress
+
+- PR A compare pass: imported free non-AI packs under `art_style_demo/shared/imported/` (Kenney CC0, Calciumtrice CC-BY, LPC Blacksmith/Ore CC-BY, ambientCG CC0) with credits.
+- Reworked `01`/`02` plates to use pack textures/sprites (not solid-color finals); kept locked composition + 20s street day/night.
+- Closed duplicate Plan A PR #10; continue on PR #7.
+
+### Todo
+
+- Review screenshots on PR #7; merge when look-dev compare is accepted.
+- PR B: `06_pixel_2d`. PR C: `04_locked_3d_camera`.
+
 ## 2026-08-08T08:30:00Z
 
 ### Progress

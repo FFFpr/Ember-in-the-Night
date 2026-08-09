@@ -1,0 +1,5 @@
+Pack: Platformer Pack Medieval Expansion
+Author: Kenney Vleugels (Kenney.nl)
+License: CC0 1.0 (public domain)
+URL: https://kenney.nl/assets/platformer-pack-medieval
+Provenance: Human-authored Kenney asset pack (non-AI).
