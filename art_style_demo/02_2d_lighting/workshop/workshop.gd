@@ -14,9 +14,9 @@ var _flicker_t := 0.0
 
 func _ready() -> void:
 	_plates = ArtDemoPlates.build_workshop(self)
-	# Flat glow plate is redundant under real lights; keep fire core readable.
+	# Soft glow stays subtle under PointLight2D.
 	var glow: Polygon2D = _plates.forge_glow
-	glow.color = Color(ArtDemoPalette.FORGE_GLOW, 0.25)
+	glow.color = Color(ArtDemoPalette.FORGE_GLOW, 0.12)
 
 	camera.position = ArtDemoPalette.VIEW * 0.5
 	camera.make_current()
@@ -36,11 +36,11 @@ func _process(delta: float) -> void:
 	_flicker_t += delta
 	camera.position = ArtDemoPalette.VIEW * 0.5 + Vector2(sin(_sway_t * 0.7) * 3.0, cos(_sway_t * 0.55) * 2.0)
 	forge_light.energy = 1.2 + sin(_flicker_t * 9.0) * 0.18 + cos(_flicker_t * 14.0) * 0.08
-	var fire: Polygon2D = _plates.forge_fire
-	var pulse := 0.25 + 0.2 * (0.5 + 0.5 * sin(_flicker_t * 7.0))
-	fire.color = Color(ArtDemoPalette.EMBER_SOFT, pulse)
+	var glow: Polygon2D = _plates.forge_glow
+	var pulse := 0.1 + 0.1 * (0.5 + 0.5 * sin(_flicker_t * 7.0))
+	glow.color = Color(ArtDemoPalette.EMBER_SOFT, pulse)
 	if _plates.has("forge") and _plates.forge is Sprite2D:
-		(_plates.forge as Sprite2D).modulate = Color(1.0, 0.92 + 0.08 * sin(_flicker_t * 6.0), 0.85)
+		(_plates.forge as Sprite2D).modulate = Color(1.0, 0.94 + 0.06 * sin(_flicker_t * 6.0), 0.88)
 
 
 func _configure_sparks() -> void:
