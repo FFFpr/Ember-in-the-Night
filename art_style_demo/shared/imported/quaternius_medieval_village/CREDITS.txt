@@ -1,0 +1,6 @@
+Medieval Village MegaKit (Standard / free)
+Author: Quaternius (https://quaternius.com)
+License: CC0 1.0 Universal
+Source: https://quaternius.itch.io/medieval-village-megakit
+Mirror used: https://github.com/J-Ponzo/gltf-medieval-village-megakit
+Notes: Human-authored (non-AI). Selected glTF props/walls/floors only.

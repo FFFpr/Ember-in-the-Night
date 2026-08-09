@@ -1,0 +1,5 @@
+blacksmith items (anvil, furnace, hammer, tub)
+Author: sandsound
+License: CC-BY-SA 3.0
+Source: https://opengameart.org/content/blacksmith-items
+Notes: Human-authored OpenGameArt upload (2014). Attribution required; share-alike applies to adaptations of these assets.

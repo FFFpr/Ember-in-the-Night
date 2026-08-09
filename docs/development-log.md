@@ -6,6 +6,20 @@ status: active
 
 # Development log
 
+## 2026-08-09T05:20:00Z
+
+### Progress
+
+- **PR C Compare pass** for `04_locked_3d_camera`:
+  - Imported CC0 / open-licensed packs under `art_style_demo/shared/imported/` (Kenney Fantasy Town Kit, Quaternius Medieval Village subset, OGA sandsound blacksmith CC-BY-SA, OGA Lucian Pavel anvil CC0) with LICENSE/CREDITS.
+  - Workshop + street rebuilt with pack meshes (recognizable forge/anvil/props); day 0–10s / night 10–20s unchanged.
+  - Screenshots refreshed for workshop / street-day / street-night.
+
+### Todo
+
+- Human review of Compare pass screenshots vs Track A refs.
+- Remaining demo PRs: A (`01`+`02`), B (`06`), optional D (`03`/`05`).
+
 ## 2026-08-08T08:20:00Z
 
 ### Progress

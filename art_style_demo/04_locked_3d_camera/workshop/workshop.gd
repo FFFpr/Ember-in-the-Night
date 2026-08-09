@@ -1,5 +1,9 @@
 extends Node3D
-## Locked FP workshop greybox — forge / anvil composition for approach 04.
+## Locked FP workshop — Compare pass using imported stylized packs.
+
+const KENNEY := "res://art_style_demo/shared/imported/kenney_fantasy_town_kit/Models/GLB format/"
+const BLACKSMITH := "res://art_style_demo/shared/imported/oga_sandsound_blacksmith/"
+const QUAT := "res://art_style_demo/shared/imported/quaternius_medieval_village/glTF/"
 
 @onready var _camera: Camera3D = $Camera3D
 @onready var _forge_light: OmniLight3D = $ForgeLight
@@ -10,9 +14,8 @@ var _t := 0.0
 
 
 func _ready() -> void:
-	# Locked FP framing: eye height ~1.6 m, looking at anvil → forge.
-	_camera.position = Vector3(0.0, 1.62, 2.6)
-	_camera.look_at(Vector3(0.0, 1.05, -1.6), Vector3.UP)
+	_camera.position = Vector3(0.0, 1.6, 2.7)
+	_camera.look_at(Vector3(0.0, 0.95, -1.4), Vector3.UP)
 	_base_cam_rotation = _camera.rotation
 	_build_room()
 	_build_props()
@@ -20,108 +23,82 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_t += delta
-	# Tiny idle sway only — camera stays locked (no free look).
 	_camera.rotation = _base_cam_rotation + Vector3(
 		sin(_t * 0.55) * 0.008,
 		sin(_t * 0.37) * 0.012,
 		0.0
 	)
 	if _forge_light:
-		_forge_light.light_energy = 3.2 + sin(_t * 3.1) * 0.35 + sin(_t * 7.4) * 0.12
+		_forge_light.light_energy = 3.6 + sin(_t * 3.1) * 0.4 + sin(_t * 7.4) * 0.15
 	if _ember_core and _ember_core.material_override is StandardMaterial3D:
 		var m := _ember_core.material_override as StandardMaterial3D
-		m.emission_energy_multiplier = 2.4 + sin(_t * 4.2) * 0.5
+		m.emission_energy_multiplier = 2.6 + sin(_t * 4.2) * 0.55
+
+
+func _tile(parent: Node3D, name_: String, path: String, pos: Vector3, rot_y: float = 0.0, scl: Vector3 = Vector3.ONE) -> void:
+	ArtDemoPackLoader.add_asset(parent, name_, path, pos, rot_y, scl)
 
 
 func _build_room() -> void:
 	var room := $Room
-	var stone := ArtDemoPalette.mat(ArtDemoPalette.STONE)
-	var stone_dark := ArtDemoPalette.mat(ArtDemoPalette.STONE_DARK)
-	var wood := ArtDemoPalette.mat(ArtDemoPalette.WOOD)
-	var wood_dark := ArtDemoPalette.mat(ArtDemoPalette.WOOD_DARK)
-	var cool := ArtDemoPalette.mat(ArtDemoPalette.COOL_WALL)
-	var night := ArtDemoPalette.mat(ArtDemoPalette.NIGHT_SKY)
+	ArtDemoGreybox.box(room, "Floor", Vector3(8.0, 0.12, 7.0), Vector3(0.0, -0.06, -0.5), ArtDemoPalette.mat(ArtDemoPalette.STONE_DARK))
+	ArtDemoGreybox.box(room, "Ceiling", Vector3(8.0, 0.12, 7.0), Vector3(0.0, 3.4, -0.5), ArtDemoPalette.mat(ArtDemoPalette.WOOD_DARK))
 
-	# Floor / walls / ceiling (interior box, open toward +Z for camera).
-	ArtDemoGreybox.box(room, "Floor", Vector3(7.0, 0.2, 6.0), Vector3(0.0, -0.1, -0.5), stone_dark)
-	ArtDemoGreybox.box(room, "BackWall", Vector3(7.0, 3.4, 0.25), Vector3(0.0, 1.6, -3.35), stone)
-	ArtDemoGreybox.box(room, "LeftWall", Vector3(0.25, 3.4, 6.0), Vector3(-3.5, 1.6, -0.5), cool)
-	ArtDemoGreybox.box(room, "RightWall", Vector3(0.25, 3.4, 6.0), Vector3(3.5, 1.6, -0.5), stone)
-	ArtDemoGreybox.box(room, "Ceiling", Vector3(7.0, 0.2, 6.0), Vector3(0.0, 3.35, -0.5), wood_dark)
+	# Kenney walls are thin on X; rotate so faces look along ±Z / ±X as needed.
+	# Back wall (face camera): rot_y = PI/2
+	var face_cam := PI * 0.5
+	for x in [-2.0, -1.0, 0.0, 1.0, 2.0]:
+		_tile(room, "Back_%s" % x, KENNEY + "wall.glb", Vector3(x, 0.0, -3.3), face_cam)
+		_tile(room, "BackUp_%s" % x, KENNEY + "wall.glb", Vector3(x, 1.0, -3.3), face_cam)
+	_tile(room, "HearthArch", KENNEY + "wall-arch.glb", Vector3(0.0, 0.0, -3.25), face_cam)
+	_tile(room, "HearthArchTop", KENNEY + "wall-arch-top.glb", Vector3(0.0, 1.0, -3.25), face_cam)
 
-	# Hearth surround on back wall.
-	ArtDemoGreybox.box(room, "HearthBase", Vector3(2.4, 0.55, 1.1), Vector3(0.0, 0.2, -2.7), stone_dark)
-	ArtDemoGreybox.box(room, "HearthLeft", Vector3(0.35, 1.6, 1.0), Vector3(-1.05, 1.1, -2.75), stone)
-	ArtDemoGreybox.box(room, "HearthRight", Vector3(0.35, 1.6, 1.0), Vector3(1.05, 1.1, -2.75), stone)
-	ArtDemoGreybox.box(room, "HearthLintel", Vector3(2.5, 0.35, 1.05), Vector3(0.0, 1.95, -2.75), stone)
-	ArtDemoGreybox.box(room, "Chimney", Vector3(1.2, 1.4, 0.9), Vector3(0.0, 2.7, -2.9), stone_dark)
+	# Left wall (face +X): rot_y = 0; Right wall (face -X): rot_y = PI
+	for z in [-2.5, -1.5, -0.5, 0.5]:
+		_tile(room, "L_%s" % z, KENNEY + "wall.glb", Vector3(-3.4, 0.0, z), 0.0)
+		_tile(room, "LU_%s" % z, KENNEY + "wall.glb", Vector3(-3.4, 1.0, z), 0.0)
+		_tile(room, "R_%s" % z, KENNEY + "wall.glb", Vector3(3.4, 0.0, z), PI)
+		_tile(room, "RU_%s" % z, KENNEY + "wall.glb", Vector3(3.4, 1.0, z), PI)
+	_tile(room, "ColdWindow", KENNEY + "wall-window-glass.glb", Vector3(-3.35, 1.0, -1.5), 0.0)
 
-	# Cold window (left wall) — cool contrast vs forge.
-	ArtDemoGreybox.box(room, "WindowFrame", Vector3(0.12, 0.9, 0.7), Vector3(-3.35, 1.85, -1.6), wood)
-	ArtDemoGreybox.box(room, "WindowPane", Vector3(0.05, 0.72, 0.55), Vector3(-3.28, 1.85, -1.6), night)
-
-	# Rafters / beams.
+	# Beams / chimney.
 	for i in 4:
-		var z := -2.6 + float(i) * 1.15
-		ArtDemoGreybox.box(room, "Rafter_%d" % i, Vector3(6.6, 0.18, 0.22), Vector3(0.0, 3.05, z), wood_dark)
-	ArtDemoGreybox.box(room, "BeamCenter", Vector3(0.22, 0.22, 5.4), Vector3(0.0, 3.05, -0.5), wood)
+		var z := -2.4 + float(i) * 1.1
+		_tile(room, "Beam_%d" % i, KENNEY + "planks.glb", Vector3(0.0, 3.15, z), face_cam, Vector3(1.6, 0.7, 0.7))
+	_tile(room, "Chimney", KENNEY + "chimney.glb", Vector3(0.0, 2.0, -3.45), face_cam)
+	_tile(room, "ChimneyTop", KENNEY + "chimney-top.glb", Vector3(0.0, 3.0, -3.45), face_cam)
 
 
 func _build_props() -> void:
 	var props := $Props
-	var wood := ArtDemoPalette.mat(ArtDemoPalette.WOOD)
-	var wood_dark := ArtDemoPalette.mat(ArtDemoPalette.WOOD_DARK)
-	var metal := ArtDemoPalette.metal_mat()
-	var metal_warm := ArtDemoPalette.metal_mat(ArtDemoPalette.METAL_WARM)
-	var coal := ArtDemoPalette.mat(ArtDemoPalette.COAL)
-	var water := ArtDemoPalette.mat(ArtDemoPalette.WATER)
-	var embers := ArtDemoPalette.mat(ArtDemoPalette.EMBERS, ArtDemoPalette.EMBERS, 1.8)
-	var ember_core := ArtDemoPalette.mat(ArtDemoPalette.EMBERS_CORE, ArtDemoPalette.EMBERS_CORE, 2.8)
+	var anvil_tex: Texture2D = load(BLACKSMITH + "anvil/anvil_skin.png")
+	var furnace_tex: Texture2D = load(BLACKSMITH + "furnace/furnace_skin.png")
+	var tub_tex: Texture2D = load(BLACKSMITH + "tub/tub_skin.png")
+	var hammer_tex: Texture2D = load(BLACKSMITH + "hammer/hammer_skin.png")
 
-	# Anvil on stump — center midground, in reach.
-	ArtDemoGreybox.cylinder(props, "AnvilStump", 0.45, 0.58, Vector3(0.0, 0.3, -0.55), wood_dark)
-	ArtDemoGreybox.box(props, "AnvilBody", Vector3(1.05, 0.42, 0.48), Vector3(0.0, 0.82, -0.55), metal_warm)
-	ArtDemoGreybox.box(props, "AnvilHorn", Vector3(0.42, 0.18, 0.18), Vector3(0.65, 0.9, -0.55), metal)
-	ArtDemoGreybox.box(props, "AnvilHeel", Vector3(0.28, 0.2, 0.34), Vector3(-0.55, 0.9, -0.55), metal)
+	# Furnace raw size ~6m → scale ~0.32; anvil ~2.7m tall → scale ~0.38.
+	ArtDemoPackLoader.add_asset(props, "Furnace", BLACKSMITH + "furnace/furnace.obj", Vector3(0.0, 0.0, -2.5), PI, Vector3(0.32, 0.32, 0.32), furnace_tex)
+	ArtDemoPackLoader.add_asset(props, "Anvil", BLACKSMITH + "anvil/anvil.obj", Vector3(0.05, 0.0, -0.35), deg_to_rad(-25.0), Vector3(0.38, 0.38, 0.38), anvil_tex)
+	ArtDemoPackLoader.add_asset(props, "QuenchTub", BLACKSMITH + "tub/tub.obj", Vector3(-2.0, 0.0, -0.1), deg_to_rad(20.0), Vector3(0.35, 0.35, 0.35), tub_tex)
+	ArtDemoPackLoader.add_asset(props, "HammerA", BLACKSMITH + "hammer/hammer.obj", Vector3(-3.05, 1.55, -0.4), deg_to_rad(90.0), Vector3(0.7, 0.7, 0.7), hammer_tex)
+	ArtDemoPackLoader.add_asset(props, "HammerB", BLACKSMITH + "hammer/hammer.obj", Vector3(-3.05, 1.75, 0.0), deg_to_rad(95.0), Vector3(0.7, 0.7, 0.7), hammer_tex)
+	ArtDemoPackLoader.add_asset(props, "HammerC", BLACKSMITH + "hammer/hammer.obj", Vector3(-3.05, 1.95, 0.35), deg_to_rad(85.0), Vector3(0.7, 0.7, 0.7), hammer_tex)
 
-	# Foreground bench edge (thin strip — don't bury the anvil).
-	ArtDemoGreybox.box(props, "Bench", Vector3(1.4, 0.1, 0.35), Vector3(0.2, 0.88, 1.75), wood)
-	ArtDemoGreybox.box(props, "Tongs", Vector3(0.5, 0.04, 0.05), Vector3(-0.15, 0.96, 1.7), metal)
+	_tile(props, "ToolRack", KENNEY + "planks.glb", Vector3(-3.2, 1.5, 0.0), 0.0, Vector3(0.5, 0.5, 0.5))
+	_tile(props, "BellowsProxy", KENNEY + "cart.glb", Vector3(2.1, 0.0, -2.15), deg_to_rad(-35.0), Vector3(0.5, 0.5, 0.5))
+	_tile(props, "OreCrate", QUAT + "Prop_Crate.gltf", Vector3(1.9, 0.0, -1.25), deg_to_rad(12.0))
+	_tile(props, "BladeHang", KENNEY + "blade.glb", Vector3(-3.1, 2.2, -1.35), 0.0, Vector3(0.65, 0.65, 0.65))
+	_tile(props, "Bench", KENNEY + "stall-bench.glb", Vector3(0.15, 0.0, 1.65), 0.0, Vector3(1.15, 1.0, 1.0))
 
-	# Forge fire volume.
-	ArtDemoGreybox.box(props, "CoalBed", Vector3(1.5, 0.2, 0.7), Vector3(0.0, 0.55, -2.65), coal)
-	ArtDemoGreybox.box(props, "Embers", Vector3(1.1, 0.25, 0.45), Vector3(0.0, 0.72, -2.6), embers)
-	_ember_core = ArtDemoGreybox.sphere(props, "EmberCore", 0.22, Vector3(0.0, 0.95, -2.55), ember_core)
+	var embers := ArtDemoPalette.mat(ArtDemoPalette.EMBERS, ArtDemoPalette.EMBERS, 1.9)
+	var ember_core := ArtDemoPalette.mat(ArtDemoPalette.EMBERS_CORE, ArtDemoPalette.EMBERS_CORE, 2.9)
+	ArtDemoGreybox.box(props, "Embers", Vector3(0.5, 0.16, 0.28), Vector3(0.0, 0.55, -2.25), embers)
+	_ember_core = ArtDemoGreybox.sphere(props, "EmberCore", 0.13, Vector3(0.0, 0.75, -2.15), ember_core)
 
-	# Bellows (right of hearth).
-	ArtDemoGreybox.box(props, "BellowsBase", Vector3(0.9, 0.35, 0.55), Vector3(1.85, 0.55, -2.35), wood)
-	ArtDemoGreybox.box(props, "BellowsBag", Vector3(0.75, 0.45, 0.4), Vector3(1.85, 0.95, -2.35), ArtDemoPalette.mat(Color(0.28, 0.16, 0.1)))
-	ArtDemoGreybox.cylinder(props, "BellowsNozzle", 0.07, 0.55, Vector3(1.25, 0.85, -2.55), metal, 0.0, PI * 0.5)
-
-	# Coal / ore crate.
-	ArtDemoGreybox.box(props, "OreCrate", Vector3(0.7, 0.45, 0.55), Vector3(1.9, 0.25, -1.55), wood_dark)
-	ArtDemoGreybox.box(props, "OrePile", Vector3(0.55, 0.22, 0.4), Vector3(1.9, 0.55, -1.55), coal)
-	ArtDemoGreybox.box(props, "IngotA", Vector3(0.28, 0.08, 0.12), Vector3(1.55, 0.12, -1.15), metal_warm)
-	ArtDemoGreybox.box(props, "IngotB", Vector3(0.28, 0.08, 0.12), Vector3(1.75, 0.12, -1.05), metal)
-
-	# Quench barrel (left).
-	ArtDemoGreybox.cylinder(props, "Barrel", 0.38, 0.85, Vector3(-2.15, 0.45, -0.35), wood)
-	ArtDemoGreybox.cylinder(props, "BarrelBand", 0.39, 0.06, Vector3(-2.15, 0.55, -0.35), metal)
-	ArtDemoGreybox.cylinder(props, "BarrelWater", 0.32, 0.08, Vector3(-2.15, 0.82, -0.35), water)
-
-	# Tool rack + hammers / tongs on left wall.
-	ArtDemoGreybox.box(props, "ToolRack", Vector3(0.08, 1.1, 1.4), Vector3(-3.25, 1.7, -0.2), wood_dark)
-	for i in 4:
-		var z := -0.7 + float(i) * 0.35
-		ArtDemoGreybox.box(props, "HammerHead_%d" % i, Vector3(0.18, 0.12, 0.1), Vector3(-3.05, 2.05, z), metal)
-		ArtDemoGreybox.box(props, "HammerHandle_%d" % i, Vector3(0.05, 0.45, 0.05), Vector3(-3.05, 1.75, z), wood)
-	ArtDemoGreybox.box(props, "WallTongs", Vector3(0.05, 0.55, 0.05), Vector3(-3.05, 1.35, 0.55), metal)
-
-	# Hanging horseshoes.
 	for i in 3:
 		var y := 2.15 - float(i) * 0.28
-		ArtDemoGreybox.cylinder(props, "Horseshoe_%d" % i, 0.12, 0.04, Vector3(-3.05, y, -1.15), metal, PI * 0.5, 0.0)
+		ArtDemoGreybox.cylinder(props, "Horseshoe_%d" % i, 0.1, 0.03, Vector3(-3.1, y, -1.65), ArtDemoPalette.metal_mat(), PI * 0.5, 0.0)
 
-	# Pokers leaning by hearth.
-	ArtDemoGreybox.box(props, "PokerA", Vector3(0.04, 1.1, 0.04), Vector3(0.75, 0.9, -2.15), metal, 0.25)
-	ArtDemoGreybox.box(props, "PokerB", Vector3(0.04, 1.0, 0.04), Vector3(0.9, 0.85, -2.05), metal, 0.35)
+	var metal := ArtDemoPalette.metal_mat(ArtDemoPalette.METAL_WARM)
+	ArtDemoGreybox.box(props, "IngotA", Vector3(0.28, 0.08, 0.12), Vector3(1.5, 0.08, -0.9), metal)
+	ArtDemoGreybox.box(props, "IngotB", Vector3(0.28, 0.08, 0.12), Vector3(1.75, 0.08, -0.8), metal)

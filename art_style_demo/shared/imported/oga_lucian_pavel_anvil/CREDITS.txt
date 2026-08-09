@@ -1,0 +1,5 @@
+Low poly iron anvil
+Author: Lucian Pavel
+License: CC0 1.0 Universal
+Source: https://opengameart.org/content/low-poly-iron-anvil
+Notes: Human-authored OpenGameArt upload. Kept as alternate anvil mesh.

@@ -1,0 +1,5 @@
+Kenney Fantasy Town Kit 2.0
+Author: Kenney (www.kenney.nl)
+License: CC0 1.0 Universal
+Source: https://kenney.nl/assets/fantasy-town-kit
+Notes: Human-authored (non-AI). Subset of GLB models + colormap texture imported for art_style_demo look-dev.
