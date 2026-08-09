@@ -5,5 +5,8 @@ Provenance: Human-authored game art published to public domain on OpenGameArt; n
 Sources:
   - https://opengameart.org/content/medieval-blacksmith-isometric-25d
   - https://opengameart.org/content/western-european-medieval-houses-isometric-25d
+  - https://opengameart.org/content/medieval-barracks-isometric-25d
+  - https://opengameart.org/content/medieval-stable-isometric-25d
+  - https://opengameart.org/content/medieval-archery-range-isometric-25d
   - Collection: https://opengameart.org/content/isometric-25d-medieval-set
-Files used: blacksmith.png, house1.png, house1b.png, house1c.png
+Files used: blacksmith.png, house1.png, house1b.png, house1c.png, barracks.png, stable.png, archery.png

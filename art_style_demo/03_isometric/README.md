@@ -25,4 +25,4 @@ Isometric `TileMapLayer` (or equivalent diamond sprites). Same props; camera is 
 
 ## Status
 
-Compare pass: `workshop/workshop.tscn` and `street/street.tscn` use free CC0 pack art under `../shared/imported/` (Feudal Wars iso medieval buildings; rubberduck iso ground + props). Street day/night via `street/day_night.gd` (`World.modulate` + soft `Emissives`).
+Compare pass: pack-sprite/tile only for scenery (`feudalwars_iso_medieval`, `rubberduck_iso_ground`, `rubberduck_iso_medieval_props`). No IsoDraw / diamond-box props. Allowed non-pack: sky wash + soft glow/light cookies. Street day/night via `day_night.gd`.

@@ -1,6 +1,6 @@
 extends Node2D
-## Iso shop-front street: Feudal Wars buildings + rubberduck ground/props (CC0).
-## Day 0–10s / night 10–20s via World.modulate + soft Emissives.
+## Iso shop-front street — pack sprites/tiles only (no IsoDraw / prop polygons).
+## Day 0–10s / night 10–20s. Allowed non-pack: sky wash + soft glow cookies.
 
 const GROUND := "res://art_style_demo/shared/imported/rubberduck_iso_ground/PNG/"
 const FEUDAL := "res://art_style_demo/shared/imported/feudalwars_iso_medieval/"
@@ -52,10 +52,10 @@ func _build_street() -> void:
 	var sky := Polygon2D.new()
 	sky.name = "Sky"
 	sky.polygon = PackedVector2Array([
-		Vector2(-1100, -620), Vector2(1100, -620), Vector2(1100, 280), Vector2(-1100, 280),
+		Vector2(-1600, -800), Vector2(1600, -800), Vector2(1600, 120), Vector2(-1600, 120),
 	])
 	sky.color = Color("8fa3b8")
-	sky.z_index = -40
+	sky.z_index = -50
 	add_child(sky)
 
 	var world := Node2D.new()
@@ -83,39 +83,66 @@ func _build_ground(world: Node2D) -> void:
 		_tex(GROUND + "dirt_0_0.png"),
 		_tex(GROUND + "dirt_1_0.png"),
 		_tex(GROUND + "dirt_2_0.png"),
+		_tex(GROUND + "dirt_0_1.png"),
+		_tex(GROUND + "dirt_1_1.png"),
 		_tex(GROUND + "grass_medium_0_0.png"),
+		_tex(GROUND + "grass_medium_1_0.png"),
+		_tex(GROUND + "grass_green_0_0.png"),
+		_tex(GROUND + "forest_ground_0_0.png"),
 	]
 	var road: Array[Texture2D] = [
 		_tex(GROUND + "stone_path_0_0.png"),
 		_tex(GROUND + "stone_path_1_0.png"),
 		_tex(GROUND + "stone_path_2_0.png"),
 		_tex(GROUND + "stone_path_3_0.png"),
+		_tex(GROUND + "stone_path_0_1.png"),
+		_tex(GROUND + "stone_path_1_1.png"),
+		_tex(GROUND + "stone_path_2_1.png"),
+		_tex(GROUND + "stone_path_3_1.png"),
 	]
-	for gx in range(-1, 12):
-		for gy in range(2, 10):
-			var on_road := gy >= 5 and gy <= 7
+	# Fill the camera frustum with pack ground tiles.
+	for gx in range(-4, 16):
+		for gy in range(0, 13):
+			var on_road := gy >= 5 and gy <= 8
 			var tex: Texture2D
 			if on_road:
-				tex = road[(gx + gy) % road.size()]
+				tex = road[(gx + gy * 2) % road.size()]
 			else:
-				tex = dirt[(gx * 3 + gy) % dirt.size()]
+				tex = dirt[(gx * 3 + gy * 5) % dirt.size()]
 			_sprite(world, tex, _grid(float(gx), float(gy)), 0, 1.0)
 
 
 func _build_buildings(world: Node2D) -> void:
-	_sprite(world, _tex(FEUDAL + "house1c.png"), _grid(0.4, 2.6) + Vector2(0, -18), 5, 1.2).name = "NeighborC"
-	_sprite(world, _tex(FEUDAL + "blacksmith.png"), _grid(3.2, 3.0) + Vector2(0, -28), 8, 1.4).name = "Smithy"
-	_sprite(world, _tex(FEUDAL + "house1.png"), _grid(7.4, 2.5) + Vector2(0, -16), 6, 1.25).name = "NeighborA"
-	_sprite(world, _tex(FEUDAL + "house1b.png"), _grid(9.8, 3.3) + Vector2(0, -8), 5, 1.2).name = "NeighborB"
+	# Dense Feudal Wars skyline — all pack sprites.
+	_sprite(world, _tex(FEUDAL + "archery.png"), _grid(-0.6, 2.2) + Vector2(0, -20), 4, 1.15).name = "Archery"
+	_sprite(world, _tex(FEUDAL + "house1c.png"), _grid(1.0, 2.5) + Vector2(0, -18), 5, 1.25).name = "NeighborC"
+	_sprite(world, _tex(FEUDAL + "blacksmith.png"), _grid(3.6, 3.0) + Vector2(0, -30), 10, 1.55).name = "Smithy"
+	_sprite(world, _tex(FEUDAL + "stable.png"), _grid(6.6, 2.2) + Vector2(0, -22), 6, 1.2).name = "Stable"
+	_sprite(world, _tex(FEUDAL + "house1.png"), _grid(8.6, 2.6) + Vector2(0, -16), 6, 1.3).name = "NeighborA"
+	_sprite(world, _tex(FEUDAL + "barracks.png"), _grid(10.8, 2.0) + Vector2(0, -24), 5, 1.15).name = "Barracks"
+	_sprite(world, _tex(FEUDAL + "house1b.png"), _grid(12.2, 3.2) + Vector2(0, -10), 5, 1.2).name = "NeighborB"
 
 
 func _build_street_props(world: Node2D) -> void:
-	_sprite(world, _tex(PROPS + "medieval_props_128x64_no_shadow_18.png"), _grid(4.8, 5.5), 12, 1.0).name = "Barrels"
-	_sprite(world, _tex(PROPS + "medieval_props_128x64_no_shadow_19.png"), _grid(5.4, 5.9), 12, 0.95)
-	_sprite(world, _tex(PROPS + "medieval_props_128x64_no_shadow_12.png"), _grid(6.0, 5.3), 12, 1.0).name = "Crate"
-	_sprite(world, _tex(PROPS + "medieval_props_128x64_no_shadow_13.png"), _grid(6.6, 5.7), 12, 0.9)
-	_sprite(world, _tex(PROPS + "medieval_props_128x64_no_shadow_22.png"), _grid(4.2, 6.1), 12, 0.85)
-	_sprite(world, _tex(PROPS + "medieval_props_128x64_no_shadow_04.png"), _grid(5.0, 6.4), 12, 0.8)
+	# Fewer, larger pack props with clear silhouettes (near smithy / path edge).
+	var placements: Array = [
+		["medieval_props_128x64_no_shadow_18.png", Vector2(4.8, 5.5), 1.45],
+		["medieval_props_128x64_no_shadow_19.png", Vector2(5.5, 5.9), 1.4],
+		["medieval_props_128x64_no_shadow_36.png", Vector2(6.2, 5.4), 1.4],
+		["medieval_props_128x64_no_shadow_38.png", Vector2(6.9, 5.8), 1.35],
+		["medieval_props_128x64_no_shadow_22.png", Vector2(4.2, 6.0), 1.3],
+		["medieval_props_128x64_no_shadow_14.png", Vector2(5.1, 6.4), 1.25],
+		["medieval_props_128x64_no_shadow_12.png", Vector2(7.4, 6.0), 1.25],
+	]
+	for i in placements.size():
+		var item: Array = placements[i]
+		_sprite(
+			world,
+			_tex(PROPS + String(item[0])),
+			_grid(item[1].x, item[1].y),
+			12 + (i % 4),
+			float(item[2]),
+		)
 
 
 func _build_night_emissives(emissives: Node2D) -> void:
@@ -125,32 +152,32 @@ func _build_night_emissives(emissives: Node2D) -> void:
 	window_a.name = "GlowWindowA"
 	window_a.texture = glow_tex
 	window_a.centered = true
-	window_a.modulate = Color(1.0, 0.75, 0.35, 0.9)
-	window_a.scale = Vector2(0.55, 0.7)
-	window_a.position = _grid(2.7, 2.5) + Vector2(-28, -98)
+	window_a.modulate = Color(1.0, 0.75, 0.35, 0.85)
+	window_a.scale = Vector2(0.5, 0.65)
+	window_a.position = _grid(3.1, 2.4) + Vector2(-20, -110)
 	window_a.z_index = 40
 	emissives.add_child(window_a)
 
 	var window_b := window_a.duplicate() as Sprite2D
 	window_b.name = "GlowWindowB"
-	window_b.position = _grid(3.0, 2.4) + Vector2(8, -102)
+	window_b.position = _grid(3.4, 2.3) + Vector2(18, -114)
 	emissives.add_child(window_b)
 
 	var forge := Sprite2D.new()
 	forge.name = "GlowForge"
 	forge.texture = glow_tex
 	forge.centered = true
-	forge.modulate = Color(1.0, 0.5, 0.15, 0.95)
-	forge.scale = Vector2(1.8, 1.3)
-	forge.position = _grid(4.4, 3.5) + Vector2(100, 20)
+	forge.modulate = Color(1.0, 0.5, 0.15, 0.92)
+	forge.scale = Vector2(2.1, 1.5)
+	forge.position = _grid(4.8, 3.5) + Vector2(115, 25)
 	forge.z_index = 41
 	emissives.add_child(forge)
 
 	var light := PointLight2D.new()
 	light.name = "NightForgeLight"
 	light.color = Color(1.0, 0.55, 0.22, 1.0)
-	light.energy = 1.4
-	light.texture_scale = 3.0
+	light.energy = 1.5
+	light.texture_scale = 3.2
 	light.position = forge.position
 	light.texture = glow_tex
 	emissives.add_child(light)
@@ -159,7 +186,8 @@ func _build_night_emissives(emissives: Node2D) -> void:
 func _lock_camera() -> void:
 	var cam := Camera2D.new()
 	cam.name = "Camera2D"
-	cam.position = _grid(5.2, 4.2) + Vector2(10, -35)
-	cam.zoom = Vector2(0.92, 0.92)
+	# Favor building/prop pack coverage over empty sky margin.
+	cam.position = _grid(5.8, 4.0) + Vector2(10, -10)
+	cam.zoom = Vector2(1.18, 1.18)
 	cam.enabled = true
 	add_child(cam)

@@ -3,7 +3,7 @@ extends Node
 ## Darkens `World` + `Sky`; shows `Emissives` overlays at night so windows stay warm.
 
 const DAY_WORLD := Color(1.0, 0.99, 0.96, 1.0)
-const NIGHT_WORLD := Color(0.42, 0.50, 0.78, 1.0)
+const NIGHT_WORLD := Color(0.55, 0.60, 0.82, 1.0)
 const DAY_SKY := Color("8fa3b8")
 const NIGHT_SKY := Color("121c2e")
 

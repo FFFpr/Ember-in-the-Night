@@ -6,6 +6,12 @@ status: active
 
 # Development log
 
+## 2026-08-09T05:35:00Z
+
+### Progress
+
+- **PR D** denser pack-art pass: more Feudal Wars buildings (barracks/stable/archery), more rubberduck ground/prop slices; workshop/street rebuilt so pack sprites/tiles fill the viewport. Geometric scenery limited to sky wash + glow cookies per updated review bar.
+
 ## 2026-08-09T05:15:00Z
 
 ### Progress

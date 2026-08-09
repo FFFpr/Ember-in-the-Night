@@ -1,5 +1,6 @@
 extends Node2D
-## Locked close-iso workshop: Feudal Wars blacksmith + rubberduck CC0 ground/props.
+## Locked close-iso workshop — pack sprites/tiles only (no IsoDraw / prop polygons).
+## Allowed non-pack: sky wash + soft glow/light cookies.
 
 const GROUND := "res://art_style_demo/shared/imported/rubberduck_iso_ground/PNG/"
 const FEUDAL := "res://art_style_demo/shared/imported/feudalwars_iso_medieval/"
@@ -10,7 +11,7 @@ const TILE_H := 64.0
 
 
 func _ready() -> void:
-	_build_ambiance()
+	_build_sky_wash()
 	_build_floor()
 	_build_smithy_cluster()
 	_build_extra_props()
@@ -36,15 +37,16 @@ func _sprite(parent: Node, tex: Texture2D, pos: Vector2, z: int, scale := 1.0) -
 	return s
 
 
-func _build_ambiance() -> void:
-	var bg := Polygon2D.new()
-	bg.name = "Backdrop"
-	bg.polygon = PackedVector2Array([
-		Vector2(-1000, -700), Vector2(1000, -700), Vector2(1000, 800), Vector2(-1000, 800),
+func _build_sky_wash() -> void:
+	# Tiny allowed exception: flat sky wash behind pack scenery.
+	var sky := Polygon2D.new()
+	sky.name = "SkyWash"
+	sky.polygon = PackedVector2Array([
+		Vector2(-1400, -900), Vector2(1400, -900), Vector2(1400, 200), Vector2(-1400, 200),
 	])
-	bg.color = Color("141c28")
-	bg.z_index = -40
-	add_child(bg)
+	sky.color = Color("1a2433")
+	sky.z_index = -50
+	add_child(sky)
 
 
 func _build_floor() -> void:
@@ -52,21 +54,32 @@ func _build_floor() -> void:
 	world.name = "World"
 	add_child(world)
 
-	var tiles: Array[Texture2D] = [
+	var dirt: Array[Texture2D] = [
 		_tex(GROUND + "dirt_dark_0_0.png"),
 		_tex(GROUND + "dirt_dark_1_0.png"),
+		_tex(GROUND + "dirt_dark_2_0.png"),
 		_tex(GROUND + "dirt_0_0.png"),
+		_tex(GROUND + "dirt_1_0.png"),
+		_tex(GROUND + "dirt_2_0.png"),
+		_tex(GROUND + "forest_ground_0_0.png"),
+	]
+	var stone: Array[Texture2D] = [
 		_tex(GROUND + "stone_path_0_0.png"),
 		_tex(GROUND + "stone_path_1_0.png"),
 		_tex(GROUND + "stone_path_2_0.png"),
+		_tex(GROUND + "stone_path_3_0.png"),
+		_tex(GROUND + "stone_path_0_1.png"),
+		_tex(GROUND + "stone_path_1_1.png"),
 	]
-	for gx in range(0, 10):
-		for gy in range(0, 10):
+	# Wide pack-tile plane so the viewport is mostly ground sprites, not void.
+	for gx in range(-2, 14):
+		for gy in range(-2, 14):
+			var on_pad := gx >= 3 and gx <= 8 and gy >= 3 and gy <= 8
 			var tex: Texture2D
-			if gx >= 3 and gx <= 6 and gy >= 3 and gy <= 6:
-				tex = tiles[3 + ((gx + gy) % 3)]
+			if on_pad:
+				tex = stone[(gx * 2 + gy) % stone.size()]
 			else:
-				tex = tiles[(gx + gy) % 3]
+				tex = dirt[(gx * 3 + gy * 5) % dirt.size()]
 			_sprite(world, tex, _grid(float(gx), float(gy)), 0, 1.0)
 
 
@@ -75,25 +88,26 @@ func _build_smithy_cluster() -> void:
 	props.name = "Props"
 	add_child(props)
 
-	var smith := _sprite(props, _tex(FEUDAL + "blacksmith.png"), _grid(4.5, 3.2) + Vector2(8, -18), 10, 1.7)
+	# Hero pack sprite: forge + anvil + tools/armor bay.
+	var smith := _sprite(props, _tex(FEUDAL + "blacksmith.png"), _grid(5.0, 4.0) + Vector2(0, -24), 10, 2.05)
 	smith.name = "Blacksmith"
 
-	# Soft warm forge spill (additive-looking translucent diamond).
+	# Soft glow cookie only (allowed exception).
 	var glow := Sprite2D.new()
 	glow.name = "ForgeGlow"
 	glow.centered = true
-	glow.position = _grid(5.8, 3.5) + Vector2(85, 18)
+	glow.position = _grid(6.2, 4.3) + Vector2(110, 28)
 	glow.z_index = 12
-	glow.modulate = Color(1.0, 0.55, 0.18, 0.7)
-	glow.scale = Vector2(2.4, 1.6)
+	glow.modulate = Color(1.0, 0.55, 0.18, 0.65)
+	glow.scale = Vector2(2.8, 1.9)
 	glow.texture = _soft_glow_texture()
 	props.add_child(glow)
 
 	var light := PointLight2D.new()
 	light.name = "ForgeLight"
 	light.color = Color(1.0, 0.55, 0.22, 1.0)
-	light.energy = 1.25
-	light.texture_scale = 2.6
+	light.energy = 1.35
+	light.texture_scale = 3.0
 	light.position = glow.position
 	light.texture = _soft_glow_texture()
 	props.add_child(light)
@@ -115,18 +129,26 @@ func _soft_glow_texture() -> GradientTexture2D:
 
 func _build_extra_props() -> void:
 	var props := get_node("Props")
-	_sprite(props, _tex(PROPS + "medieval_props_128x64_no_shadow_18.png"), _grid(2.2, 4.8), 14, 1.05).name = "Barrels"
-	_sprite(props, _tex(PROPS + "medieval_props_128x64_no_shadow_19.png"), _grid(2.8, 5.2), 14, 1.0)
-	_sprite(props, _tex(PROPS + "medieval_props_128x64_no_shadow_12.png"), _grid(6.6, 4.9), 14, 1.05).name = "Crates"
-	_sprite(props, _tex(PROPS + "medieval_props_128x64_no_shadow_13.png"), _grid(7.1, 5.3), 14, 0.95)
-	_sprite(props, _tex(PROPS + "medieval_props_128x64_no_shadow_04.png"), _grid(1.6, 3.8), 12, 0.95)
-	_sprite(props, _tex(PROPS + "medieval_props_128x64_no_shadow_22.png"), _grid(6.2, 5.6), 14, 0.9)
+	# Larger readable pack props only (barrels / crates / pottery).
+	var placements: Array = [
+		["medieval_props_128x64_no_shadow_18.png", Vector2(2.6, 5.6), 1.45],
+		["medieval_props_128x64_no_shadow_19.png", Vector2(3.2, 6.0), 1.4],
+		["medieval_props_128x64_no_shadow_36.png", Vector2(7.6, 5.5), 1.4],
+		["medieval_props_128x64_no_shadow_38.png", Vector2(8.2, 5.9), 1.35],
+		["medieval_props_128x64_no_shadow_22.png", Vector2(6.8, 6.3), 1.3],
+		["medieval_props_128x64_no_shadow_14.png", Vector2(2.0, 4.6), 1.25],
+		["medieval_props_128x64_no_shadow_12.png", Vector2(7.2, 6.6), 1.25],
+	]
+	for i in placements.size():
+		var item: Array = placements[i]
+		_sprite(props, _tex(PROPS + String(item[0])), _grid(item[1].x, item[1].y), 14 + (i % 3), float(item[2]))
 
 
 func _lock_camera() -> void:
 	var cam := Camera2D.new()
 	cam.name = "Camera2D"
-	cam.position = _grid(4.8, 3.6) + Vector2(50, 20)
-	cam.zoom = Vector2(1.2, 1.2)
+	# Tight lock on forge–anvil bay so pack art dominates the viewport.
+	cam.position = _grid(5.2, 4.4) + Vector2(55, 30)
+	cam.zoom = Vector2(1.35, 1.35)
 	cam.enabled = true
 	add_child(cam)
