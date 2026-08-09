@@ -43,6 +43,9 @@ static func make_sparks(name: String, pos: Vector2) -> GPUParticles2D:
 	particles.explosiveness = 0.05
 	particles.randomness = 0.6
 	particles.visibility_rect = Rect2(-80, -120, 160, 160)
+	var flash := DemoAssets.tex(DemoAssets.FLASH)
+	if flash:
+		particles.texture = flash
 
 	var mat := ParticleProcessMaterial.new()
 	mat.direction = Vector3(0, -1, 0)
@@ -50,8 +53,8 @@ static func make_sparks(name: String, pos: Vector2) -> GPUParticles2D:
 	mat.initial_velocity_min = 40.0
 	mat.initial_velocity_max = 110.0
 	mat.gravity = Vector3(0, 80, 0)
-	mat.scale_min = 1.5
-	mat.scale_max = 3.0
+	mat.scale_min = 0.08
+	mat.scale_max = 0.18
 	mat.color = ArtPalette.WARM_EMBER_CORE
 	particles.process_material = mat
 	return particles
@@ -65,6 +68,9 @@ static func make_smoke(name: String, pos: Vector2) -> GPUParticles2D:
 	particles.lifetime = 2.2
 	particles.preprocess = 1.0
 	particles.visibility_rect = Rect2(-100, -180, 200, 220)
+	var puff := DemoAssets.tex(DemoAssets.PUFF)
+	if puff:
+		particles.texture = puff
 
 	var mat := ParticleProcessMaterial.new()
 	mat.direction = Vector3(0.15, -1, 0)
@@ -72,8 +78,8 @@ static func make_smoke(name: String, pos: Vector2) -> GPUParticles2D:
 	mat.initial_velocity_min = 12.0
 	mat.initial_velocity_max = 28.0
 	mat.gravity = Vector3(0, -8, 0)
-	mat.scale_min = 4.0
-	mat.scale_max = 10.0
-	mat.color = Color(0.25, 0.25, 0.28, 0.35)
+	mat.scale_min = 0.12
+	mat.scale_max = 0.28
+	mat.color = Color(0.35, 0.35, 0.38, 0.45)
 	particles.process_material = mat
 	return particles

@@ -8,6 +8,7 @@ const FADE_S := 0.45
 var _sky: Polygon2D
 var _night_glows: Node2D
 var _modulate: CanvasModulate
+var _sun: CanvasItem
 var _start_msec := 0
 var _is_night := false
 
@@ -16,6 +17,7 @@ func _ready() -> void:
 	var built := StreetLayout.build(self)
 	_sky = built["sky"]
 	_night_glows = built["night_glows"]
+	_sun = get_node_or_null("LayerFar/Sun") as CanvasItem
 
 	_modulate = CanvasModulate.new()
 	_modulate.name = "CanvasModulate"
@@ -49,10 +51,14 @@ func _apply_day_instant() -> void:
 	_sky.color = ArtPalette.COOL_SKY_DAY
 	_modulate.color = Color(1, 1, 1, 1)
 	_night_glows.visible = false
+	if _sun:
+		_sun.visible = true
 
 
 func _tween_to_day() -> void:
 	_night_glows.visible = false
+	if _sun:
+		_sun.visible = true
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(_sky, "color", ArtPalette.COOL_SKY_DAY, FADE_S)
@@ -60,6 +66,8 @@ func _tween_to_day() -> void:
 
 
 func _tween_to_night() -> void:
+	if _sun:
+		_sun.visible = false
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(_sky, "color", ArtPalette.COOL_SKY_NIGHT, FADE_S)

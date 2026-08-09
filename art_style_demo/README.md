@@ -157,5 +157,5 @@ Placeholders must still hit composition (forge/anvil readable; street facade rea
 | Item | State |
 |------|--------|
 | Build brief + references | Done (incl. pixel track) |
-| Runnable `.tscn` | **PR A done:** `01` + `02` workshop/street (placeholder plates) |
-| Imported art packs | Not started (placeholders only) |
+| Runnable `.tscn` | **PR A compare pass:** `01` + `02` with imported pack textures/sprites |
+| Imported art packs | Kenney Background Elements Remastered, Kenney Smoke Particles, Poly Haven textures (CC0) |

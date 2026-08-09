@@ -1,0 +1,5 @@
+Pack: Background Elements Remastered
+Author: Kenney (www.kenney.nl)
+License: CC0 1.0 Universal
+Source: https://kenney.nl/assets/background-elements-remastered
+Provenance: Human-authored free game assets (Kenney). Not AI-generated.

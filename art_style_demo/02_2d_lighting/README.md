@@ -16,7 +16,7 @@ Same spatial language as `01`, plus `PointLight2D` / `DirectionalLight2D`, optio
 
 ## Status
 
-Runnable placeholders: `workshop/workshop.tscn`, `street/street.tscn` (clones 01 layout builders; adds lights/particles).
+Compare pass on shared pack art: `workshop/workshop.tscn`, `street/street.tscn` (same layout as 01 + lights/particles).
 
 ## Done when
 

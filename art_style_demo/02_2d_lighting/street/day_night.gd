@@ -13,6 +13,7 @@ var _forge_light: PointLight2D
 var _door_light: PointLight2D
 var _lantern_light: PointLight2D
 var _window_lights: Array[PointLight2D] = []
+var _sun_sprite: CanvasItem
 var _start_msec := 0
 var _is_night := false
 
@@ -21,6 +22,7 @@ func _ready() -> void:
 	var built := StreetLayout.build(self)
 	_sky = built["sky"]
 	_night_glows = built["night_glows"]
+	_sun_sprite = get_node_or_null("LayerFar/Sun") as CanvasItem
 
 	_modulate = CanvasModulate.new()
 	_modulate.name = "CanvasModulate"
@@ -38,7 +40,7 @@ func _ready() -> void:
 	_lantern_light = DemoLights.make_point_light("LanternLight", Vector2(700, 300), Color(1.0, 0.72, 0.35, 1.0), 0.0, 2.0)
 	add_child(_lantern_light)
 
-	for pos in [Vector2(125, 120), Vector2(385, 120), Vector2(1058, 215)]:
+	for pos in [Vector2(225, 200), Vector2(345, 200), Vector2(1098, 235)]:
 		var wl := DemoLights.make_point_light("WindowLight_%d" % _window_lights.size(), pos, Color(1.0, 0.6, 0.25, 1.0), 0.0, 1.6)
 		_window_lights.append(wl)
 		add_child(wl)
@@ -70,6 +72,8 @@ func _apply_day_instant() -> void:
 	_sky.color = ArtPalette.COOL_SKY_DAY
 	_modulate.color = Color(1, 1, 1, 1)
 	_night_glows.visible = false
+	if _sun_sprite:
+		_sun_sprite.visible = true
 	_day_sun.energy = 0.9
 	_forge_light.energy = 0.35
 	_door_light.energy = 0.0
@@ -80,6 +84,8 @@ func _apply_day_instant() -> void:
 
 func _tween_to_day() -> void:
 	_night_glows.visible = false
+	if _sun_sprite:
+		_sun_sprite.visible = true
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(_sky, "color", ArtPalette.COOL_SKY_DAY, FADE_S)
@@ -93,6 +99,8 @@ func _tween_to_day() -> void:
 
 
 func _tween_to_night() -> void:
+	if _sun_sprite:
+		_sun_sprite.visible = false
 	var tween := create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(_sky, "color", ArtPalette.COOL_SKY_NIGHT, FADE_S)

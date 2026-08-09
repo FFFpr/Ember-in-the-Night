@@ -6,7 +6,7 @@ const COOL_WALL := Color(0.28, 0.34, 0.42, 1.0)
 const COOL_WALL_DARK := Color(0.16, 0.20, 0.26, 1.0)
 const COOL_STONE := Color(0.38, 0.42, 0.48, 1.0)
 const COOL_STONE_LIGHT := Color(0.52, 0.56, 0.62, 1.0)
-const COOL_SKY_DAY := Color(0.55, 0.62, 0.72, 1.0)
+const COOL_SKY_DAY := Color(0.62, 0.72, 0.88, 1.0)
 const COOL_SKY_NIGHT := Color(0.08, 0.10, 0.18, 1.0)
 const COOL_WINDOW := Color(0.22, 0.32, 0.48, 1.0)
 

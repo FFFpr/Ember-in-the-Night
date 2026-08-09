@@ -1,0 +1,14 @@
+Poly Haven textures (CC0 1.0)
+https://polyhaven.com/license
+
+Included (diffuse 1k JPG):
+- wood_cabinet_worn_long
+- wood_table_001
+- castle_brick_02_red
+- cobblestone_floor_01
+- plastered_wall
+- metal_plate
+- roof_07
+
+Source: https://polyhaven.com/textures
+Provenance: Photogrammetry / human-authored library assets. Not AI-generated.

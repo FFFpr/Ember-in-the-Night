@@ -6,6 +6,18 @@ status: active
 
 # Development log
 
+## 2026-08-09T05:10:00Z
+
+### Progress
+
+- **PR A compare pass:** replaced solid plates with free-store pack art under `art_style_demo/shared/imported/` (Kenney CC0 buildings/smoke; Poly Haven CC0 textures). Credits/LICENSE included.
+- `01`/`02` still share layout builders; `02` remains the lighting/particle upgrade on the same art.
+- Duplicate Plan A PR (#7) to be closed; keep #10 as the single PR A branch.
+
+### Todo
+
+- Human F6 review of compare-pass screenshots; then PR B/C as needed.
+
 ## 2026-08-08T08:20:00Z
 
 ### Progress

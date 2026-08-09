@@ -28,7 +28,7 @@ Full 2D pipeline. Depth = drawn perspective + layer split + parallax / z-index. 
 
 ## Status
 
-Runnable placeholders: `workshop/workshop.tscn`, `street/street.tscn` (shared layout builders).
+Compare pass: pack textures + Kenney sprites via shared builders. Scenes: `workshop/workshop.tscn`, `street/street.tscn`.
 
 ## Done when
 
