@@ -6,6 +6,19 @@ status: active
 
 # Development log
 
+## 2026-08-08T08:30:00Z
+
+### Progress
+
+- **PR B (`06_pixel_2d`)**: runnable `workshop/workshop.tscn` + `street/street.tscn` (320×180 @ 4×, nearest filter, locked cameras).
+- Street day/night via `day_night.gd` (0–10 s day / 10–20 s night, fade ≤0.5 s).
+- Imported non-AI packs under `art_style_demo/shared/imported/`: `lpc_blacksmith`, `lpc_base_assets` (LICENSE + credits).
+
+### Todo
+
+- Implement remaining approach demos per PR split (A, then C; D optional).
+- Review `06` in Godot 4.7 (F6); compare with Track A once A lands.
+
 ## 2026-08-08T04:10:47Z
 
 ### Progress
