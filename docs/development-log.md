@@ -6,6 +6,19 @@ status: active
 
 # Development log
 
+## 2026-08-09T15:58:18Z
+
+### Progress
+
+- Locked project art language to **LPC** in [`docs/tech/art-style.md`](tech/art-style.md).
+- Constraint: all scene textures/sprites/tilesets must comply with the [LPC Style Guide](https://lpc.opengameart.org/static/LPC-Style-Guide/build/styleguide.html).
+- Recommended browse index: [Nearly all the LPC assets in one place](https://opengameart.org/content/nearly-all-the-lpc-assets-in-one-place).
+- Synced [`art_style_demo/README.md`](../art_style_demo/README.md) asset sourcing to the same SoT.
+
+### Todo
+
+- Prefer LPC-family packs for any new or revised scenes; keep `06_pixel_2d` as the in-repo LPC-aligned baseline.
+
 ## 2026-08-09T15:26:00Z
 
 ### Progress

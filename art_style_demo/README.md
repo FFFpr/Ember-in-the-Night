@@ -2,7 +2,7 @@
 
 Scaffold + **construction rules** for comparing presentation approaches. An agent with no prior chat context should be able to implement from this file and the per-approach READMEs.
 
-Theme: forge fire / long night / ember. Design: [`docs/design/theme.md`](../docs/design/theme.md). Visual lock: [`docs/tech/art-style.md`](../docs/tech/art-style.md).
+Theme: forge fire / long night / ember. Design: [`docs/design/theme.md`](../docs/design/theme.md). Visual lock / LPC SoT: [`docs/tech/art-style.md`](../docs/tech/art-style.md).
 
 ## Goal
 
@@ -14,19 +14,16 @@ Ship **runnable** Godot 4.7 scenes under `art_style_demo/` so a human can open e
 |------|--------|
 | Viewport | **1280×720**, stretch mode already project-wide (`canvas_items` / `expand`) |
 | Aspect | Compose for **16:9** |
-| Art language | **Two tracks** — see below |
+| Art language | **LPC** (see project SoT) — nearest filter, integer scale for pixel tiles |
 | Palette | Cool “long night” blues/greys outside; **warm ember** oranges/ambers on forge and night windows |
 | Workshop camera | **First-person at the bench**: locked, looking at forge + anvil (see references). No free look. Optional tiny idle sway only (pixel track: prefer pixel-snap, no blurry sway). |
 | Street camera | **Fixed shop-front framing** (same camera day and night) |
 | Street time | **0–10 s day**, **10–20 s night**, then loop or stop; transition ≤0.5 s fade OK |
 | Fair compare | Same prop *set* and same *composition intent* across approaches; only the presentation / art language changes |
 
-### Art-language tracks
+### Art language
 
-| Track | Approaches | Language |
-|-------|------------|----------|
-| A — Soft illustrative | `01`–`05` | Stylized hand-painted / soft illustrative — **not** photoreal |
-| B — Pixel | `06_pixel_2d` | Chunky pixel art, nearest filter, integer scale — **not** smooth painted |
+Project lock is **LPC**. New or revised demo scenes must use LPC Style Guide–compliant packs. Scaffold folders `01`–`05` may lag; **`06_pixel_2d`** is the in-repo LPC-aligned baseline.
 
 ### Required props (workshop)
 
@@ -60,13 +57,13 @@ Match silhouette placement and warm/cool split more than brushwork. For `06`, pr
 
 ## Asset sourcing (mandatory for demo art)
 
-All textures, sprites, tilesets, meshes, and audio used in `art_style_demo/` scenes must come from **free store / free library packs that are non-AI and openly licensed** (e.g. CC0, CC-BY with credit, MIT/similar asset licenses).
+**Project SoT:** [`docs/tech/art-style.md`](../docs/tech/art-style.md). Scene art must comply with the [LPC Style Guide](https://lpc.opengameart.org/static/LPC-Style-Guide/build/styleguide.html). Browse LPC-family packs via [Nearly all the LPC assets in one place](https://opengameart.org/content/nearly-all-the-lpc-assets-in-one-place).
 
 | Allowed | Forbidden |
 |---------|-----------|
-| Human-authored free packs from stores/libraries (Kenney, OpenGameArt, itch.io free non-AI, Poly Haven, Godot Asset Library free packs, etc.) | AI-generated images/models as scene art (including the files under `references/`) |
-| Engine primitives / solid-color placeholders while blocking | Paid packs unless the project explicitly clears them later |
-| Clear license + credit recorded under `shared/imported/` | Scraped web images; “free” packs with unclear or AI-only provenance |
+| LPC base / LPC extensions / LPC Revised / LPC Style Guide–compatible packs (open license, **non-AI**) | AI-generated scene art (including files under `references/`) |
+| Engine primitives / solid-color placeholders **only while blocking** | Non-LPC hero art (e.g. generic low-poly kits, photoreal PBR washes as primary look) |
+| Clear license + credit under `shared/imported/` | Paid packs unless explicitly cleared; scraped or unclear-provenance packs |
 
 When importing a pack:
 
