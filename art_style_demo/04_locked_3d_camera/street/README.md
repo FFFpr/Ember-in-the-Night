@@ -1,3 +1,3 @@
-# Street — 04
+# 街道 — 04
 
-**Scene:** `street.tscn`. Locked exterior camera; light/environment driven 20 s day→night.
+**场景：** `street.tscn`。锁定室外相机；灯光/环境驱动 20 s 白天→夜晚。

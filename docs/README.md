@@ -1,32 +1,32 @@
-# Documentation (`docs`)
+# 文档 (`docs`)
 
-> **This file:** Housekeeping for `docs/` — what each subdirectory is for, the document metadata format, and how design docs relate to code.
+> **本文件：** `docs/` 的目录说明——各子目录用途、文档元数据格式，以及设计文档与代码的关系。
 
-This tree records **game design**: theme, loops, setting, narrative, and technical-path discussion.
+本目录记录**游戏设计**：主题、循环、设定、叙事，以及技术路线讨论。
 
-## Relation to code
+## 与代码的关系
 
-- `docs/` captures design intent and discussion. It does **not** describe what the codebase currently implements.
-- Engine version, development environment, and how to open the project belong in the root [`README.md`](../README.md).
-- There is **no hard binding** between design docs and code. Implementation may lag, lead, or diverge; update either side when you choose to.
+- `docs/` 记录设计意图与讨论。它**不**描述代码库当前实现了什么。
+- 引擎版本、开发环境，以及如何打开项目，见根目录 [`README.md`](../README.md)。
+- 设计文档与代码之间**没有硬绑定**。实现可能落后、超前或偏离；何时同步任一侧由你决定。
 
-## Directory roles
+## 目录职责
 
-| Directory | Role |
+| 目录 | 职责 |
 |-----------|------|
-| [`design/`](design/) | Gameplay and systems design. Present: [`theme.md`](design/theme.md) (game theme), [`main-loop.md`](design/main-loop.md) (main loop) |
-| [`lore/`](lore/) | Worldbuilding and setting facts |
-| [`narrative/`](narrative/) | Plot outlines, dialogue, and other narrative drafts |
-| [`tech/`](tech/) | **Technical-path discussion and alternatives** — not what the project currently ships. Present: [`art-style.md`](tech/art-style.md) (LPC style locked + scene asset constraint; demos in [`art_style_demo/`](../art_style_demo/)), [`gda.md`](tech/gda.md) (Godot Agent / Cursor MCP) |
-| [`ideas/`](ideas/) | Casual inspiration and notes; **no required sync or promotion workflow** with other folders |
+| [`design/`](design/) | 玩法与系统设计。现有：[`theme.md`](design/theme.md)（游戏主题）、[`main-loop.md`](design/main-loop.md)（主循环） |
+| [`lore/`](lore/) | 世界观与设定事实 |
+| [`narrative/`](narrative/) | 剧情大纲、对白及其他叙事草稿 |
+| [`tech/`](tech/) | **技术路线讨论与备选方案** — 不是项目当前交付内容。现有：[`art-style.md`](tech/art-style.md)（LPC 风格锁定 + 场景素材约束；demo 在 [`art_style_demo/`](../art_style_demo/)）、[`gda.md`](tech/gda.md)（Godot Agent / Cursor MCP） |
+| [`ideas/`](ideas/) | 随手灵感与笔记；与其他文件夹**无强制同步或晋升流程** |
 
-Root of `docs/` also has [`development-log.md`](development-log.md) (dated progress / todos; not design baseline).
+`docs/` 根目录还有 [`development-log.md`](development-log.md)（按日期的进度 / 待办；不是设计基线）。
 
-Do not pre-create a README in every subdirectory; add one later only if a folder gets complex.
+不要预先在每个子目录创建 README；仅当某文件夹变复杂时再补。
 
-## Document metadata
+## 文档元数据
 
-Every Markdown file except this `README.md` **should** use the YAML header below. It is for recording, not gating. Fields may be omitted; fill them in later if something becomes unclear.
+除本 `README.md` 外，每个 Markdown 文件**应**使用下方 YAML 头。用于记录，不作门禁。字段可省略；日后不清楚时再补。
 
 ```yaml
 ---
@@ -36,15 +36,15 @@ status: active | thinking | outdated
 ---
 ```
 
-| `status` | Meaning (design confidence only) |
+| `status` | 含义（仅表示设计置信度） |
 |----------|----------------------------------|
-| `active` | Solid enough to treat as a design baseline |
-| `thinking` | Worth pursuing; not a final conclusion yet |
-| `outdated` | Superseded in design terms; do not treat as current |
+| `active` | 足够扎实，可作为设计基线 |
+| `thinking` | 值得推进；尚非最终结论 |
+| `outdated` | 在设计意义上已被取代；勿当作现行 |
 
-`status` does **not** mean “implemented in code.”
+`status` **不**表示「已在代码中实现」。
 
-## Out of scope here
+## 不在本目录范围
 
-- Cursor / agent rules (Cursor configuration; not part of this repo’s docs scheme)
-- Current software versions and environment (see root `README.md`)
+- Cursor / agent 规则（Cursor 配置；不属于本仓库 docs 体系）
+- 当前软件版本与环境（见根目录 `README.md`）

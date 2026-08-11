@@ -1,3 +1,3 @@
-# Workshop — 05
+# 工坊 — 05
 
-**Scene:** `workshop.tscn`. 2D FP shell + 3D forge/anvil cluster composited center.
+**场景：** `workshop.tscn`。2D 第一人称外壳 + 中央合成的 3D 锻炉/铁砧簇。

@@ -1,3 +1,3 @@
-# Workshop — 02
+# 工坊 — 02
 
-**Scene:** `workshop.tscn`. Clone 01 framing; forge is the hero light. Sparks/smoke required at minimum one emitter.
+**场景：** `workshop.tscn`。克隆 01 取景；锻炉是主光。至少需要一个火花/烟发射器。

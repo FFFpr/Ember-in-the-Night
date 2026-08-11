@@ -1,3 +1,3 @@
-# Street — 02
+# 街道 — 02
 
-**Scene:** `street.tscn`. Same framing as 01 street. Day/night must toggle light nodes (not modulate-only).
+**场景：** `street.tscn`。取景与 01 街道相同。昼夜必须切换灯光节点（不能仅靠 modulate）。

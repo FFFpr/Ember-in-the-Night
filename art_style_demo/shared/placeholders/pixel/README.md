@@ -1,4 +1,4 @@
-# Pixel placeholders
+# 像素占位
 
-Deprecated for `06_pixel_2d` scenes — workshop/street now use LPC tiles under `../imported/`.
-Kept only so older local experiments do not break; safe to delete in a follow-up.
+对 `06_pixel_2d` 场景已弃用 — 工坊/街道现使用 `../imported/` 下的 LPC 图块。
+仅保留以免破坏旧的本地实验；后续可安全删除。

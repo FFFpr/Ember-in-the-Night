@@ -1,5 +1,5 @@
-# Street — 01
+# 街道 — 01
 
-**Scene to create:** `street.tscn` (root `Street`) + day/night driver.
+**待创建场景：** `street.tscn`（根节点 `Street`）+ 昼夜驱动。
 
-Match day/night refs under [`../../references/`](../../references/). Same camera both halves. 0–10 s day, 10–20 s night.
+对齐 [`../../references/`](../../references/) 下的白天/夜晚参考。两段使用同一相机。0–10 s 白天，10–20 s 夜晚。

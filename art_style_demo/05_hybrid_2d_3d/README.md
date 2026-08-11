@@ -1,24 +1,24 @@
-# 05 — Hybrid 2D + 3D
+# 05 — 混合 2D + 3D
 
-Parent brief: [`../README.md`](../README.md). Prefer after 01/02 exist.
+上级 brief：[`../README.md`](../README.md)。建议在 01/02 存在之后进行。
 
-## Technique
+## 手法
 
-2D room/street shell + **3D hero cluster** (anvil and/or forge mouth) via `SubViewport` → `Sprite2D` (or equivalent). Street: at most **one** 3D accent.
+2D 房间/街道外壳 + 经 `SubViewport` → `Sprite2D`（或等效）合成的 **3D 主角簇**（铁砧和/或炉口）。街道：最多**一个** 3D 点缀。
 
-## Build steps (workshop)
+## 建造步骤（工坊）
 
-1. Start from 01/02 2D plates in `workshop/workshop.tscn`.
-2. Add `SubViewport` (transparent bg) with 3D anvil/forge lit warm; display as centered sprite on the bench line.
-3. Match key light color/direction between 2D and 3D so metal does not look pasted.
-4. Both cameras locked.
+1. 从 `workshop/workshop.tscn` 中的 01/02 2D 图板起步。
+2. 添加透明背景的 `SubViewport`，内含暖光照亮的 3D 铁砧/锻炉；作为工作台线上居中的精灵显示。
+3. 匹配 2D 与 3D 的主光颜色/方向，避免金属看起来像贴上去的。
+4. 两个相机都锁定。
 
-## Build steps (street)
+## 建造步骤（街道）
 
-1. 2D street cycle like 01/02.
-2. Optional single 3D sign or lantern in a small SubViewport — skip if time-boxed.
+1. 类似 01/02 的 2D 街道循环。
+2. 可选：小 SubViewport 中的单个 3D 招牌或灯笼 — 若时间紧则跳过。
 
-## Done when
+## 完成条件
 
-- Workshop clearly shows 2D shell + 3D tools
-- Street day→night still works; hybrid accent optional but documented if omitted
+- 工坊清楚呈现 2D 外壳 + 3D 工具
+- 街道白天→夜晚仍可用；混合点缀可选，若省略须注明

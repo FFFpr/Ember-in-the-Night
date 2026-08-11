@@ -1,3 +1,3 @@
-# Street — 05
+# 街道 — 05
 
-**Scene:** `street.tscn`. 2D day→night; ≤1 3D accent. If accent skipped, note in a one-line comment in the scene README when implementing.
+**场景：** `street.tscn`。2D 白天→夜晚；≤1 个 3D 点缀。若跳过点缀，实现时在场景 README 用一行注释说明。

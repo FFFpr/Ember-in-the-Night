@@ -1,21 +1,21 @@
-# 02 — 2D lighting & particles
+# 02 — 2D 光照与粒子
 
-Parent brief: [`../README.md`](../README.md). **Depends on 01 layout.**
+上级 brief：[`../README.md`](../README.md)。**依赖 01 布局。**
 
-## Technique
+## 手法
 
-Same spatial language as `01`, plus `PointLight2D` / `DirectionalLight2D`, optional normal maps, `GPUParticles2D` (sparks/smoke). Street day/night = **light rig**, not only modulate.
+与 `01` 相同的空间语言，外加 `PointLight2D` / `DirectionalLight2D`、可选法线贴图、`GPUParticles2D`（火花/烟）。街道昼夜 = **灯光组**，不只靠 modulate。
 
-## Build steps
+## 建造步骤
 
-1. Duplicate `01_*` workshop/street scenes into this folder (or instance shared plates from `art_style_demo/shared/` if created).
-2. **Do not redesign composition.** Node names for layers should stay parallel to 01.
-3. Workshop: low ambient (`CanvasModulate`); forge `PointLight2D` warm + flicker; sparks `GPUParticles2D` at forge mouth.
-4. Street: day = directional/bright ambient; at t=10 s drop ambient, enable window/lamp/forge spill lights.
-5. Occluders optional; skip if they fight placeholders.
+1. 将 `01_*` 工坊/街道场景复制到本文件夹（或若已创建则实例化 `art_style_demo/shared/` 中的共享图板）。
+2. **不要重新设计构图。** 图层节点名应与 01 保持平行。
+3. 工坊：低环境光（`CanvasModulate`）；锻炉 `PointLight2D` 暖色 + 闪烁；炉口 `GPUParticles2D` 火花。
+4. 街道：白天 = 方向光/明亮环境；t=10 s 降低环境光，启用窗/灯/锻炉溢出光。
+5. 遮挡器可选；若与占位冲突则跳过。
 
-## Done when
+## 完成条件
 
-- Side-by-side with 01, same framing, clearly richer light/particle read
-- Street cycle still 20 s autostart
-- Credits if using normal-mapped pack textures
+- 与 01 并排对比：同一取景，明显更丰富的光/粒子观感
+- 街道循环仍为 20 s 自动开始
+- 若使用带法线贴图的素材包，须附署名

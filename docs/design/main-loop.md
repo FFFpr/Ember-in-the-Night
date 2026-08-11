@@ -4,21 +4,21 @@ updated: 2026-08-07
 status: thinking
 ---
 
-# Main loop
+# 主循环
 
-> **This file:** The player’s core loop and how the dual paths plug into it (economy / forging and similar systems only as seams; detail can live in other docs).
+> **本文件：** 玩家的核心循环，以及双路径如何接入（经济 / 锻造等系统仅作为接缝；细节可放在其他文档）。
 
-This doc is for defining what the player does repeatedly, and how the Guild and Outlaw paths connect to that loop.
+本文用于定义玩家反复做什么，以及行会之路 (Guild Path) 与法外之路 (Outlaw Path) 如何连接到该循环。
 
-**Not locked yet.** A dedicated PR will settle the main loop. Until then this stays a placeholder so unconfirmed systems do not enter the design baseline.
+**尚未锁定。** 将有专门的 PR 确定主循环。在此之前本文保持占位，避免未确认系统进入设计基线。
 
-## Planned contents (outline)
+## 计划内容（提纲）
 
-- What the player mainly does in a session / day / order
-- Shared loop (what holds for both paths)
-- Where Guild and Outlaw diverge inside the loop
-- Seams to economy, forging, reputation/risk, and similar systems (framework only; split out detail later)
+- 玩家在一局 / 一天 / 一单中主要做什么
+- 共享循环（两条路径共通的部分）
+- 行会之路与法外之路在循环内的分岔点
+- 与经济、锻造、声望/风险等系统的接缝（仅框架；细节稍后拆出）
 
-## Related
+## 相关
 
-- Theme and dual-path framing: [`theme.md`](theme.md)
+- 主题与双路径框架：[`theme.md`](theme.md)

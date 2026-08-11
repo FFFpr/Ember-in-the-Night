@@ -1,67 +1,67 @@
-# Ember in the Night: A Blacksmith's Tale
+# 《夜中余烬》(Ember in the Night: A Blacksmith's Tale)
 
-A blacksmith RPG and business simulation (Godot).
+一款铁匠题材的 RPG 与经营模拟（Godot）。
 
-## Project
+## 项目
 
-| Item | Value |
+| 项 | 值 |
 |------|--------|
-| Engine | Godot **4.7** (Forward Plus) |
-| Presentation | 2D (gameplay prototype: hammer physics under `app/`) |
-| Physics | Jolt (as configured in `project.godot`) |
-| Multiplayer | None (solo project) |
-| Cloud agents | Tool install for Cursor Cloud is defined in [`.cursor/environment.json`](.cursor/environment.json) (runs [`.cursor/install.sh`](.cursor/install.sh)) |
+| 引擎 | Godot **4.7**（Forward Plus） |
+| 呈现 | 2D（玩法原型：`app/` 下的锤子物理） |
+| 物理 | Jolt（见 `project.godot` 配置） |
+| 多人 | 无（单人项目） |
+| Cloud Agents | Cursor Cloud 的工具安装定义在 [`.cursor/environment.json`](.cursor/environment.json)（运行 [`.cursor/install.sh`](.cursor/install.sh)） |
 
-Open the project folder in Godot 4.7+. Main scene is set in `project.godot`.
+用 Godot 4.7+ 打开项目文件夹。主场景在 `project.godot` 中设置。
 
-### Official Godot docs (4.7)
+### 官方 Godot 文档（4.7）
 
-| Topic | Link |
+| 主题 | 链接 |
 |-------|------|
 | Documentation home | https://docs.godotengine.org/en/4.7/ |
 | Performance | https://docs.godotengine.org/en/4.7/tutorials/performance/ |
 | Best practices | https://docs.godotengine.org/en/4.7/tutorials/best_practices/ |
 | Engine details | https://docs.godotengine.org/en/4.7/engine_details/ |
 
-### Layout (code)
+### 布局（代码）
 
-| Path | Role |
+| 路径 | 角色 |
 |------|------|
-| `app/` | Shipping gameplay code (entities, systems, levels, resources, addons) |
-| `app/entities/` | Game entities (hammer, metal, etc.) |
-| `app/systems/` | Controllers / interaction systems |
-| `app/levels/` | Scenes (main scene: hammer physics prototype) |
-| `app/resources/` | Shared resources (materials, etc.) |
-| `app/addons/` | Project addons (e.g. gda harness autoload) |
-| `art_style_demo/` | Look-dev demos (not shipping gameplay); open with F6 |
-| `docs/` | Game design docs (not a description of current code) |
+| `app/` | 正式玩法代码（实体、系统、关卡、资源、插件） |
+| `app/entities/` | 游戏实体（锤子、金属等） |
+| `app/systems/` | 控制器 / 交互系统 |
+| `app/levels/` | 场景（主场景：锤子物理原型） |
+| `app/resources/` | 共享资源（材质等） |
+| `app/addons/` | 项目插件（如 gda harness autoload） |
+| `art_style_demo/` | look-dev demo（非正式玩法）；用 F6 打开 |
+| `docs/` | 游戏设计文档（不是对当前代码的描述） |
 
-Design intent, themes, and discussion live under [`docs/`](docs/). See [`docs/README.md`](docs/README.md). Stack and environment facts stay in this file; `docs/tech/` is for technical *discussion* only. Art-style comparison demos stay at the repo root: [`art_style_demo/`](art_style_demo/).
+设计意图、主题与讨论见 [`docs/`](docs/)。参见 [`docs/README.md`](docs/README.md)。技术栈与环境事实留在本文件；`docs/tech/` 仅用于技术*讨论*。美术风格对比 demo 在仓库根目录：[`art_style_demo/`](art_style_demo/)。
 
-## Premise
+## 设定
 
-The medieval world is a long night: guild rules, social law, and the pressure to survive weave a dark net around every craft. You are a blacksmith. The forge fire is the only light you can hold—an **ember in the night**.
+中世纪世界是漫长之夜：行会规矩、社会律法与生存压力织成暗网，笼罩每一门手艺。你是一名铁匠。锻炉之火是你能握住的唯一光亮——**夜中余烬**。
 
-The game offers two sharply different paths, bound by the same flame:
+游戏提供两条截然不同的道路，由同一簇火焰维系：
 
-### The Guild Path
+### 行会之路 (Guild Path)
 
-Play a blacksmith who keeps the guild's rules and struggles to run a shop in a chaotic, oppressive medieval society. Survive within order and reputation. Build skill, trust, and influence until you become a master craftsman with standing in the guild.
+扮演一名遵守行会规矩的铁匠，在混乱、压抑的中世纪社会中艰难经营铺子。在秩序与声望中求生。积累技艺、信任与影响力，直至成为在行会中有地位的大师工匠。
 
-This is the path of **lawful resolve** in the dark: a lawful forge fire that guards survival and dignity.
+这是黑暗中的**守序坚持 (lawful resolve)**：守护生存与尊严的守序锻炉之火。
 
-### The Outlaw Path
+### 法外之路 (Outlaw Path)
 
-Play an independent smith in the slums or a shadowed attic, rejecting the guild—and even the law. Carve a living outside surveillance and exclusion. Keep alive a fire that was never meant to burn in the open.
+扮演贫民窟或暗阁中的独立铁匠，拒绝行会——甚至拒绝律法。在监视与排斥之外谋生。守护一簇本不该公开燃烧的火。
 
-This is the path that moves **through the night**: another way to tend the flame of survival.
+这是**穿行夜色 (through the night)** 之路：另一种呵护生存之火的方式。
 
-## Themes
+## 主题
 
-- **The forge fire** — craft, livelihood, and hope; also a mark of identity and choice
-- **The long night** — a society darkened by guilds, law, and class
-- **The ember** — a glow not yet gone out, that someone must keep alive—whether by order or by defiance
+- **锻炉之火** — 手艺、生计与希望；也是身份与选择的标记
+- **漫长之夜** — 被行会、律法与阶级笼罩的社会
+- **余烬** — 尚未熄灭的微光，须有人守护——无论靠秩序还是反抗
 
-The two paths are not a simple split of good and evil. They are two ways to live in the same darkness: one climbs within the order; the other lights its own fire outside it.
+两条道路不是简单的善恶二分，而是同一片黑暗中的两种活法：一条在秩序内攀升；另一条在秩序外点燃自己的火。
 
-Design-side write-up: [`docs/design/theme.md`](docs/design/theme.md).
+设计侧文稿：[`docs/design/theme.md`](docs/design/theme.md)。

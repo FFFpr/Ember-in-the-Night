@@ -1,3 +1,3 @@
-# Workshop — 04
+# 工坊 — 04
 
-**Scene:** `workshop.tscn`. Locked FP `Camera3D`. Forge, anvil, listed props as meshes (primitives OK first).
+**场景：** `workshop.tscn`。锁定第一人称 `Camera3D`。锻炉、铁砧及所列道具为网格（第一遍可用图元）。
