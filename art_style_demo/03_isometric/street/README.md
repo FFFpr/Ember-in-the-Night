@@ -1,3 +1,3 @@
-# Street — 03
+# 街道 — 03
 
-**Scene:** `street.tscn`. Iso shop-front strip; 0–10 s day / 10–20 s night.
+**场景：** `street.tscn`。等距店面条带；0–10 s 白天 / 10–20 s 夜晚。

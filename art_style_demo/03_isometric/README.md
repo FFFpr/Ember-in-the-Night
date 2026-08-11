@@ -1,24 +1,24 @@
-# 03 — Isometric / axonometric
+# 03 — 等距 / 轴测
 
-Parent brief: [`../README.md`](../README.md).
+上级 brief：[`../README.md`](../README.md)。
 
-## Technique
+## 手法
 
-Isometric `TileMapLayer` (or equivalent diamond sprites). Same props; camera is **close locked iso** toward forge–anvil, not true FPS lens.
+等距 `TileMapLayer`（或等效菱形精灵）。同一道具；相机是朝向锻炉–铁砧的**近距锁定等距**，不是真 FPS 镜头。
 
-## Build steps (workshop)
+## 建造步骤（工坊）
 
-1. `workshop/workshop.tscn`, root `Workshop`.
-2. Create iso floor + wall tiles (placeholders: solid diamond polygons OK).
-3. Multi-cell or tall sprites: forge, anvil on adjacent cells in the lower-center of view.
-4. Lock camera on that cluster; no click-to-move required for look-dev.
+1. `workshop/workshop.tscn`，根节点 `Workshop`。
+2. 创建等距地面 + 墙图块（占位：实心菱形多边形可接受）。
+3. 多格或高精灵：锻炉、铁砧放在视野偏下中央的相邻格子上。
+4. 相机锁定该簇；look-dev 不需要点击移动。
 
-## Build steps (street)
+## 建造步骤（街道）
 
-1. `street/street.tscn` — short iso street + facade.
-2. Day/night via `CanvasModulate` + emissive window sprites; 20 s autostart.
+1. `street/street.tscn` — 短等距街道 + 立面。
+2. 昼夜经由 `CanvasModulate` + 自发光窗精灵；20 s 自动开始。
 
-## Done when
+## 完成条件
 
-- Clearly readable as iso (diamond floor), not side-view 01
-- Props list satisfied; street day→night works
+- 明显可读为等距（菱形地面），而非 01 的侧视
+- 道具清单满足；街道白天→夜晚可用

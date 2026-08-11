@@ -4,39 +4,39 @@ updated: 2026-08-07
 status: active
 ---
 
-# Game theme
+# 游戏主题
 
-> **This file:** Thematic and dual-path framing (forge fire / long night / ember; Guild path and Outlaw path). Not the systems loop.
+> **本文件：** 主题与双路径框架（锻炉之火 / 漫长之夜 / 余烬；行会之路 (Guild Path) 与法外之路 (Outlaw Path)）。不是系统循环。
 
-The medieval world is a long night: guild rules, social law, and the pressure to survive weave a dark net around every craft. You are a blacksmith. The forge fire is the only light you can hold—an **ember in the night**.
+中世纪世界是漫长之夜：行会规矩、社会律法与生存压力织成暗网，笼罩每一门手艺。你是一名铁匠。锻炉之火是你能握住的唯一光亮——**夜中余烬**。
 
-Genre: blacksmith RPG + business simulation.
+类型：铁匠 RPG + 经营模拟。
 
-## Dual paths
+## 双路径
 
-Two sharply different ways to live, bound by the same flame:
+两种截然不同的活法，由同一簇火焰维系：
 
-### Guild path
+### 行会之路 (Guild Path)
 
-Keep the guild’s rules and struggle to run a shop in a chaotic, oppressive medieval society. Survive within order and reputation. Build skill, trust, and influence until you become a master craftsman with standing in the guild.
+遵守行会规矩，在混乱、压抑的中世纪社会中艰难经营铺子。在秩序与声望中求生。积累技艺、信任与影响力，直至成为在行会中有地位的大师工匠。
 
-**Lawful resolve** in the dark: a lawful forge fire that guards survival and dignity.
+黑暗中的**守序坚持 (lawful resolve)**：守护生存与尊严的守序锻炉之火。
 
-### Outlaw path
+### 法外之路 (Outlaw Path)
 
-An independent smith in the slums or a shadowed attic, rejecting the guild—and even the law. Carve a living outside surveillance and exclusion. Keep alive a fire that was never meant to burn in the open.
+贫民窟或暗阁中的独立铁匠，拒绝行会——甚至拒绝律法。在监视与排斥之外谋生。守护一簇本不该公开燃烧的火。
 
-**Through the night**: another way to tend the flame of survival.
+**穿行夜色 (Through the Night)**：另一种呵护生存之火的方式。
 
-## Motifs
+## 母题
 
-- **The forge fire** — craft, livelihood, and hope; also a mark of identity and choice
-- **The long night** — a society darkened by guilds, law, and class
-- **The ember** — a glow not yet gone out, that someone must keep alive—whether by order or by defiance
+- **锻炉之火** — 手艺、生计与希望；也是身份与选择的标记
+- **漫长之夜** — 被行会、律法与阶级笼罩的社会
+- **余烬** — 尚未熄灭的微光，须有人守护——无论靠秩序还是反抗
 
-The two paths are not a simple split of good and evil. They are two ways to live in the same darkness: one climbs within the order; the other lights its own fire outside it.
+两条道路不是简单的善恶二分，而是同一片黑暗中的两种活法：一条在秩序内攀升；另一条在秩序外点燃自己的火。
 
-## Related
+## 相关
 
-- Main gameplay loop (separate doc; to be locked in a dedicated PR): [`main-loop.md`](main-loop.md)
-- Public short premise: [`../../README.md`](../../README.md)
+- 主玩法循环（独立文档；将在专门的 PR 中锁定）：[`main-loop.md`](main-loop.md)
+- 对外短设定：[`../../README.md`](../../README.md)

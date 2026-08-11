@@ -1,25 +1,25 @@
-# 04 — 3D + locked camera
+# 04 — 3D + 锁定相机
 
-Parent brief: [`../README.md`](../README.md). Project: Forward+, Jolt available (physics optional for look-dev).
+上级 brief：[`../README.md`](../README.md)。项目：Forward+，Jolt 可用（look-dev 物理可选）。
 
-## Technique
+## 手法
 
-Real 3D meshes; **locked** `Camera3D` (workshop = true FP eye height ~1.6 m toward forge/anvil). No mouse look.
+真实 3D 网格；**锁定** `Camera3D`（工坊 = 真第一人称眼高约 1.6 m，看向锻炉/铁砧）。无鼠标自由视角。
 
-## Build steps (workshop)
+## 建造步骤（工坊）
 
-1. `workshop/workshop.tscn`, root `Workshop` (`Node3D`).
-2. Greybox with `MeshInstance3D` boxes; replace with pack meshes when available.
-3. `Camera3D` current, fixed transform; forge `OmniLight3D`/`SpotLight3D` warm.
-4. `WorldEnvironment` mild; avoid blinding bloom.
+1. `workshop/workshop.tscn`，根节点 `Workshop`（`Node3D`）。
+2. 用 `MeshInstance3D` 方块灰盒；有素材包网格后再替换。
+3. `Camera3D` current，固定 transform；锻炉 `OmniLight3D`/`SpotLight3D` 暖色。
+4. `WorldEnvironment` 温和；避免刺眼 bloom。
 
-## Build steps (street)
+## 建造步骤（街道）
 
-1. `street/street.tscn` — facade + road greybox; locked camera (curb FP or tripod).
-2. `AnimationPlayer` or script: sun energy 0–10 s; night lamps + forge door spill 10–20 s.
+1. `street/street.tscn` — 立面 + 道路灰盒；锁定相机（路缘第一人称或三脚架）。
+2. `AnimationPlayer` 或脚本：0–10 s 太阳能量；10–20 s 夜灯 + 锻炉门溢出光。
 
-## Done when
+## 完成条件
 
-- FP workshop reads like reference blocking (anvil in reach, forge ahead)
-- Street unaided day→night, camera fixed
-- Stylized materials OK; photoreal not required
+- 工坊第一人称读起来像参考 blocking（铁砧够得着，锻炉在前方）
+- 街道无需操作白天→夜晚，相机固定
+- 风格化材质可接受；不要求 photoreal

@@ -1,162 +1,162 @@
-# Art style demos — build brief
+# 美术风格 demo — 建造 brief
 
-Scaffold + **construction rules** for comparing presentation approaches. An agent with no prior chat context should be able to implement from this file and the per-approach READMEs.
+用于对比呈现方式的脚手架 + **建造规则**。无先前聊天上下文的 agent 应能仅凭本文件与各方案 README 实现。
 
-Theme: forge fire / long night / ember. Design: [`docs/design/theme.md`](../docs/design/theme.md). Visual lock / LPC SoT: [`docs/tech/art-style.md`](../docs/tech/art-style.md).
+主题：锻炉之火 / 漫长之夜 / 余烬。设计：[`docs/design/theme.md`](../docs/design/theme.md)。视觉锁定 / LPC SoT：[`docs/tech/art-style.md`](../docs/tech/art-style.md)。
 
-## Goal
+## 目标
 
-Ship **runnable** Godot 4.7 scenes under `art_style_demo/` so a human can open each approach and compare look. These are **look-dev demos**, not gameplay.
+在 `art_style_demo/` 下交付**可运行**的 Godot 4.7 场景，使人能打开各方案并比较观感。这些是 **look-dev** demo，不是玩法。
 
-## Locked visual rules (all approaches)
+## 锁定视觉规则（所有方案）
 
-| Rule | Value |
+| 规则 | 值 |
 |------|--------|
-| Viewport | **1280×720**, stretch mode already project-wide (`canvas_items` / `expand`) |
-| Aspect | Compose for **16:9** |
-| Art language | **LPC** (see project SoT) — nearest filter, integer scale for pixel tiles |
-| Palette | Cool “long night” blues/greys outside; **warm ember** oranges/ambers on forge and night windows |
-| Workshop camera | **First-person at the bench**: locked, looking at forge + anvil (see references). No free look. Optional tiny idle sway only (pixel track: prefer pixel-snap, no blurry sway). |
-| Street camera | **Fixed shop-front framing** (same camera day and night) |
-| Street time | **0–10 s day**, **10–20 s night**, then loop or stop; transition ≤0.5 s fade OK |
-| Fair compare | Same prop *set* and same *composition intent* across approaches; only the presentation / art language changes |
+| 视口 | **1280×720**，拉伸模式已项目级配置（`canvas_items` / `expand`） |
+| 画幅 | 按 **16:9** 构图 |
+| 艺术语言 | **LPC**（见项目 SoT）— 最近邻过滤，像素图块整数缩放 |
+| 色板 | 室外冷色「漫长之夜」蓝/灰；锻炉与夜窗暖色余烬橙/琥珀 |
+| 工坊相机 | **工作台第一人称**：锁定，看向锻炉 + 铁砧（见参考图）。无自由视角。可选极小 idle 晃动（像素轨：优先像素对齐，无模糊晃动）。 |
+| 街道相机 | **固定店面取景**（昼夜同一相机） |
+| 街道时间 | **0–10 s 白天**，**10–20 s 夜晚**，然后循环或停止；过渡 ≤0.5 s 淡入淡出可接受 |
+| 公平对比 | 各方案同一道具*集*与同一*构图意图*；仅呈现 / 艺术语言变化 |
 
-### Art language
+### 艺术语言
 
-Project lock is **LPC**. New or revised demo scenes must use LPC Style Guide–compliant packs. Scaffold folders `01`–`05` may lag; **`06_pixel_2d`** is the in-repo LPC-aligned baseline.
+项目锁定为 **LPC**。新建或修订的 demo 场景必须使用符合 LPC Style Guide 的素材包。脚手架目录 `01`–`05` 可能滞后；**`06_pixel_2d`** 是仓库内 LPC 对齐基线。
 
-### Required props (workshop)
+### 必需道具（工坊）
 
-Forge/hearth, anvil, bellows, tool rack (hammers/tongs), quench barrel, ore or ingots, hanging horseshoes, dim rafters/beams. Optional: small cold window.
+锻炉/炉床、铁砧、风箱、工具架（锤子/钳子）、淬火桶、矿石或锭、悬挂马蹄铁、昏暗椽梁。可选：小冷窗。
 
-### Required read (street)
+### 必需可读性（街道）
 
-Smithy facade + door, simple hanging sign, a few street props (barrels/crates), cobbles or dirt road, neighboring building masses. Night must read via **light/palette**, not a different camera.
+铁匠铺立面 + 门、简单悬挂招牌、少量街道道具（桶/木箱）、鹅卵石或土路、邻楼体块。夜晚须靠**光/色板**传达，而非换相机。
 
-## Reference images (mood only — not game art)
+## 参考图（仅氛围 — 非游戏美术）
 
-### Track A (illustrative)
+### Track A（插画）
 
-| File | Use as |
+| 文件 | 用途 |
 |------|--------|
-| [`references/workshop_fp_ref.png`](references/workshop_fp_ref.png) | Workshop FP composition + forge/anvil mood |
-| [`references/street_day_ref.png`](references/street_day_ref.png) | Street day framing / palette |
-| [`references/street_night_ref.png`](references/street_night_ref.png) | Street night framing / warm spill |
+| [`references/workshop_fp_ref.png`](references/workshop_fp_ref.png) | 工坊第一人称构图 + 锻炉/铁砧氛围 |
+| [`references/street_day_ref.png`](references/street_day_ref.png) | 街道白天取景 / 色板 |
+| [`references/street_night_ref.png`](references/street_night_ref.png) | 街道夜晚取景 / 暖溢出光 |
 
-### Track B (pixel)
+### Track B（像素）
 
-| File | Use as |
+| 文件 | 用途 |
 |------|--------|
-| [`references/workshop_fp_pixel_ref.png`](references/workshop_fp_pixel_ref.png) | Pixel workshop FP mood |
-| [`references/street_day_pixel_ref.png`](references/street_day_pixel_ref.png) | Pixel street day |
-| [`references/street_night_pixel_ref.png`](references/street_night_pixel_ref.png) | Pixel street night |
+| [`references/workshop_fp_pixel_ref.png`](references/workshop_fp_pixel_ref.png) | 像素工坊第一人称氛围 |
+| [`references/street_day_pixel_ref.png`](references/street_day_pixel_ref.png) | 像素街道白天 |
+| [`references/street_night_pixel_ref.png`](references/street_night_pixel_ref.png) | 像素街道夜晚 |
 
-These PNGs are **AI-generated framing/mood guides**. They are **not** shippable assets: do not import them into scenes, do not trace them into production art, do not treat them as license-cleared pack art.
+这些 PNG 是 **AI 生成的构图/氛围指南**。它们**不是**可交付素材：勿导入场景、勿描摹成制作美术、勿当作许可已清的素材包美术。
 
-Match silhouette placement and warm/cool split more than brushwork. For `06`, prefer real pixel packs over chasing the AI pixel refs’ exact look.
+匹配剪影位置与冷暖分割，胜过匹配笔触。对 `06`，优先真实像素素材包，而不是追逐 AI 像素参考的精确外观。
 
-## Asset sourcing (mandatory for demo art)
+## 素材来源（demo 美术强制）
 
-**Project SoT:** [`docs/tech/art-style.md`](../docs/tech/art-style.md). Scene art must comply with the [LPC Style Guide](https://lpc.opengameart.org/static/LPC-Style-Guide/build/styleguide.html). Browse LPC-family packs via [Nearly all the LPC assets in one place](https://opengameart.org/content/nearly-all-the-lpc-assets-in-one-place).
+**项目 SoT：** [`docs/tech/art-style.md`](../docs/tech/art-style.md)。场景美术必须符合 [LPC Style Guide](https://lpc.opengameart.org/static/LPC-Style-Guide/build/styleguide.html)。浏览 LPC 系列素材包：[Nearly all the LPC assets in one place](https://opengameart.org/content/nearly-all-the-lpc-assets-in-one-place)。
 
-| Allowed | Forbidden |
+| 允许 | 禁止 |
 |---------|-----------|
-| LPC base / LPC extensions / LPC Revised / LPC Style Guide–compatible packs (open license, **non-AI**) | AI-generated scene art (including files under `references/`) |
-| Engine primitives / solid-color placeholders **only while blocking** | Non-LPC hero art (e.g. generic low-poly kits, photoreal PBR washes as primary look) |
-| Clear license + credit under `shared/imported/` | Paid packs unless explicitly cleared; scraped or unclear-provenance packs |
+| LPC base / LPC extensions / LPC Revised / 符合 LPC Style Guide 的包（开源许可，**非 AI**） | AI 生成的场景美术（含 `references/` 下文件） |
+| 引擎图元 / 纯色占位**仅在阻塞时** | 非 LPC 主角美术（如通用 low-poly 套件、以 photoreal PBR 冲刷作主视觉） |
+| 在 `shared/imported/` 下有清晰许可 + 署名 | 付费包除非明确放行；刮取或来源不明的包 |
 
-When importing a pack:
+导入素材包时：
 
-1. Put files under `art_style_demo/shared/imported/<pack_name>/`.
-2. Add `LICENSE.txt` or a short credit blurb (author, license, URL, non-AI / human-authored note if the store states it).
-3. Prefer packs that state they are **not AI-generated**; if provenance is unclear, skip and pick another pack.
+1. 文件放在 `art_style_demo/shared/imported/<pack_name>/`。
+2. 添加 `LICENSE.txt` 或简短署名说明（作者、许可、URL；若商店声明非 AI / 人工创作则注明）。
+3. 优先声明**非 AI 生成**的包；来源不明则跳过，另选。
 
-## Approaches
+## 方案
 
-| Dir | Technique | Depends on |
+| 目录 | 手法 | 依赖 |
 |-----|-----------|------------|
-| [`01_pseudo_perspective_2d/`](01_pseudo_perspective_2d/) | 2D layers, parallax, Y-sort / z-index | — |
-| [`02_2d_lighting/`](02_2d_lighting/) | 01 spatial language + Light2D + particles | **Must reuse 01 plates/layout** |
-| [`03_isometric/`](03_isometric/) | Iso tilemap / diamond grid | Own layout; same props |
-| [`04_locked_3d_camera/`](04_locked_3d_camera/) | 3D meshes, locked FP / tripod cam | Own greybox→art |
-| [`05_hybrid_2d_3d/`](05_hybrid_2d_3d/) | 2D shell + 3D hero props | Prefer 01/02 plates + 3D anvil/forge |
-| [`06_pixel_2d/`](06_pixel_2d/) | Pixel-art 2D (nearest, integer scale) | Own pixel packs; parallel track |
+| [`01_pseudo_perspective_2d/`](01_pseudo_perspective_2d/) | 2D 层、视差、Y-sort / z-index | — |
+| [`02_2d_lighting/`](02_2d_lighting/) | 01 的空间语言 + Light2D + 粒子 | **必须复用 01 的图板/布局** |
+| [`03_isometric/`](03_isometric/) | 等距 tilemap / 菱形网格 | 自有布局；同一道具 |
+| [`04_locked_3d_camera/`](04_locked_3d_camera/) | 3D 网格，锁定第一人称 / 三脚架相机 | 自有灰盒→美术 |
+| [`05_hybrid_2d_3d/`](05_hybrid_2d_3d/) | 2D 外壳 + 3D 主角道具 | 优先 01/02 图板 + 3D 铁砧/锻炉 |
+| [`06_pixel_2d/`](06_pixel_2d/) | 像素艺术 2D（最近邻，整数缩放） | 自有像素包；并行轨 |
 
-**Out of scope:** Mode7 ground projection.
+**范围外：** Mode7 地面投影。
 
-## File & scene conventions
+## 文件与场景约定
 
-For each approach `NN_name/`:
+对每个方案 `NN_name/`：
 
 ```text
 NN_name/
-  README.md                 # technique notes (already present; keep in sync)
+  README.md                 # 手法说明（已有；保持同步）
   workshop/
     README.md
-    workshop.tscn           # REQUIRED when implemented — main scene to F6
-    workshop.gd             # optional
+    workshop.tscn           # 实现后必需 — 用 F6 打开的主场景
+    workshop.gd             # 可选
   street/
     README.md
-    street.tscn             # REQUIRED when implemented — main scene to F6
-    day_night.gd            # or AnimationPlayer; must drive 20 s cycle
+    street.tscn             # 实现后必需 — 用 F6 打开的主场景
+    day_night.gd            # 或 AnimationPlayer；必须驱动 20 s 循环
 ```
 
-Shared placeholders (optional, preferred):
+共享占位（可选，推荐）：
 
 ```text
 art_style_demo/shared/
-  placeholders/             # colored rects / primitive meshes OK
-  imported/<pack_name>/     # free, non-AI, open-licensed packs + LICENSE/credits
+  placeholders/             # 色块 / 基础网格可接受
+  imported/<pack_name>/     # 免费、非 AI、开源许可包 + LICENSE/credits
 ```
 
-Naming: snake_case paths; scene root node named `Workshop` or `Street`.
+命名：路径 snake_case；场景根节点名为 `Workshop` 或 `Street`。
 
-Do **not** change `project.godot` `run/main_scene` for these demos — open with F6 / “Run Current Scene”.
+**不要**为这些 demo 改 `project.godot` 的 `run/main_scene` — 用 F6 / “Run Current Scene” 打开。
 
-## Placeholder policy
+## 占位策略
 
-| Stage | Allowed |
+| 阶段 | 允许 |
 |-------|---------|
-| First pass | Solid-color plates, primitive meshes, labeled `Sprite2D` regions (no external art yet) |
-| Compare pass | Free-store **non-AI** open-licensed packs under `shared/imported/` with credits |
-| Forbidden | AI art in scenes; unlicensed scraped art; unclear-provenance “free” packs; day/night as editor-only toggle |
+| 第一遍 | 纯色图板、基础网格、带标签的 `Sprite2D` 区域（尚无外部美术） |
+| 对比遍 | `shared/imported/` 下免费商店**非 AI**开源许可包，附署名 |
+| 禁止 | 场景中的 AI 美术；无许可刮取美术；来源不明的「免费」包；仅编辑器切换的昼夜 |
 
-Placeholders must still hit composition (forge/anvil readable; street facade readable).
+占位仍须达到构图（锻炉/铁砧可读；街道立面可读）。
 
-## Day/night contract (`street.tscn`)
+## 昼夜约定（`street.tscn`）
 
-- Autostart on `_ready` (or Autoplay animation).
-- t∈[0,10): day look; t∈[10,20): night look.
-- Same `Camera2D` / `Camera3D` transform for both.
-- Implement with `AnimationPlayer`, `Tween`, or a tiny script + timer — pick one per approach and document in that approach README if non-obvious.
+- 在 `_ready` 自动开始（或 Autoplay 动画）。
+- t∈[0,10)：白天外观；t∈[10,20)：夜晚外观。
+- 两者使用同一 `Camera2D` / `Camera3D` transform。
+- 用 `AnimationPlayer`、`Tween` 或小脚本 + timer 实现 — 每方案选一种，若不明显则在该方案 README 中说明。
 
-## Done checklist (per approach)
+## 完成清单（每方案）
 
-- [ ] `workshop/workshop.tscn` runs (F6), locked camera, required props visible
-- [ ] `street/street.tscn` runs (F6), day 10 s → night 10 s without input
-- [ ] Matches reference framing intent (workshop FP; street shop-front)
-- [ ] Warm forge / night spill vs cool ambient readable
-- [ ] No free look / no gameplay systems required
-- [ ] Any third-party art is free-store, **non-AI**, open-licensed, credited under `shared/imported/`
-- [ ] No AI-generated files from `references/` (or elsewhere) used as scene textures/meshes
-- [ ] If `06`: nearest filtering + integer scale; reads as pixel, not painted
+- [ ] `workshop/workshop.tscn` 可运行（F6），锁定相机，必需道具可见
+- [ ] `street/street.tscn` 可运行（F6），无需输入白天 10 s → 夜晚 10 s
+- [ ] 匹配参考构图意图（工坊第一人称；街道店面）
+- [ ] 暖色锻炉 / 夜溢出光 vs 冷环境可读
+- [ ] 无自由视角 / 不需要玩法系统
+- [ ] 任何第三方美术为免费商店、**非 AI**、开源许可，并在 `shared/imported/` 署名
+- [ ] 未把 `references/`（或其他处）的 AI 生成文件用作场景纹理/网格
+- [ ] 若为 `06`：最近邻过滤 + 整数缩放；读作像素，而非手绘
 
-## Implementation order
+## 实现顺序
 
-Historical compare order (superseded 2026-08-09 — only Plan B shipped):
+历史对比顺序（已被 2026-08-09 取代 — 仅 Plan B 交付）：
 
-1. `01` workshop + street (placeholders OK)  
-2. `02` clone 01 layout, add lights/particles  
-3. `06` pixel track (can proceed in parallel with 01/02 once packs are chosen)  
-4. `04` greybox FP workshop + street cycle  
-5. `03` / `05` only if still needed for the comparison
+1. `01` 工坊 + 街道（占位可接受）  
+2. `02` 克隆 01 布局，加灯光/粒子  
+3. `06` 像素轨（选定素材包后可与 01/02 并行）  
+4. `04` 灰盒第一人工坊 + 街道循环  
+5. `03` / `05` 仅当对比仍需要时
 
-Current direction: continue from merged `06_pixel_2d` unless [`docs/tech/art-style.md`](../docs/tech/art-style.md) / the development log reopen other plans.  
+当前方向：除非 [`docs/tech/art-style.md`](../docs/tech/art-style.md) / 开发日志重新开启其他计划，否则从已合并的 `06_pixel_2d` 继续。
 
-## Status
+## 状态
 
-| Item | State |
+| 项 | 状态 |
 |------|--------|
-| Build brief + references | Done (incl. pixel track) |
-| Runnable `.tscn` | **Plan B** `06_pixel_2d` workshop + street merged; Plan A / E illustrative demos closed; C / D not pursued for now ([`docs/tech/art-style.md`](../docs/tech/art-style.md), [`docs/development-log.md`](../docs/development-log.md)) |
-| Imported art packs | LPC Blacksmith + LPC Base Assets under `shared/imported/` drive `06` walls/floors/props |
+| 建造 brief + 参考图 | 完成（含像素轨） |
+| 可运行 `.tscn` | **Plan B** `06_pixel_2d` 工坊 + 街道已合并；Plan A / E 插画 demo 关闭；C / D 暂不推进（[`docs/tech/art-style.md`](../docs/tech/art-style.md)，[`docs/development-log.md`](../docs/development-log.md)） |
+| 已导入美术包 | `shared/imported/` 下的 LPC Blacksmith + LPC Base Assets 驱动 `06` 的墙/地/道具 |

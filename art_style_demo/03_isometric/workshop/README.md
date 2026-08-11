@@ -1,3 +1,3 @@
-# Workshop — 03
+# 工坊 — 03
 
-**Scene:** `workshop.tscn`. Locked iso camera on forge–anvil cells. Props snapped to grid.
+**场景：** `workshop.tscn`。锁定等距相机对准锻炉–铁砧格子。道具贴网格。

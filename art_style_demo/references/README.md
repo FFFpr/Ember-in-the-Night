@@ -1,21 +1,21 @@
-# References
+# 参考图
 
-**AI-generated** mood/framing guides for look-dev. **Not** game art and **not** an allowed asset source for scenes.
+**AI 生成**的氛围/构图指南，用于 look-dev。**不是**游戏美术，也**不是**允许用于场景的素材来源。
 
-## Track A — illustrative
+## Track A — 插画
 
-| File | Scene |
+| 文件 | 场景 |
 |------|--------|
-| `workshop_fp_ref.png` | Workshop, first-person at the bench |
-| `street_day_ref.png` | Street, day |
-| `street_night_ref.png` | Street, night |
+| `workshop_fp_ref.png` | 工坊，工作台第一人称 |
+| `street_day_ref.png` | 街道，白天 |
+| `street_night_ref.png` | 街道，夜晚 |
 
-## Track B — pixel
+## Track B — 像素
 
-| File | Scene |
+| 文件 | 场景 |
 |------|--------|
-| `workshop_fp_pixel_ref.png` | Pixel workshop FP |
-| `street_day_pixel_ref.png` | Pixel street, day |
-| `street_night_pixel_ref.png` | Pixel street, night |
+| `workshop_fp_pixel_ref.png` | 像素工坊第一人称 |
+| `street_day_pixel_ref.png` | 像素街道，白天 |
+| `street_night_pixel_ref.png` | 像素街道，夜晚 |
 
-Demo scene art must come from free-store **non-AI** open-licensed packs — see [`../README.md`](../README.md) § Asset sourcing. For `06_pixel_2d`, use real pixel packs with nearest filtering.
+Demo 场景美术须来自免费商店**非 AI**开源许可素材包 — 见 [`../README.md`](../README.md) § Asset sourcing。对 `06_pixel_2d`，使用真实像素素材包并启用最近邻过滤。

@@ -1,61 +1,61 @@
-# 06 — Pixel 2D
+# 06 — 像素 2D
 
-Parent brief: [`../README.md`](../README.md). Pixel mood refs: [`../references/`](../references/) (`*_pixel_ref.png`).
+上级 brief：[`../README.md`](../README.md)。像素氛围参考：[`../references/`](../references/)（`*_pixel_ref.png`）。
 
-## Technique
+## 手法
 
-Classic **pixel-art 2D** (chunky pixels, limited palette), same workshop FP + street day/night contracts as other approaches. This is a **separate art-language track** from `01`–`05` (hand-painted / soft illustrative).
+经典**像素艺术 2D**（块状像素、有限色板），与其他方案相同的工坊第一人称 + 街道昼夜约定。这是相对 `01`–`05`（手绘 / 柔和插画）的**独立艺术语言轨**。
 
-## Pixel rules (this approach only)
+## 像素规则（仅本方案）
 
-| Rule | Value |
+| 规则 | 值 |
 |------|--------|
-| Look | Visible pixels; SNES / indie pixel RPG read |
-| Texture filter | **Nearest** on root + sprites (`TEXTURE_FILTER_NEAREST`) |
-| Scale | Internal **320×180**, `Camera2D.zoom = (4, 4)` integer into 1280×720; sprite scales are integers only (`1` or `2`) |
-| Camera | Locked; no position smoothing |
-| Lights | `PointLight2D` for forge/shop warm spill; does not soft-blur the framebuffer |
-| Assets | Free-store **non-AI** LPC packs under [`../shared/imported/`](../shared/imported/) |
+| 观感 | 可见像素；SNES / indie 像素 RPG 读感 |
+| 纹理过滤 | 根节点与精灵使用**最近邻**（`TEXTURE_FILTER_NEAREST`） |
+| 缩放 | 内部 **320×180**，`Camera2D.zoom = (4, 4)` 整数放大到 1280×720；精灵缩放仅整数（`1` 或 `2`） |
+| 相机 | 锁定；无位置平滑 |
+| 灯光 | 锻炉/店铺暖溢出用 `PointLight2D`；不软模糊 framebuffer |
+| 素材 | [`../shared/imported/`](../shared/imported/) 下免费商店**非 AI** LPC 包 |
 
-## Imported file → prop map
+## 导入文件 → 道具映射
 
-### Packs
+### 素材包
 
-| Pack | Path | License |
+| 素材包 | 路径 | 许可 |
 |------|------|---------|
 | LPC Blacksmith | [`../shared/imported/lpc_blacksmith/`](../shared/imported/lpc_blacksmith/) | OGA-BY 3.0 / CC-BY 3.0+ / GPL 2.0+ |
 | LPC Base Assets | [`../shared/imported/lpc_base_assets/`](../shared/imported/lpc_base_assets/) | CC-BY-SA 3.0 / GPL 3.0 |
 
-### Workshop
+### 工坊
 
-| Element | File |
+| 元素 | 文件 |
 |---------|------|
-| Walls | `lpc_base_assets/slices/wall_grey_*.png` (from `tiles/house.png`) |
-| Floor | `lpc_base_assets/slices/floor_cobble.png` (from `tiles/castlefloors.png`) |
-| Beams | `lpc_base_assets/slices/beam_wood.png` (from `tiles/inside.png`) |
-| Window | `lpc_base_assets/slices/window_house_a.png` |
-| Forge | `lpc_blacksmith/props/forge_chimney_lit.png` + `forge_wall_lit.png` |
-| Anvil | `lpc_blacksmith/props/anvil_block.png` |
-| Bellows / quench / rack / coal / tools / horseshoes | matching `lpc_blacksmith/props/*.png` |
+| 墙 | `lpc_base_assets/slices/wall_grey_*.png`（来自 `tiles/house.png`） |
+| 地面 | `lpc_base_assets/slices/floor_cobble.png`（来自 `tiles/castlefloors.png`） |
+| 梁 | `lpc_base_assets/slices/beam_wood.png`（来自 `tiles/inside.png`） |
+| 窗 | `lpc_base_assets/slices/window_house_a.png` |
+| 锻炉 | `lpc_blacksmith/props/forge_chimney_lit.png` + `forge_wall_lit.png` |
+| 铁砧 | `lpc_blacksmith/props/anvil_block.png` |
+| 风箱 / 淬火 / 架 / 煤 / 工具 / 马蹄铁 | 对应 `lpc_blacksmith/props/*.png` |
 
-### Street
+### 街道
 
-| Element | File |
+| 元素 | 文件 |
 |---------|------|
-| Neighbor + smithy walls | `wall_grey_*.png` / `wall_brick_*.png` |
-| Roof strip | `roof_slate.png` (recolor of house grey fill) |
-| Road | `dirt_fill.png` + `floor_cobble.png` |
-| Door / windows | `door_wood.png`, `window_house_*.png`, `window_house_night.png` |
-| Sign | `sign_sword.png` + `lpc_blacksmith/props/hammer_tool.png` |
-| Forge bay / anvil | `forge_wall_lit.png`, `anvil_block.png` |
-| Barrels | `slices/barrel_*.png` |
-| Mountains | `slices/mountains.png` |
+| 邻楼 + 铁匠铺墙 | `wall_grey_*.png` / `wall_brick_*.png` |
+| 屋顶条 | `roof_slate.png`（房屋灰填色重着色） |
+| 道路 | `dirt_fill.png` + `floor_cobble.png` |
+| 门 / 窗 | `door_wood.png`、`window_house_*.png`、`window_house_night.png` |
+| 招牌 | `sign_sword.png` + `lpc_blacksmith/props/hammer_tool.png` |
+| 锻炉隔间 / 铁砧 | `forge_wall_lit.png`、`anvil_block.png` |
+| 桶 | `slices/barrel_*.png` |
+| 山 | `slices/mountains.png` |
 
-Day/night: `street/day_night.gd` swaps window textures and raises forge/window/lamp spill (0–10 day / 10–20 night).
+昼夜：`street/day_night.gd` 切换窗纹理并提高锻炉/窗/灯溢出（0–10 白天 / 10–20 夜晚）。
 
-## Done when
+## 完成条件
 
-- [x] Driven by imported LPC slices/props (not geometric placeholders for walls/floors/doors/windows/key props)
-- [x] Clearly reads as **pixel art**; nearest + integer camera scale
-- [x] F6 workshop + street; street day→night unaided; warm night spill
-- [x] Credits under `shared/imported/`; no AI `references/` in scenes
+- [x] 由导入的 LPC slices/props 驱动（墙/地/门/窗/关键道具非几何占位）
+- [x] 明确读作**像素艺术**；最近邻 + 整数相机缩放
+- [x] F6 工坊 + 街道；街道无需操作白天→夜晚；暖色夜溢出光
+- [x] `shared/imported/` 下有署名；场景未使用 AI `references/`
