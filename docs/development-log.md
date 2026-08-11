@@ -1,23 +1,36 @@
 ---
 author: F
-updated: 2026-08-09
+updated: 2026-08-11
 status: active
 ---
 
 # 开发日志
 
+## 2026-08-11
+
+### 进度
+
+- 在 [`docs/tech/art-style.md`](tech/art-style.md) 将艺术语言改锁为 **HD-2D**；**放弃 LPC** 强制规范。
+- 明确 Aseprite（资产生产）与 Godot（场景 / 光影 / 逻辑）分工；本仓库主体不负责用 Aseprite 生产素材。
+- 写入 Godot 最小设置（`AnimatedSprite3D` / `Sprite3D`、shaded、cast_shadow、Alpha Cut、Nearest、Billboard）、技能点光、画面层（光 / 雾 / 景深 / Bloom / 粒子）、常见坑与 Nearest / 受光投影说明。
+
+### 待办
+
+- 新建 / 修订场景按 HD-2D SoT；择机将 `art_style_demo/` brief 从 LPC 表述对齐到本文件。
+- 用最小 Godot 场景验证受光 + 投影 + Nearest 可读性。
+
 ## 2026-08-09T15:58:18Z
 
 ### 进度
 
-- 在 [`docs/tech/art-style.md`](tech/art-style.md) 中将项目艺术语言锁定为 **LPC**。
+- 在 [`docs/tech/art-style.md`](tech/art-style.md) 中将项目艺术语言锁定为 **LPC**。（**已于 2026-08-11 被 HD-2D 取代**）
 - 约束：所有场景纹理 / 精灵 / 图块集必须符合 [LPC Style Guide](https://lpc.opengameart.org/static/LPC-Style-Guide/build/styleguide.html)。
 - 推荐浏览索引：[Nearly all the LPC assets in one place](https://opengameart.org/content/nearly-all-the-lpc-assets-in-one-place)。
 - 将 [`art_style_demo/README.md`](../art_style_demo/README.md) 的素材来源同步到同一 SoT。
 
 ### 待办
 
-- 任何新建或修订场景优先使用 LPC 系列素材包；以 `06_pixel_2d` 作为仓库内 LPC 对齐基线。
+- 任何新建或修订场景优先使用 LPC 系列素材包；以 `06_pixel_2d` 作为仓库内 LPC 对齐基线。（已取消 — 见 2026-08-11）
 
 ## 2026-08-09T15:26:00Z
 
