@@ -34,9 +34,14 @@
 | `app/resources/` | 共享资源（材质等） |
 | `app/addons/` | 项目插件（如 gda harness autoload） |
 | `art_style_demo/` | look-dev demo（非正式玩法）；用 F6 打开 |
+| `Aseprite-User/` | 像素资源 submodule（跟踪 `main`）；源文件在 `src/`，游戏可读 `export/` |
 | `docs/` | 游戏设计文档（不是对当前代码的描述） |
 
-设计意图、主题与讨论见 [`docs/`](docs/)。参见 [`docs/README.md`](docs/README.md)。技术栈与环境事实留在本文件；`docs/tech/` 仅用于技术*讨论*。美术风格对比 demo 在仓库根目录：[`art_style_demo/`](art_style_demo/)。
+设计意图、主题与讨论见 [`docs/`](docs/)。参见 [`docs/README.md`](docs/README.md)。技术栈与环境事实留在本文件；`docs/tech/` 仅用于技术*讨论*。美术风格对比 demo 在仓库根目录：[`art_style_demo/`](art_style_demo/)。像素资源仓库：[`Aseprite-User/`](Aseprite-User/)（见其 [`README.md`](Aseprite-User/README.md)）。克隆本仓库后需初始化 submodule：
+
+```bash
+git submodule update --init --recursive
+```
 
 ## 设定
 
