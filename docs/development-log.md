@@ -1,10 +1,23 @@
 ---
 author: F
-updated: 2026-08-11
+updated: 2026-08-12
 status: active
 ---
 
 # 开发日志
+
+## 2026-08-12
+
+### 进度
+
+- 将 [`Aseprite-User`](https://github.com/FFFpr/Aseprite-User) 以 submodule 链入根目录 `Aseprite-User/`（跟踪 `main`）。
+- 在 [`docs/tech/art-style.md`](tech/art-style.md) 规定：HD-2D 下**全部**像素 2D 素材只从该 submodule 的 `export/` 取得；缺失则向 Aseprite-User 按标准模板开 issue（画布、锚点、动画、描述等）。
+
+### 待办
+
+- 新建 / 修订场景按 HD-2D SoT；玩法像素图一律等 Aseprite-User 导出，勿在本仓库旁路存放。
+- 择机将 `art_style_demo/` brief 从 LPC 表述对齐到 art-style SoT。
+- 用最小 Godot 场景验证受光 + 投影 + Nearest 可读性。
 
 ## 2026-08-11
 

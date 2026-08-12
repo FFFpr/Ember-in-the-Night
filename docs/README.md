@@ -17,7 +17,7 @@
 | [`design/`](design/) | 玩法与系统设计。现有：[`theme.md`](design/theme.md)（游戏主题）、[`main-loop.md`](design/main-loop.md)（主循环） |
 | [`lore/`](lore/) | 世界观与设定事实 |
 | [`narrative/`](narrative/) | 剧情大纲、对白及其他叙事草稿 |
-| [`tech/`](tech/) | **技术路线讨论与备选方案** — 不是项目当前交付内容。现有：[`art-style.md`](tech/art-style.md)（HD-2D 风格锁定 + Godot 像素进 3D 最小设置；demo 在 [`art_style_demo/`](../art_style_demo/)）、[`gda.md`](tech/gda.md)（Godot Agent / Cursor MCP） |
+| [`tech/`](tech/) | **技术路线讨论与备选方案** — 不是项目当前交付内容。现有：[`art-style.md`](tech/art-style.md)（HD-2D SoT：像素仅来自 `Aseprite-User/`、缺图 issue 模板、Godot 像素进 3D 最小设置；demo 在 [`art_style_demo/`](../art_style_demo/)）、[`gda.md`](tech/gda.md)（Godot Agent / Cursor MCP） |
 | [`ideas/`](ideas/) | 随手灵感与笔记；与其他文件夹**无强制同步或晋升流程** |
 
 `docs/` 根目录还有 [`development-log.md`](development-log.md)（按日期的进度 / 待办；不是设计基线）。
