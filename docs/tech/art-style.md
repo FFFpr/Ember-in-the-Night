@@ -1,6 +1,6 @@
 ---
 author: F
-updated: 2026-08-11
+updated: 2026-08-12
 status: active
 ---
 
@@ -15,6 +15,7 @@ status: active
 | 艺术语言 | **HD-2D** — 像素风格角色 / UI / 特效 + 可走进的 3D 场景 + 电影感光影 |
 | 氛围 | 冷色漫长之夜室外；暖色余烬锻炉作为情感锚 |
 | 参考气质 | 《歧路旅人》(Octopath Traveler) 一类：立体关卡里的像素角色，而非纯 2D tilemap RPG |
+| 像素资产来源 | **仅** [`Aseprite-User/`](../../Aseprite-User/) submodule 的 `export/`（见下方「素材来源」） |
 | look-dev | 既有 `art_style_demo/`（含原 LPC 像素 demo）**可能滞后**；新建 / 修订场景按本文件 HD-2D |
 
 **已放弃：** 以 **LPC (Liberated Pixel Cup)** 为强制艺术语言与场景素材规范的方向。不再要求纹理 / 精灵符合 LPC Style Guide；不再以 `06_pixel_2d` 作为现行对齐基线。
@@ -23,10 +24,10 @@ status: active
 
 | 工具 | 负责 |
 |------|------|
-| **Aseprite** | Sprite / 动画、UI、图标、像素贴图、2D 特效帧（资产生产侧） |
-| **Godot** | 3D 场景、灯光、阴影、景深、雾、粒子、材质与纹理采样、游戏逻辑 |
+| **Aseprite-User**（submodule） | 全部像素 2D 资产的生产与导出（角色 / UI / 图标 / 像素贴图 / 2D 特效帧） |
+| **Godot**（本仓库） | 3D 场景、灯光、阴影、景深、雾、粒子、材质与纹理采样、游戏逻辑；从 submodule 导入并挂接 |
 
-**本仓库主体职责在 Godot：** 导入、挂接、受光 / 投影、环境与后期。不要求在本项目流程里用 Aseprite 生产素材；像素资产可由外部管线提供，只要导入后符合下方 Godot 最小设置即可。
+**本仓库主体职责在 Godot：** 导入、挂接、受光 / 投影、环境与后期。**不要**在本仓库内新建或旁路存放像素精灵 / UI / 2D 特效图；缺什么就按下方模板向 [Aseprite-User](https://github.com/FFFpr/Aseprite-User) 提 issue。
 
 ## Godot 最小设置（像素角色进 3D）
 
@@ -89,13 +90,102 @@ status: active
 
 否则像贴纸浮在场景上；齐了才像站在同一个世界。
 
+## 素材来源（强制）
+
+游戏主风格为 **HD-2D**。玩法与正式场景用到的**全部像素 2D 素材**必须来自 submodule [`Aseprite-User/`](../../Aseprite-User/)：
+
+| 路径 | 用途 |
+|------|------|
+| `Aseprite-User/export/` | 游戏侧可读的导出 PNG（唯一消费入口） |
+| `Aseprite-User/src/` | `.aseprite` / `.ase` 源文件（只在资源仓库编辑，不在本仓库复制） |
+
+克隆后先初始化：
+
+```bash
+git submodule update --init --recursive
+```
+
+| 允许 | 说明 |
+|------|------|
+| 引用 `Aseprite-User/export/**` | 正式玩法、关卡、UI、2D 特效 |
+| Godot 侧程序化 / 灰盒 Mesh | 3D 碰撞代理、占位几何；不是像素精灵替代品 |
+| `art_style_demo/` 历史导入包 | 仅 look-dev 遗留；**不得**当作新玩法素材来源 |
+
+| 禁止 | 说明 |
+|------|------|
+| 在本仓库 `app/` 等处手搓 / 另存像素图 | 一律走 Aseprite-User |
+| AI 生成的场景美术当交付物 | 参考图除外，见下方 |
+| 无许可刮取；以 photoreal PBR 冲刷作主视觉 | 可作灰盒 / 碰撞代理 |
+
+### 缺素材时：向 Aseprite-User 开 issue
+
+1. 先查 `Aseprite-User/export/`（及 `src/`）是否已有可用资源。
+2. 没有则在 **[FFFpr/Aseprite-User](https://github.com/FFFpr/Aseprite-User/issues/new)** 开 issue，**不要**在本仓库用临时 PNG 顶替。
+3. Issue 正文使用下方模板（可删无用行，但画布、锚点、描述必填）。
+
+#### Issue 标题
+
+```text
+[asset] <短名> — <用途一句话>
+```
+
+示例：`[asset] player_idle — 铁匠待机四向`
+
+#### Issue 正文模板
+
+```markdown
+## 用途
+<!-- 谁用、在什么场景 / UI / 特效里出现；关联的本仓库 issue / PR（若有） -->
+
+## 建议路径
+<!-- 导出目标，例如 export/characters/player/idle.png -->
+- src: `src/...`
+- export: `export/...`
+
+## 画布
+| 项 | 值 |
+| --- | --- |
+| 画布大小 (px) | 例如 `32×32` / `64×64` |
+| 透明背景 | 是 / 否 |
+| 色深 / 调色 | 例如索引色 / RGBA；有无固定调色板 |
+
+## 锚点
+| 项 | 值 |
+| --- | --- |
+| 原点 / 锚点 | 例如底部中心 `(16, 31)`；或脚底、握点、特效中心 |
+| 与其他资产对齐 | 例如与 `export/...` 同脚底线 |
+
+## 动画（若需要）
+| 项 | 值 |
+| --- | --- |
+| 是否动画 | 静帧 / 动画 |
+| 帧数 | |
+| 帧尺寸 | 单帧宽×高；是否统一 |
+| 方向数 | 例如 1 / 4 / 8 |
+| 时长 / FPS | |
+| 循环 | 是 / 否；起止帧约定 |
+| 切片 / Tag 名 | 例如 Aseprite tag：`idle`、`walk` |
+
+## 描述
+<!-- 剪影、服饰、冷暖、是否发光、禁止事项；一两段即可 -->
+
+## 参考
+<!-- 可选：情绪板、本仓库 docs 链接、竞品截图（勿要求描摹受版权图） -->
+
+## 验收
+- [ ] 已导出到约定 `export/` 路径
+- [ ] 锚点与画布符合上表
+- [ ] （动画）tag / 帧序可被 Godot 导入使用
+```
+
 ## 素材约束
 
 | 规则 | 细节 |
 |------|------|
 | 目标观感 | HD-2D：像素 2D 资产 + 3D 关卡与电影感画面层 |
-| 许可 | 免费 / 开源许可、导入时附署名 |
-| 禁止 | AI 生成的场景美术；无许可刮取；以 photoreal PBR 冲刷作主视觉（可作灰盒 / 碰撞代理） |
+| 像素来源 | **仅** `Aseprite-User/export/`（见「素材来源」） |
+| 许可 | 免费 / 开源许可、导入时附署名（第三方包若进入 Aseprite-User，在该仓库记录） |
+| 禁止 | AI 生成的场景美术；无许可刮取；以 photoreal PBR 冲刷作主视觉（可作灰盒 / 碰撞代理）；在本仓库旁路存放像素交付物 |
 
 demo 导入目录约定仍见 [`art_style_demo/README.md`](../../art_style_demo/README.md)；若该 brief 仍写 LPC，以**本文件**为准，并在修订 demo 时再对齐。
 
