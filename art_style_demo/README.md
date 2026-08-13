@@ -2,7 +2,7 @@
 
 用于对比呈现方式的脚手架 + **建造规则**。无先前聊天上下文的 agent 应能仅凭本文件与各方案 README 实现。
 
-主题：锻炉之火 / 漫长之夜 / 余烬。设计：[`docs/design/theme.md`](../docs/design/theme.md)。视觉锁定 / LPC SoT：[`docs/tech/art-style.md`](../docs/tech/art-style.md)。
+主题：锻炉之火 / 漫长之夜 / 余烬。设计：[`docs/design/theme.md`](../docs/design/theme.md)。视觉锁定：[`docs/tech/art-style.md`](../docs/tech/art-style.md)（HD-2D）。像素画布 / 色数：[`docs/tech/pixel-art-standard.md`](../docs/tech/pixel-art-standard.md)。本 brief 里的 LPC 句是历史脚手架，**新场景以 art-style SoT 为准**。
 
 ## 目标
 
@@ -80,7 +80,8 @@
 | [`03_isometric/`](03_isometric/) | 等距 tilemap / 菱形网格 | 自有布局；同一道具 |
 | [`04_locked_3d_camera/`](04_locked_3d_camera/) | 3D 网格，锁定第一人称 / 三脚架相机 | 自有灰盒→美术 |
 | [`05_hybrid_2d_3d/`](05_hybrid_2d_3d/) | 2D 外壳 + 3D 主角道具 | 优先 01/02 图板 + 3D 铁砧/锻炉 |
-| [`06_pixel_2d/`](06_pixel_2d/) | 像素艺术 2D（最近邻，整数缩放） | 自有像素包；并行轨 |
+| [`06_pixel_2d/`](06_pixel_2d/) | 像素艺术 2D（最近邻，整数缩放） | 自有像素包；并行轨（历史 LPC 基线） |
+| [`07_hd2d/`](07_hd2d/) | HD-2D：3D 关卡 + 像素 `Sprite3D` | Demo A 构图；像素标准实验 |
 
 **范围外：** Mode7 地面投影。
 
@@ -140,6 +141,7 @@ art_style_demo/shared/
 - [ ] 任何第三方美术为免费商店、**非 AI**、开源许可，并在 `shared/imported/` 署名
 - [ ] 未把 `references/`（或其他处）的 AI 生成文件用作场景纹理/网格
 - [ ] 若为 `06`：最近邻过滤 + 整数缩放；读作像素，而非手绘
+- [ ] 若为 `07`：3D 锁定相机；像素 `Sprite3D` 为 Nearest + shaded + Alpha Cut；未把 Demo A 插画当纹理
 
 ## 实现顺序
 
@@ -151,12 +153,12 @@ art_style_demo/shared/
 4. `04` 灰盒第一人工坊 + 街道循环  
 5. `03` / `05` 仅当对比仍需要时
 
-当前方向：除非 [`docs/tech/art-style.md`](../docs/tech/art-style.md) / 开发日志重新开启其他计划，否则从已合并的 `06_pixel_2d` 继续。
+当前方向：HD-2D look-dev 在 [`07_hd2d/`](07_hd2d/)；像素画法见 [`docs/tech/pixel-art-standard.md`](../docs/tech/pixel-art-standard.md)。`06_pixel_2d` 保留作历史 2D 像素对照。
 
 ## 状态
 
 | 项 | 状态 |
 |------|--------|
 | 建造 brief + 参考图 | 完成（含像素轨） |
-| 可运行 `.tscn` | **Plan B** `06_pixel_2d` 工坊 + 街道已合并；Plan A / E 插画 demo 关闭；C / D 暂不推进（[`docs/tech/art-style.md`](../docs/tech/art-style.md)，[`docs/development-log.md`](../docs/development-log.md)） |
+| 可运行 `.tscn` | 历史 **Plan B** `06_pixel_2d` 仍在；现行 HD-2D look-dev 为 `07_hd2d`（[`docs/tech/art-style.md`](../docs/tech/art-style.md)） |
 | 已导入美术包 | `shared/imported/` 下的 LPC Blacksmith + LPC Base Assets 驱动 `06` 的墙/地/道具 |

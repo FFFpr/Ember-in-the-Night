@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://art_style_demo/07_hd2d/workshop/workshop.gd" id="1_workshop"]
+
+[node name="Workshop" type="Node3D"]
+script = ExtResource("1_workshop")

@@ -1,6 +1,6 @@
 ---
 author: F
-updated: 2026-08-12
+updated: 2026-08-13
 status: active
 ---
 
@@ -16,7 +16,7 @@ status: active
 | 氛围 | 冷色漫长之夜室外；暖色余烬锻炉作为情感锚 |
 | 参考气质 | 《歧路旅人》(Octopath Traveler) 一类：立体关卡里的像素角色，而非纯 2D tilemap RPG |
 | 像素资产来源 | **仅** [`Aseprite-User/`](../../Aseprite-User/) submodule 的 `export/`（见下方「素材来源」） |
-| look-dev | 既有 `art_style_demo/`（含原 LPC 像素 demo）**可能滞后**；新建 / 修订场景按本文件 HD-2D |
+| look-dev | 既有 `art_style_demo/`（含原 LPC 像素 demo）**可能滞后**；新建 / 修订场景按本文件 HD-2D。像素画布 / 色数 / 色块门禁见 [`pixel-art-standard.md`](pixel-art-standard.md)；HD-2D 构图对照 demo：[`art_style_demo/07_hd2d/`](../../art_style_demo/07_hd2d/) |
 
 **已放弃：** 以 **LPC (Liberated Pixel Cup)** 为强制艺术语言与场景素材规范的方向。不再要求纹理 / 精灵符合 LPC Style Guide；不再以 `06_pixel_2d` 作为现行对齐基线。
 
@@ -145,9 +145,10 @@ git submodule update --init --recursive
 ## 画布
 | 项 | 值 |
 | --- | --- |
-| 画布大小 (px) | 例如 `32×32` / `64×64` |
+| 画布大小 (px) | 必须选自 [`pixel-art-standard.md`](pixel-art-standard.md) 画布表，例如 `48×48` |
 | 透明背景 | 是 / 否 |
-| 色深 / 调色 | 例如索引色 / RGBA；有无固定调色板 |
+| 色数上限 `C_max` | 按该文件公式填写；索引色 |
+| 调色板 | 项目板子集（勿临时加只此一次的颜色） |
 
 ## 锚点
 | 项 | 值 |
@@ -175,6 +176,8 @@ git submodule update --init --recursive
 ## 验收
 - [ ] 已导出到约定 `export/` 路径
 - [ ] 锚点与画布符合上表
+- [ ] 色数 / 碎点比 / 平均色块符合 [`pixel-art-standard.md`](pixel-art-standard.md)
+- [ ] 纯黑剪影仍可读
 - [ ] （动画）tag / 帧序可被 Godot 导入使用
 ```
 
@@ -184,6 +187,7 @@ git submodule update --init --recursive
 |------|------|
 | 目标观感 | HD-2D：像素 2D 资产 + 3D 关卡与电影感画面层 |
 | 像素来源 | **仅** `Aseprite-User/export/`（见「素材来源」） |
+| 像素画法 | [`pixel-art-standard.md`](pixel-art-standard.md)：索引色、色数随 √A、色块门禁；禁止插画量化当交付 |
 | 许可 | 免费 / 开源许可、导入时附署名（第三方包若进入 Aseprite-User，在该仓库记录） |
 | 禁止 | AI 生成的场景美术；无许可刮取；以 photoreal PBR 冲刷作主视觉（可作灰盒 / 碰撞代理）；在本仓库旁路存放像素交付物 |
 
