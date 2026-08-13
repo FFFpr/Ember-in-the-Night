@@ -129,8 +129,8 @@ func _drop_at_mouse(pos: Vector2) -> void:
 	var origin := _floor_point(pos)
 	for i in _selected_coins.size():
 		var coin: Node3D = _selected_coins[i]
-		var ring := _ring(i, _selected_coins.size(), 0.12)
-		coin.position = origin + ring
+		var dest := origin + _ring(i, _selected_coins.size(), 0.12)
+		_fall_to(coin, dest)
 		_floor_coins.append(coin)
 	_selected_coins.clear()
 
@@ -253,7 +253,7 @@ func _eject_coins(n: int) -> void:
 				-0.4 + randf() * 1.0,
 				FLOOR_Y,
 				-0.15 + randf() * 0.7)
-		_tween_to(coin, dest, 0.35 + randf() * 0.15)
+		_fall_to(coin, dest)
 		await get_tree().create_timer(0.05).timeout
 	await get_tree().create_timer(0.4).timeout
 	_set_outlet_open(false)
@@ -299,6 +299,16 @@ func _tween_to(node: Node3D, dest: Vector3, dur: float) -> void:
 	var tw := create_tween()
 	tw.tween_property(node, "global_position", dest, dur)
 	await tw.finished
+
+
+func _fall_to(node: Node3D, dest: Vector3) -> void:
+	var start := node.global_position
+	var peak := (start + dest) * 0.5
+	peak.y = maxf(start.y, dest.y) + 0.28
+	var tw := create_tween()
+	tw.set_trans(Tween.TRANS_QUAD)
+	tw.tween_property(node, "global_position", peak, 0.12).set_ease(Tween.EASE_OUT)
+	tw.tween_property(node, "global_position", dest, 0.2).set_ease(Tween.EASE_IN)
 
 
 func _ring(i: int, n: int, radius: float) -> Vector3:
