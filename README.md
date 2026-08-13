@@ -39,7 +39,7 @@
 
 设计意图、主题与讨论见 [`docs/`](docs/)。参见 [`docs/README.md`](docs/README.md)。技术栈与环境事实留在本文件；`docs/tech/` 仅用于技术*讨论*。美术风格对比 demo 在仓库根目录：[`art_style_demo/`](art_style_demo/)。
 
-主风格为 **HD-2D**；像素资产 SoT 与缺图开 issue 模板见 [`docs/tech/art-style.md`](docs/tech/art-style.md)。资源仓库说明：[`Aseprite-User/README.md`](Aseprite-User/README.md)。克隆后初始化 submodule：
+主风格为 **HD-2D**；像素资产 SoT 与缺图开 issue 模板见 [`docs/tech/art-style.md`](docs/tech/art-style.md)。画布 / 色数 / 色块门禁见 [`docs/tech/pixel-art-standard.md`](docs/tech/pixel-art-standard.md)。资源仓库说明：[`Aseprite-User/README.md`](Aseprite-User/README.md)。克隆后初始化 submodule：
 
 ```bash
 git submodule update --init --recursive

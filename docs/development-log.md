@@ -1,10 +1,22 @@
 ---
 author: F
-updated: 2026-08-12
+updated: 2026-08-13
 status: active
 ---
 
 # 开发日志
+
+## 2026-08-13
+
+### 进度
+
+- 写入像素验收约束 [`docs/tech/pixel-art-standard.md`](tech/pixel-art-standard.md)（画布、`C ≈ 0.19 √A`、色块、锻夜板）。
+- 对照图 [`docs/tech/prompt_lookdev/`](tech/prompt_lookdev/)（非正式交付）。
+- 缺图像素 issue 模板补上 `C_max` 与色块验收（见 [`tech/art-style.md`](tech/art-style.md)）。
+
+### 待办
+
+- 正式精灵向 Aseprite-User 按该约束开 issue。
 
 ## 2026-08-12
 
