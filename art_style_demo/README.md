@@ -81,6 +81,7 @@
 | [`04_locked_3d_camera/`](04_locked_3d_camera/) | 3D 网格，锁定第一人称 / 三脚架相机 | 自有灰盒→美术 |
 | [`05_hybrid_2d_3d/`](05_hybrid_2d_3d/) | 2D 外壳 + 3D 主角道具 | 优先 01/02 图板 + 3D 铁砧/锻炉 |
 | [`06_pixel_2d/`](06_pixel_2d/) | 像素艺术 2D（最近邻，整数缩放） | 自有像素包；并行轨 |
+| [`07_kelly_room/`](07_kelly_room/) | Kelly 投资小场景（锁定室内机位） | 独立脚本；像素道具来自 Aseprite-User |
 
 **范围外：** Mode7 地面投影。
 

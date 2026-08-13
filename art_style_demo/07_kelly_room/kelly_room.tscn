@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://art_style_demo/07_kelly_room/kelly_room.gd" id="1_room"]
+
+[node name="KellyRoom" type="Node3D"]
+script = ExtResource("1_room")
