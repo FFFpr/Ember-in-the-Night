@@ -10,16 +10,13 @@ status: active
 
 ### 进度
 
-- 调查像素色数与画布关系，写入 [`docs/tech/pixel-art-standard.md`](tech/pixel-art-standard.md)：数字门禁是拒绝器；风格一致靠锻夜板、固定斜坡、contact sheet。`C ≈ 0.19 √A` 仍作色数拟合。
-- 用 Demo A 参考图跑两条生产线：插画缩放量化 vs 按标准直接画。量化过色数、不过色块；直接画才是可复现路径。
-- 新增 look-dev [`art_style_demo/07_hd2d/`](../art_style_demo/07_hd2d/)：3D 工坊 / 街道 + `Sprite3D`（构图对齐 Demo A）。
-- 按像素标准约束出了 8 张对照图，放在 [`art_style_demo/07_hd2d/experiment/out/prompt_lookdev/`](../art_style_demo/07_hd2d/experiment/out/prompt_lookdev/)（非正式交付）。
+- 写入像素验收约束 [`docs/tech/pixel-art-standard.md`](tech/pixel-art-standard.md)（画布、`C ≈ 0.19 √A`、色块、锻夜板）。
+- 对照图 [`docs/tech/prompt_lookdev/`](tech/prompt_lookdev/)（非正式交付）。
 - 缺图像素 issue 模板补上 `C_max` 与色块验收（见 [`tech/art-style.md`](tech/art-style.md)）。
 
 ### 待办
 
-- 正式精灵仍向 Aseprite-User 按新标准开 issue；`07_hd2d/sprites/` 只是 look-dev 草稿。
-- 在 Godot 中 F6 审阅 `07_hd2d` 工坊与街道。
+- 正式精灵向 Aseprite-User 按该约束开 issue。
 
 ## 2026-08-12
 

@@ -1,2 +1,0 @@
-workshop/street: art_style_demo/references/*_ref.png (Demo A)
-hammer/anvil isolated: GenerateImage outputs used at convert time from /opt/cursor/artifacts/assets/pipeline_a_*_src.png
