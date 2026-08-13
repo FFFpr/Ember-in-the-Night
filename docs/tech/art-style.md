@@ -121,7 +121,7 @@ git submodule update --init --recursive
 
 1. 先查 `Aseprite-User/export/`（及 `src/`）是否已有可用资源。
 2. 没有则在 **[FFFpr/Aseprite-User](https://github.com/FFFpr/Aseprite-User/issues/new)** 开 issue，**不要**在本仓库用临时 PNG 顶替。
-3. Issue 正文使用下方模板（可删无用行，但画布、锚点、描述必填）。
+3. Issue 正文使用下方模板（可删无用行，但画布、锚点、**调色板色号**、**并排样张**、描述必填）。只填 `C_max` 不够：数字过关的两张图仍可能不像同一个游戏。
 
 #### Issue 标题
 
@@ -148,7 +148,8 @@ git submodule update --init --recursive
 | 画布大小 (px) | 必须选自 [`pixel-art-standard.md`](pixel-art-standard.md) 画布表，例如 `48×48` |
 | 透明背景 | 是 / 否 |
 | 色数上限 `C_max` | 按该文件公式填写；索引色 |
-| 调色板 | 项目板子集（勿临时加只此一次的颜色） |
+| 调色板 | **锻夜板子集**，列出用到的色名；禁止新色相 |
+| 并排样张 | 必须能贴进已锁定 sheet / 本套参考；无样张则本 issue 须作为套件一起验收 |
 
 ## 锚点
 | 项 | 值 |
@@ -177,6 +178,8 @@ git submodule update --init --recursive
 - [ ] 已导出到约定 `export/` 路径
 - [ ] 锚点与画布符合上表
 - [ ] 色数 / 碎点比 / 平均色块符合 [`pixel-art-standard.md`](pixel-art-standard.md)
+- [ ] 颜色全部来自锻夜板；材料斜坡与该文件表一致
+- [ ] 贴进 contact sheet 与样张 / 同套其他图不跳戏
 - [ ] 纯黑剪影仍可读
 - [ ] （动画）tag / 帧序可被 Godot 导入使用
 ```

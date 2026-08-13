@@ -10,7 +10,7 @@ status: active
 
 ### 进度
 
-- 调查像素色数与画布关系，写入 [`docs/tech/pixel-art-standard.md`](tech/pixel-art-standard.md)：`C ≈ 0.19 √A`，并加上色块（碎点比 / 平均色块）门禁。
+- 调查像素色数与画布关系，写入 [`docs/tech/pixel-art-standard.md`](tech/pixel-art-standard.md)：数字门禁是拒绝器；风格一致靠锻夜板、固定斜坡、contact sheet。`C ≈ 0.19 √A` 仍作色数拟合。
 - 用 Demo A 参考图跑两条生产线：插画缩放量化 vs 按标准直接画。量化过色数、不过色块；直接画才是可复现路径。
 - 新增 look-dev [`art_style_demo/07_hd2d/`](../art_style_demo/07_hd2d/)：3D 工坊 / 街道 + `Sprite3D`（构图对齐 Demo A）。
 - 按像素标准约束出了 8 张对照图，放在 [`art_style_demo/07_hd2d/experiment/out/prompt_lookdev/`](../art_style_demo/07_hd2d/experiment/out/prompt_lookdev/)（非正式交付）。
