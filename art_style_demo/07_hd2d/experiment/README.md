@@ -10,3 +10,5 @@ python3 art_style_demo/07_hd2d/tools/make_contact_sheet.py
 ```
 
 `out/pipeline_a/` 依赖 Demo A 参考图；锤子/铁砧隔离图若本地没有 GenerateImage 缓存，对应条目会 skip。
+
+`out/prompt_lookdev/` 是按标准约束直接出的图，只供看风格，不是索引色成品。

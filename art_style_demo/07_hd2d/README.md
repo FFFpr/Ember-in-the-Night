@@ -21,6 +21,7 @@
 | `tools/pipeline_b_draw.py` | 按画布/调色板直接画 |
 | `tools/measure_sprites.py` | 色数与 4-连通色块 |
 | `experiment/out/` | 对照 PNG |
+| `experiment/out/prompt_lookdev/` | 按标准约束出的图（非正式交付） |
 | `experiment/metrics/sprite_metrics.csv` | 测量表 |
 | `sprites/` | look-dev 用的 B 线精灵（非正式 `Aseprite-User/export`） |
 

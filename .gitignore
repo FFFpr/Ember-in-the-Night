@@ -4,3 +4,4 @@
 __pycache__/
 *.pyc
 art_style_demo/07_hd2d/experiment/**/*.translation
+art_style_demo/07_hd2d/experiment/out/**/*.import

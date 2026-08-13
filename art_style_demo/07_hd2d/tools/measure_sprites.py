@@ -202,7 +202,9 @@ def targets() -> list[tuple[str, Path]]:
     exp = ROOT / "art_style_demo" / "07_hd2d" / "experiment" / "out"
     if exp.exists():
         for p in sorted(exp.rglob("*.png")):
-            if p.name == "contact_sheet.png":
+            if p.name == "contact_sheet.png" or p.name.startswith("view_"):
+                continue
+            if "prompt_lookdev" in p.parts:
                 continue
             items.append(("experiment", p))
     return [(g, p) for g, p in items if p.exists()]
