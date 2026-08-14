@@ -215,13 +215,13 @@ func _make_outlet() -> void:
 		var sprite := Sprite3D.new()
 		sprite.name = "OutletSprite"
 		sprite.texture = tex
-		sprite.pixel_size = size.y / float(tex.get_height())
 		sprite.shaded = true
 		sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
 		sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
-		# Texture is authored with bottom-centre pivot (32,47 on 64x48); fit-list
-		# places the hatch by its screen centre, so keep Sprite3D centered.
+		# Texture pivot is bottom-centre (32,47 on 64x48); fit-list places the
+		# hatch by screen centre, so keep Sprite3D centered and stretch to size.
 		sprite.centered = true
+		_layout.fit_sprite_to(sprite, size)
 		_outlet.add_child(sprite)
 	else:
 		_greybox_plate(_outlet, "OutletHatch", size, METAL_M)
@@ -246,12 +246,12 @@ func _make_box() -> void:
 		var sprite := Sprite3D.new()
 		sprite.name = "CoinBoxSprite"
 		sprite.texture = tex
-		sprite.pixel_size = size.y / float(tex.get_height())
 		sprite.shaded = true
 		sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
 		sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 		sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		sprite.centered = true
+		_layout.fit_sprite_to(sprite, size)
 		_box.add_child(sprite)
 	else:
 		_greybox_plate(_box, "CoinBoxPlate", size, Color8(122, 78, 46))
@@ -284,12 +284,12 @@ func _make_lever() -> void:
 		_lever_sprite = Sprite3D.new()
 		_lever_sprite.name = "LeverSprite"
 		_lever_sprite.texture = tex
-		_lever_sprite.pixel_size = size.y / float(tex.get_height())
 		_lever_sprite.shaded = true
 		_lever_sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
 		_lever_sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 		_lever_sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		_lever_sprite.centered = true
+		_layout.fit_sprite_to(_lever_sprite, size)
 		_lever.add_child(_lever_sprite)
 	else:
 		_greybox_plate(_lever, "LeverPlate", size, METAL_M)
@@ -310,11 +310,11 @@ func _make_board() -> void:
 		var sprite := Sprite3D.new()
 		sprite.name = "WhiteboardSprite"
 		sprite.texture = tex
-		sprite.pixel_size = size.y / float(tex.get_height())
 		sprite.shaded = true
 		sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
 		sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 		sprite.centered = true
+		_layout.fit_sprite_to(sprite, size)
 		board.add_child(sprite)
 		panel = sprite
 	else:
@@ -352,11 +352,11 @@ func _make_formula() -> void:
 		var sprite := Sprite3D.new()
 		sprite.name = "Sticker"
 		sprite.texture = tex
-		sprite.pixel_size = sticker_size.y / float(tex.get_height())
 		sprite.shaded = true
 		sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
 		sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 		sprite.centered = true
+		_layout.fit_sprite_to(sprite, sticker_size)
 		sprite.position = sticker_slot["origin"]
 		add_child(sprite)
 		_sticker = sprite
@@ -579,6 +579,8 @@ func _set_outlet_open(open: bool) -> void:
 		var tex := Assets.tex(Assets.OUTLET_OPEN if open else Assets.OUTLET_CLOSED)
 		if tex != null:
 			sprite.texture = tex
+			var slot: Dictionary = _layout.place("outlet", _layout.wall_depth() - 0.10)
+			_layout.fit_sprite_to(sprite, slot["size"])
 		return
 	if _valve != null:
 		_valve.visible = not open

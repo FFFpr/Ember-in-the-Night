@@ -210,6 +210,7 @@ func _lantern(host: Node3D) -> Node3D:
 	if tex != null:
 		var sprite := _sprite(tex, size.y / float(tex.get_height()))
 		sprite.name = "LanternSprite"
+		layout.fit_sprite_to(sprite, size)
 		node.add_child(sprite)
 	else:
 		var body := _quad(node, "LanternBox", size, Vector3.ZERO, _plain(METAL_D, 0.7, 0.4))
@@ -244,6 +245,7 @@ func _side_window(host: Node3D) -> Node3D:
 	if tex != null:
 		var sprite := _sprite(tex, size.y / float(tex.get_height()))
 		sprite.name = "SideWindowSprite"
+		layout.fit_sprite_to(sprite, size)
 		node.add_child(sprite)
 	else:
 		var pane := _quad(node, "SideWindowPane", size, Vector3.ZERO,

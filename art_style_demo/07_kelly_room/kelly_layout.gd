@@ -105,6 +105,18 @@ func place_on_floor(id: String) -> Dictionary:
 	return place(id, depth_on_floor(id))
 
 
+## Stretch a Sprite3D so its world AABB matches `world_size`.
+## Fit-list screen size is the arbiter; canvas aspect is not.
+func fit_sprite_to(sprite: Sprite3D, world_size: Vector2) -> void:
+	var tex: Texture2D = sprite.texture
+	if tex == null or tex.get_height() <= 0:
+		return
+	sprite.pixel_size = world_size.y / float(tex.get_height())
+	var natural_w: float = float(tex.get_width()) * sprite.pixel_size
+	if natural_w > 0.0:
+		sprite.scale = Vector3(world_size.x / natural_w, 1.0, 1.0)
+
+
 ## World height of `v` frame heights at `depth`.
 func height_at(v: float, depth: float) -> float:
 	return v * viewport.y * mpp(depth)
