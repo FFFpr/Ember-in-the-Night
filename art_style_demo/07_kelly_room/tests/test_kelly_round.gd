@@ -322,7 +322,11 @@ func _test_export_files_present() -> void:
 	_expect(Assets.tex(Assets.WALL_LANTERN) != null, "issue 29 wall lantern loads")
 	_expect(FileAccess.file_exists(Assets.MARKER_DIGITS), "issue 29 marker digit atlas exists")
 	_expect(Assets.tex(Assets.MARKER_DIGITS) != null, "issue 29 marker digit atlas loads")
-	_expect(Assets.tex(Assets.COIN_BOX_SIDE) != null, "coin box sprite loads for hover outline")
+	_expect(FileAccess.file_exists(Assets.COIN_BOX_SIDE), "issue 29 coin_box export exists")
+	var coin_box: Texture2D = Assets.tex(Assets.COIN_BOX_SIDE)
+	_expect(coin_box != null, "issue 29 coin_box loads for hover outline")
+	if coin_box != null:
+		_expect(coin_box.get_width() == 64 and coin_box.get_height() == 64, "coin_box is 64x64")
 	_expect(FileAccess.file_exists(Assets.LEVER_SIDE), "issue 29 lever export exists")
 	var lever_up: Texture2D = Assets.tex(Assets.LEVER_SIDE)
 	_expect(lever_up != null, "issue 29 lever loads")

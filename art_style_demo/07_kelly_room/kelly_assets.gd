@@ -21,6 +21,9 @@ const WALL_LANTERN := ISSUE_29 + "wall_lantern.png"
 const COIN_BOX_SIDE := ISSUE_29 + "coin_box.png"
 const LEVER_SIDE := ISSUE_29 + "lever.png"
 const LEVER_DOWN_SIDE := ISSUE_29 + "lever_down.png"
+# Pixel layout of issue_29/coin_box.png (top-left origin): empty front for marker_digits, metal slot.
+const COIN_BOX_FRONT := Rect2(20, 24, 25, 28)
+const COIN_BOX_SLOT_Y := 13.5
 
 const REQUIRED_PATHS: PackedStringArray = [
 	COIN,
