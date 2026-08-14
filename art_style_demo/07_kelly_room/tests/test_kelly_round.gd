@@ -4,6 +4,7 @@ extends SceneTree
 const Math := preload("res://art_style_demo/07_kelly_room/kelly_math.gd")
 const Round := preload("res://art_style_demo/07_kelly_room/kelly_round.gd")
 const Assets := preload("res://art_style_demo/07_kelly_room/kelly_assets.gd")
+const Look := preload("res://art_style_demo/07_kelly_room/kelly_look.gd")
 
 var _failed := 0
 var _passed := 0
@@ -56,6 +57,7 @@ func _run_all() -> void:
 	_test_box_label()
 	_test_repeated_deposits()
 	_test_export_files_present()
+	_test_marker_digits_atlas()
 
 
 func _test_opening_and_first_coin_odds() -> void:
@@ -318,3 +320,31 @@ func _test_export_files_present() -> void:
 	_expect(Assets.tex(Assets.WOOD_FLOOR) != null, "issue 29 floor tile loads")
 	_expect(FileAccess.file_exists(Assets.WALL_LANTERN), "issue 29 wall lantern export exists")
 	_expect(Assets.tex(Assets.WALL_LANTERN) != null, "issue 29 wall lantern loads")
+	_expect(FileAccess.file_exists(Assets.MARKER_DIGITS), "issue 29 marker digit atlas exists")
+	_expect(Assets.tex(Assets.MARKER_DIGITS) != null, "issue 29 marker digit atlas loads")
+
+
+func _test_marker_digits_atlas() -> void:
+	var tex: Texture2D = Assets.tex(Assets.MARKER_DIGITS)
+	_expect(tex != null, "marker atlas texture")
+	if tex == null:
+		return
+	_expect(tex.get_width() == 64 and tex.get_height() == 64, "marker atlas is 64x64")
+	Look.ensure_mats()
+	_expect(Look.has_marker_digits(), "look caches marker atlas")
+	_expect(Look.marker_region("0") == Rect2(0, 0, 16, 16), "0 is cell 0")
+	_expect(Look.marker_region("1") == Rect2(16, 0, 16, 16), "1 is cell 1")
+	_expect(Look.marker_region("9") == Rect2(16, 32, 16, 16), "9 is row 2 col 1")
+	_expect(Look.marker_region("/") == Rect2(32, 32, 16, 16), "slash is row 2 col 2")
+	_expect(Look.marker_region("3") == Rect2(48, 0, 16, 16), "3 is cell 3")
+	_expect(Look.marker_region("2") == Rect2(32, 0, 16, 16), "2 is cell 2")
+	var host := Node3D.new()
+	Look.set_box_marker(host, "0/1")
+	_expect(host.get_child_count() == 3, "0/1 uses three 16px glyphs")
+	if host.get_child_count() == 3:
+		_expect((host.get_child(0) as Sprite3D).region_rect == Rect2(0, 0, 16, 16), "first glyph is 0")
+		_expect((host.get_child(1) as Sprite3D).region_rect == Rect2(32, 32, 16, 16), "middle glyph is slash")
+		_expect((host.get_child(2) as Sprite3D).region_rect == Rect2(16, 0, 16, 16), "last glyph is 1")
+	Look.set_box_marker(host, "3/12")
+	_expect(host.get_child_count() == 4, "3/12 uses four 16px glyphs")
+	host.free()

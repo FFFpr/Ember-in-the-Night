@@ -32,7 +32,10 @@ const FRAME_Y1 := 2.26
 const FRAME_BAR := 0.11
 const FRAME_DEPTH := 0.16
 
-const DIGIT_ORDER := "0123456789/×%.= "
+# 64×64 atlas, 16×16 cells L→R T→B. Row 3 ends with `/` then an empty cell.
+const DIGIT_ORDER := "0123456789/ ×%.="
+const MARKER_CELL := 16
+const MARKER_PX := 0.0068
 
 static var _floor_tex: Texture2D
 static var _wall_tex: Texture2D
@@ -224,6 +227,22 @@ static func marker_label(pos: Vector3, size: int) -> Label3D:
 	return lab
 
 
+static func has_marker_digits() -> bool:
+	ensure_mats()
+	return _digit_tex != null
+
+
+static func marker_region(ch: String) -> Rect2:
+	ensure_mats()
+	var idx := DIGIT_ORDER.find(ch)
+	if idx < 0 or _digit_tex == null:
+		return Rect2()
+	var gw: int = maxi(int(_digit_tex.get_width() / MARKER_CELL), 1)
+	var col: int = idx % gw
+	var row: int = int(idx / gw)
+	return Rect2(col * MARKER_CELL, row * MARKER_CELL, MARKER_CELL, MARKER_CELL)
+
+
 static func set_box_marker(host: Node3D, text: String) -> void:
 	ensure_mats()
 	var stale: Array[Node] = []
@@ -234,26 +253,27 @@ static func set_box_marker(host: Node3D, text: String) -> void:
 		child.free()
 	if _digit_tex == null:
 		return
-	var px := 0.0048
-	var cell := 16
-	var gw: int = _digit_tex.get_width() / cell
-	var origin_x: float = -float(text.length() - 1) * cell * px * 0.5
+	var origin_x: float = -float(text.length() - 1) * MARKER_CELL * MARKER_PX * 0.5
 	for i in text.length():
 		var ch := text.substr(i, 1)
-		var idx := DIGIT_ORDER.find(ch)
-		if idx < 0:
+		if ch == " ":
+			continue
+		var rect := marker_region(ch)
+		if rect.size == Vector2.ZERO:
 			continue
 		var sprite := Sprite3D.new()
 		sprite.name = "Mk%d" % i
 		sprite.texture = _digit_tex
 		sprite.region_enabled = true
-		sprite.region_rect = Rect2((idx % gw) * cell, (idx / gw) * cell, cell, cell)
-		sprite.pixel_size = px
+		sprite.region_rect = rect
+		sprite.pixel_size = MARKER_PX
 		sprite.shaded = true
 		sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
 		sprite.alpha_scissor_threshold = 0.5
 		sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
-		sprite.position = Vector3(origin_x + float(i) * cell * px, 0, 0.002)
+		sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+		sprite.centered = true
+		sprite.position = Vector3(origin_x + float(i) * MARKER_CELL * MARKER_PX, 0, 0)
 		host.add_child(sprite)
 
 

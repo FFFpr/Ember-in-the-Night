@@ -212,7 +212,7 @@ func _refresh_diegetic() -> void:
 	_box_label.text = boxed
 	if _box_marker_root != null:
 		Look.set_box_marker(_box_marker_root, boxed)
-		_box_label.visible = Assets.tex(Assets.MARKER_DIGITS) == null
+		_box_label.visible = not Look.has_marker_digits()
 	if _round.phase == Round.Phase.PLAYING:
 		_board_label.text = "回报倍率 %.1f×\n成功概率 %d%%" % [_round.b, int(round(_round.p * 100.0))]
 	elif _round.last_success:
@@ -475,10 +475,13 @@ func _make_box() -> void:
 		body.visible = false
 		slot.visible = false
 		_box.add_child(_prop_sprite(box_tex, Vector3(0, FLOOR_Y, 0), 0.012, true))
-	_box_label = _marker_label(Vector3(0, 0.42, 0.18), 40)
+	_box_label = _marker_label(Vector3(0, 0.28, 0.22), 40)
 	_box.add_child(_box_label)
 	_box_marker_root = Node3D.new()
-	_box_marker_root.position = Vector3(0, 0.42, 0.20)
+	if box_tex != null:
+		_box_marker_root.position = Vector3(0.02, 0.36, 0.05)
+	else:
+		_box_marker_root.position = Vector3(0.0, 0.28, 0.22)
 	_box.add_child(_box_marker_root)
 
 
