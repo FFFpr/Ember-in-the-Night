@@ -47,8 +47,12 @@ func _build_materials() -> void:
 	var iron_tex := Assets.tex(Assets.IRON_APRON)
 	if iron_tex != null:
 		_iron_mat.albedo_texture = iron_tex
-		_iron_mat.uv1_scale = Vector3(4.0, 1.0, 1.0)
 		_iron_mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+		_iron_mat.uv1_triplanar = true
+		_iron_mat.uv1_world_triplanar = true
+		# Same density as the wall/floor tiles: 64 px at 100 px/m → 0.64 m per repeat.
+		var repeats: float = WALL_PX_PER_M / 64.0
+		_iron_mat.uv1_scale = Vector3(repeats, repeats, repeats)
 	_glass_mat = StandardMaterial3D.new()
 	_glass_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	_glass_mat.albedo_color = Color(0.42, 0.55, 0.52, 0.11)

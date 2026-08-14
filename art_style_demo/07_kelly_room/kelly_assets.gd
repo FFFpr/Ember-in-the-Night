@@ -70,6 +70,8 @@ static func _is_lfs_pointer(path: String) -> bool:
 
 ## Checks every required export up front so one report covers the whole scene.
 static func audit() -> PackedStringArray:
+	_missing.clear()
+	_lfs_pointers.clear()
 	for path in REQUIRED:
 		tex(path)
 	var lines: PackedStringArray = []

@@ -57,7 +57,7 @@ func _run_all() -> void:
 	_test_box_label()
 	_test_repeated_deposits()
 	_test_fit_list_loads()
-	_test_missing_exports_are_explicit()
+	_test_art_pipeline_audit()
 
 
 func _test_opening_and_first_coin_odds() -> void:
@@ -330,13 +330,14 @@ func _test_fit_list_loads() -> void:
 				"box marker height is 0.080 of the frame")
 
 
-func _test_missing_exports_are_explicit() -> void:
+func _test_art_pipeline_audit() -> void:
 	_expect(Assets.REQUIRED.size() == 20, "twenty required exports for issue 32")
-	# Issue 32 art is not in the submodule yet: tex() must return null, not crash,
-	# and audit() must name every miss so a silent greybox cannot hide it.
-	var missing := Assets.audit()
-	_expect(not missing.is_empty(), "audit reports the missing issue_32 exports")
-	var joined := "\n".join(missing)
-	_expect(joined.contains("coin_mass_fill.png"), "audit names the coin-mass fill")
-	_expect(joined.contains("falling back") or joined.contains("missing"),
-			"audit states that exports are missing")
+	# Submodule is pinned past the issue_32 fan-in: every required export must
+	# load, and audit() must stay silent rather than report a false greybox.
+	var report := Assets.audit()
+	_expect(report.is_empty(), "audit is clean when every required export is present")
+	_expect(Assets.tex(Assets.IRON_APRON) != null, "iron_apron loads from issue_32")
+	_expect(Assets.tex(Assets.OUTLET_OPEN) != null, "outlet_open loads from issue_32")
+	_expect(Assets.tex(Assets.WOOD_WALL) != null, "wood_plank_wall loads from issue_32")
+	_expect(Assets.tex(Assets.ISSUE + "does_not_exist.png") == null,
+			"a missing path returns null instead of a fake texture")
