@@ -248,6 +248,36 @@ func take_out(count: int, total: int) -> float:
 	return per_coin
 
 
+## Edge-on pool sprites fly from the crest to `target` (outlet mouth).
+## Drops the water level up front; the room spawns floor coins after this returns.
+func pop_out(count: int, total: int, target: Vector3) -> void:
+	if count <= 0:
+		return
+	take_out(count, total)
+	var sprites: int = mini(count, MAX_SPRITES)
+	var i := 0
+	while i < sprites:
+		var batch: int = mini(WAVE, sprites - i)
+		for _b in batch:
+			var coin := _take()
+			var x: float = _rect_origin.x + _rng.randf_range(-0.30, 0.30) * _rect_size.x
+			coin.position = Vector3(x, crest_y() + 0.04, _z_for(_layer_depth[0]))
+			var dest := target + Vector3(
+					_rng.randf_range(-0.08, 0.08), _rng.randf_range(-0.03, 0.03), 0.0)
+			_fly(coin, dest)
+			i += 1
+		await _tree.create_timer(WAVE_GAP).timeout
+	await _tree.create_timer(0.32).timeout
+
+
+func _fly(coin: Sprite3D, dest: Vector3) -> void:
+	var tw := host.create_tween()
+	tw.tween_property(coin, "position", dest, 0.28).set_ease(Tween.EASE_IN) \
+			.set_trans(Tween.TRANS_QUAD)
+	tw.finished.connect(func() -> void:
+		_give_back(coin))
+
+
 func _drop(coin: Sprite3D, target_y: float, level_gain: float) -> void:
 	var fall: float = maxf(coin.position.y - target_y, 0.05)
 	var dur: float = sqrt(fall / 4.2) + 0.12

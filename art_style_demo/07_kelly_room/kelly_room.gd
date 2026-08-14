@@ -572,11 +572,12 @@ func _run_invest() -> void:
 	_busy = false
 
 
-## Payout: the market level drops and coins come out through the hatch.
+## Payout: edge-on pool coins leave the heap through the hatch, then land as
+## floor coins (flat texture, fit-list 0.022).
 func _eject_coins(n: int, total: int) -> void:
 	_set_outlet_open(true)
-	_market.take_out(n, total)
 	var mouth: Vector3 = _outlet.position + Vector3(0.0, 0.0, 0.16)
+	await _market.pop_out(n, total, mouth)
 	for i in n:
 		var coin := _make_coin()
 		coin.position = mouth + Vector3(_rng.randf_range(-0.35, 0.35), 0.0, 0.0)

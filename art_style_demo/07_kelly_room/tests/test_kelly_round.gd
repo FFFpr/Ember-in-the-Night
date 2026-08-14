@@ -341,6 +341,15 @@ func _test_art_pipeline_audit() -> void:
 	_expect(Assets.tex(Assets.IRON_APRON) != null, "iron_apron loads from issue_32")
 	_expect(Assets.tex(Assets.OUTLET_OPEN) != null, "outlet_open loads from issue_32")
 	_expect(Assets.tex(Assets.WOOD_WALL) != null, "wood_plank_wall loads from issue_32")
+	_expect(Assets.tex(Assets.COIN_EDGE) != null, "coin_edge loads from issue_32")
+	var coin_edge := Assets.tex(Assets.COIN_EDGE)
+	if coin_edge != null:
+		_expect(coin_edge.get_width() == 16 and coin_edge.get_height() == 16,
+				"coin_edge is 16×16")
+	var coin_flat := Assets.tex(Assets.COIN_FLAT)
+	_expect(coin_flat != null, "floor coin_flat still loads (not replaced by coin_edge)")
+	if coin_edge != null and coin_flat != null:
+		_expect(coin_edge != coin_flat, "pooled edge coin is not the floor flat coin")
 	_expect(Assets.tex(Assets.WHITEBOARD) != null, "whiteboard loads from issue_32")
 	var whiteboard := Assets.tex(Assets.WHITEBOARD)
 	if whiteboard != null:
