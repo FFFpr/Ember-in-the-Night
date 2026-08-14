@@ -38,6 +38,7 @@ static var _floor_tex: Texture2D
 static var _wall_tex: Texture2D
 static var _digit_tex: Texture2D
 static var _mats_ready := false
+static var _wall_official := false
 static var _floor_mats: Array[StandardMaterial3D] = []
 static var _wall_mats: Array[StandardMaterial3D] = []
 static var _metal_d: StandardMaterial3D
@@ -56,11 +57,15 @@ static func ensure_mats() -> void:
 	if _floor_tex == null:
 		_floor_tex = _grain_tex(11, false)
 	_wall_tex = Assets.tex(Assets.WOOD_WALL)
+	_wall_official = _wall_tex != null
 	if _wall_tex == null:
 		_wall_tex = _grain_tex(23, true)
 	_digit_tex = Assets.tex(Assets.MARKER_DIGITS)
-	_floor_mats = _wood_set(_floor_tex)
-	_wall_mats = _wood_set(_wall_tex)
+	_floor_mats = _wood_set(_floor_tex, true, Vector3(0.55, 0.55, 0.55))
+	_wall_mats = _wood_set(
+			_wall_tex,
+			not _wall_official,
+			Vector3(1.4, 1.4, 1.4) if _wall_official else Vector3(0.55, 0.55, 0.55))
 	_metal_d = _metal(METAL_D, 0.82, 0.38)
 	_metal_m = _metal(METAL_M, 0.78, 0.32)
 	_metal_l = _metal(METAL_L, 0.70, 0.28)
@@ -87,10 +92,13 @@ static func add_room(host: Node3D) -> void:
 	_slab(host, Vector3(ROOM_X1 - ROOM_X0 + 0.2, 0.08, ROOM_Z1 - ROOM_Z0 + 0.2),
 			Vector3((ROOM_X0 + ROOM_X1) * 0.5, -0.06, (ROOM_Z0 + ROOM_Z1) * 0.5), _gap_mat)
 	_floor_planks(host)
-	_wall_planks(host, ROOM_X0 - 0.08, 0.16)
-	_wall_planks(host, ROOM_X1 + 0.08, 0.16)
-	_back_planks(host)
-	_ceiling_planks(host)
+	if _wall_official:
+		_wall_slabs(host)
+	else:
+		_wall_planks(host, ROOM_X0 - 0.08, 0.16)
+		_wall_planks(host, ROOM_X1 + 0.08, 0.16)
+		_back_planks(host)
+		_ceiling_planks(host)
 	_beam(host, -1.15)
 	_beam(host, 0.85)
 
@@ -248,6 +256,20 @@ static func _floor_planks(host: Node3D) -> void:
 		i += 1
 
 
+static func _wall_slabs(host: Node3D) -> void:
+	var mat: StandardMaterial3D = _wall_mats[0]
+	var depth: float = ROOM_Z1 - ROOM_Z0 - 0.02
+	var zmid: float = (ROOM_Z0 + ROOM_Z1) * 0.5
+	var height: float = ROOM_Y1 - 0.04
+	var ymid: float = 0.04 + height * 0.5
+	_box(host, Vector3(0.16, height, depth), Vector3(ROOM_X0 - 0.08, ymid, zmid), mat)
+	_box(host, Vector3(0.16, height, depth), Vector3(ROOM_X1 + 0.08, ymid, zmid), mat)
+	var width: float = ROOM_X1 - ROOM_X0 + 0.16
+	var xmid: float = (ROOM_X0 + ROOM_X1) * 0.5
+	_box(host, Vector3(width, height, 0.16), Vector3(xmid, ymid, ROOM_Z0 - 0.08), mat)
+	_box(host, Vector3(width, 0.08, depth), Vector3(xmid, ROOM_Y1 + 0.04, zmid), mat)
+
+
 static func _wall_planks(host: Node3D, x_center: float, thick: float) -> void:
 	var plank_h := 0.17
 	var gap := 0.01
@@ -333,9 +355,16 @@ static func _rivet(host: Node3D, pos: Vector3) -> void:
 	host.add_child(mi)
 
 
-static func _wood_set(tex: Texture2D) -> Array[StandardMaterial3D]:
+static func _wood_set(tex: Texture2D, vary_tint: bool, uv_scale: Vector3) -> Array[StandardMaterial3D]:
 	var out: Array[StandardMaterial3D] = []
-	for tint in [Color(0.78, 0.72, 0.68), Color(0.92, 0.88, 0.82), Color(1.05, 0.98, 0.90)]:
+	var tints: Array[Color] = [Color.WHITE]
+	if vary_tint:
+		tints = [
+			Color(0.78, 0.72, 0.68),
+			Color(0.92, 0.88, 0.82),
+			Color(1.05, 0.98, 0.90),
+		]
+	for tint in tints:
 		var mat := StandardMaterial3D.new()
 		mat.albedo_texture = tex
 		mat.albedo_color = tint
@@ -345,7 +374,7 @@ static func _wood_set(tex: Texture2D) -> Array[StandardMaterial3D]:
 		mat.uv1_triplanar = true
 		mat.uv1_world_triplanar = true
 		mat.uv1_triplanar_sharpness = 4.0
-		mat.uv1_scale = Vector3(0.55, 0.55, 0.55)
+		mat.uv1_scale = uv_scale
 		out.append(mat)
 	return out
 

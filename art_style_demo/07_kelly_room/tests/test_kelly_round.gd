@@ -312,3 +312,5 @@ func _test_export_files_present() -> void:
 	_expect(Assets.REQUIRED_PATHS.size() == 8, "eight Kelly-room export paths")
 	for path in Assets.REQUIRED_PATHS:
 		_expect(FileAccess.file_exists(path), "export exists %s" % path)
+	_expect(FileAccess.file_exists(Assets.WOOD_WALL), "issue 29 wall tile export exists")
+	_expect(Assets.tex(Assets.WOOD_WALL) != null, "issue 29 wall tile loads")

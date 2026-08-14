@@ -32,6 +32,11 @@ const REQUIRED_PATHS: PackedStringArray = [
 
 
 static func tex(path: String) -> Texture2D:
-	if not ResourceLoader.exists(path):
+	if ResourceLoader.exists(path):
+		return load(path) as Texture2D
+	if not FileAccess.file_exists(path):
 		return null
-	return load(path) as Texture2D
+	var img := Image.load_from_file(path)
+	if img == null or img.is_empty():
+		return null
+	return ImageTexture.create_from_image(img)
