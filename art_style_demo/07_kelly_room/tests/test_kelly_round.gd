@@ -322,6 +322,8 @@ func _test_export_files_present() -> void:
 	_expect(Assets.tex(Assets.WALL_LANTERN) != null, "issue 29 wall lantern loads")
 	_expect(FileAccess.file_exists(Assets.MARKER_DIGITS), "issue 29 marker digit atlas exists")
 	_expect(Assets.tex(Assets.MARKER_DIGITS) != null, "issue 29 marker digit atlas loads")
+	_expect(Assets.tex(Assets.COIN_BOX) != null, "coin box sprite loads for hover outline")
+	_expect(Assets.tex(Assets.LEVER) != null, "lever sprite loads")
 
 
 func _test_marker_digits_atlas() -> void:

@@ -51,6 +51,7 @@ static var _metal_l: StandardMaterial3D
 static var _metal_hi: StandardMaterial3D
 static var _gap_mat: StandardMaterial3D
 static var _glass_mat: StandardMaterial3D
+static var _night_glass: StandardMaterial3D
 static var _marker_font: Font
 
 
@@ -90,6 +91,11 @@ static func ensure_mats() -> void:
 	_glass_mat.roughness = 0.06
 	_glass_mat.metallic = 0.18
 	_glass_mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
+	_night_glass = StandardMaterial3D.new()
+	_night_glass.albedo_color = Color(0.09, 0.13, 0.20, 0.82)
+	_night_glass.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_night_glass.roughness = 0.12
+	_night_glass.metallic = 0.08
 	var base: Font = ThemeDB.fallback_font
 	if base != null:
 		var fv := FontVariation.new()
@@ -117,6 +123,35 @@ static func add_room(host: Node3D) -> void:
 		_ceiling_planks(host)
 	_beam(host, -1.15)
 	_beam(host, 0.85)
+	add_right_window(host)
+
+
+static func add_right_window(host: Node3D) -> void:
+	ensure_mats()
+	# Recessed night window in the right wall, as in fp_idle (far-right frame).
+	var x: float = ROOM_X1 - 0.01
+	var z0 := 0.18
+	var z1 := 1.02
+	var y0 := 0.78
+	var y1 := 1.92
+	var zmid: float = (z0 + z1) * 0.5
+	var ymid: float = (y0 + y1) * 0.5
+	var w: float = z1 - z0
+	var h: float = y1 - y0
+	var bar := 0.06
+	var well := 0.10
+	_box(host, Vector3(well, h + bar * 2.0, w + bar * 2.0), Vector3(x + well * 0.35, ymid, zmid), _wall_mats[0])
+	_box(host, Vector3(0.03, h, w), Vector3(x - 0.04, ymid, zmid), _night_glass)
+	_box(host, Vector3(0.05, bar, w + bar * 2.0), Vector3(x - 0.06, y0 - bar * 0.5, zmid), _wall_mats[0])
+	_box(host, Vector3(0.05, bar, w + bar * 2.0), Vector3(x - 0.06, y1 + bar * 0.5, zmid), _wall_mats[0])
+	_box(host, Vector3(0.05, h, bar), Vector3(x - 0.06, ymid, z0 - bar * 0.5), _wall_mats[0])
+	_box(host, Vector3(0.05, h, bar), Vector3(x - 0.06, ymid, z1 + bar * 0.5), _wall_mats[0])
+	_box(host, Vector3(0.04, 0.04, w), Vector3(x - 0.07, ymid, zmid), _metal_m)
+	_box(host, Vector3(0.04, h, 0.04), Vector3(x - 0.07, ymid, zmid), _metal_m)
+	_rivet(host, Vector3(x - 0.08, y0, z0))
+	_rivet(host, Vector3(x - 0.08, y0, z1))
+	_rivet(host, Vector3(x - 0.08, y1, z0))
+	_rivet(host, Vector3(x - 0.08, y1, z1))
 
 
 static func add_glass_wall(host: Node3D) -> void:

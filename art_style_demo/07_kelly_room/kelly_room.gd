@@ -29,7 +29,8 @@ var _drag_start := Vector2.ZERO
 
 var _camera: Camera3D
 var _box: Node3D
-var _box_outline: MeshInstance3D
+var _box_sprite: Sprite3D
+var _box_outline: Sprite3D
 var _lever_arm: Node3D
 var _valve: Node3D
 var _sticker: Node3D
@@ -187,6 +188,8 @@ func _follow_selected(delta: float) -> void:
 
 
 func _update_box_hover() -> void:
+	if _box == null or _box_outline == null:
+		return
 	var hot: bool = (not _busy) and _round.phase == Round.Phase.PLAYING \
 			and _selected_coins.size() > 0 and _over_box(get_viewport().get_mouse_position())
 	_box.scale = Vector3(1.12, 1.12, 1.12) if hot else Vector3.ONE
@@ -209,7 +212,8 @@ func _update_select_rect(pos: Vector2) -> void:
 
 func _refresh_diegetic() -> void:
 	var boxed: String = _round.box_label()
-	_box_label.text = boxed
+	if _box_label != null:
+		_box_label.text = boxed
 	if _box_marker_root != null:
 		Look.set_box_marker(_box_marker_root, boxed)
 		_box_label.visible = not Look.has_marker_digits()
@@ -287,8 +291,8 @@ func _drop_market_coins(n: int) -> void:
 
 
 func _pull_lever_anim() -> void:
-	var down := Assets.tex(Assets.LEVER_DOWN)
-	var up := Assets.tex(Assets.LEVER)
+	var down := Assets.tex_prefer(Assets.LEVER_DOWN_SIDE, Assets.LEVER_DOWN)
+	var up := Assets.tex_prefer(Assets.LEVER_SIDE, Assets.LEVER)
 	if _lever_sprite != null and down != null:
 		_lever_sprite.texture = down
 		await get_tree().create_timer(0.28).timeout
@@ -338,7 +342,10 @@ func _floor_point(screen: Vector2) -> Vector3:
 
 
 func _over_box(pos: Vector2) -> bool:
-	return _in_screen_box(_box.global_position + Vector3(0, 0.22, 0), pos, Vector2(70, 80))
+	var origin: Vector3 = _box.global_position + Vector3(0, 0.28, 0)
+	if _box_sprite != null:
+		origin = _box_sprite.global_position
+	return _in_screen_box(origin, pos, Vector2(70, 80))
 
 
 func _over_lever(pos: Vector2) -> bool:
@@ -385,11 +392,12 @@ func _build_world() -> void:
 	_make_env()
 	_make_room()
 	_camera = Camera3D.new()
-	_camera.position = Vector3(0.04, 1.28, 2.38)
+	# Eye-level, straight at the back wall — match fp_idle, not a high close-up.
+	_camera.position = Vector3(-0.06, 1.18, 2.36)
 	_camera.current = true
-	_camera.fov = 54.0
+	_camera.fov = 40.0
 	add_child(_camera)
-	_camera.look_at(Vector3(-0.06, 0.82, -1.08))
+	_camera.look_at(Vector3(-0.16, 1.10, -1.40))
 	_market = Node3D.new()
 	_market.name = "Market"
 	add_child(_market)
@@ -422,7 +430,7 @@ func _make_env() -> void:
 	sun.light_energy = 0.55
 	sun.shadow_enabled = true
 	add_child(sun)
-	Look.add_lantern(self, Vector3(-2.40, 1.12, -0.48))
+	Look.add_lantern(self, Vector3(-2.38, 1.22, 0.22))
 
 
 func _make_room() -> void:
@@ -461,32 +469,31 @@ func _make_outlet() -> void:
 
 func _make_box() -> void:
 	_box = Node3D.new()
-	_box.position = Vector3(1.18, 0.0, 0.12)
+	_box.position = Vector3(1.38, 0.0, 0.42)
 	add_child(_box)
-	var body := _box_mesh(Vector3(0.48, 0.52, 0.42), WOOD_M, Vector3(0, 0.26, 0))
-	_box.add_child(body)
-	var slot := _box_mesh(Vector3(0.28, 0.04, 0.06), METAL_D, Vector3(0, 0.54, 0.02))
-	_box.add_child(slot)
-	_box_outline = _box_mesh(Vector3(0.54, 0.58, 0.48), OUTLINE, Vector3(0, 0.26, 0))
+	var box_tex := Assets.tex_prefer(Assets.COIN_BOX_SIDE, Assets.COIN_BOX)
+	if box_tex == null:
+		push_warning("Kelly coin box sprite missing; hover outline needs a 2D sprite")
+		return
+	var px := 0.011
+	_box_sprite = _prop_sprite(box_tex, Vector3(0, FLOOR_Y, 0), px, true)
+	_box.add_child(_box_sprite)
+	_box_outline = _prop_sprite(box_tex, _box_sprite.position, px * 1.14, false)
+	_box_outline.position = _box_sprite.position + Vector3(0.0, 0.0, -0.014)
+	_box_outline.modulate = OUTLINE
+	_box_outline.shaded = false
+	_box_outline.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_box_outline.visible = false
 	_box.add_child(_box_outline)
-	var box_tex := Assets.tex(Assets.COIN_BOX)
-	if box_tex != null:
-		body.visible = false
-		slot.visible = false
-		_box.add_child(_prop_sprite(box_tex, Vector3(0, FLOOR_Y, 0), 0.012, true))
-	_box_label = _marker_label(Vector3(0, 0.28, 0.22), 40)
+	_box_label = _marker_label(Vector3(0, 0.34, 0.03), 40)
 	_box.add_child(_box_label)
 	_box_marker_root = Node3D.new()
-	if box_tex != null:
-		_box_marker_root.position = Vector3(0.02, 0.36, 0.05)
-	else:
-		_box_marker_root.position = Vector3(0.0, 0.28, 0.22)
+	_box_marker_root.position = Vector3(0.0, 0.34, 0.04)
 	_box.add_child(_box_marker_root)
 
 
 func _make_lever() -> void:
-	var lever_pos := Vector3(1.52, FLOOR_Y, 0.16)
+	var lever_pos := Vector3(1.72, FLOOR_Y, 0.46)
 	var base := _box_mesh(Vector3(0.18, 0.12, 0.18), METAL_D, Vector3(lever_pos.x, 0.06, lever_pos.z))
 	add_child(base)
 	_lever_arm = Node3D.new()
@@ -505,7 +512,7 @@ func _make_lever() -> void:
 	knob.material_override = kmat
 	knob.position = Vector3(0, 0.44, 0)
 	_lever_arm.add_child(knob)
-	var lever_tex := Assets.tex(Assets.LEVER)
+	var lever_tex := Assets.tex_prefer(Assets.LEVER_SIDE, Assets.LEVER)
 	if lever_tex != null:
 		base.visible = false
 		shaft.visible = false

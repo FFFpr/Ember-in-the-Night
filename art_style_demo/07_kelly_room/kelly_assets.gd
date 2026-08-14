@@ -18,6 +18,9 @@ const WOOD_FLOOR := ISSUE_29 + "wood_plank_floor.png"
 const WOOD_WALL := ISSUE_29 + "wood_plank_wall.png"
 const MARKER_DIGITS := ISSUE_29 + "marker_digits.png"
 const WALL_LANTERN := ISSUE_29 + "wall_lantern.png"
+const COIN_BOX_SIDE := ISSUE_29 + "coin_box.png"
+const LEVER_SIDE := ISSUE_29 + "lever.png"
+const LEVER_DOWN_SIDE := ISSUE_29 + "lever_down.png"
 
 const REQUIRED_PATHS: PackedStringArray = [
 	COIN,
@@ -33,10 +36,17 @@ const REQUIRED_PATHS: PackedStringArray = [
 
 static func tex(path: String) -> Texture2D:
 	if ResourceLoader.exists(path):
-		return load(path) as Texture2D
+		var loaded := load(path) as Texture2D
+		if loaded != null:
+			return loaded
 	if not FileAccess.file_exists(path):
 		return null
 	var img := Image.load_from_file(path)
 	if img == null or img.is_empty():
 		return null
 	return ImageTexture.create_from_image(img)
+
+
+static func tex_prefer(primary: String, fallback: String) -> Texture2D:
+	var a := tex(primary)
+	return a if a != null else tex(fallback)
