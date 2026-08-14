@@ -207,7 +207,10 @@ func _make_outlet() -> void:
 	_outlet.name = "Outlet"
 	_outlet.position = slot["origin"]
 	add_child(_outlet)
+	# Prefer closed for idle; if only open has landed, mount that so fan-in is visible.
 	var tex := Assets.tex(Assets.OUTLET_CLOSED)
+	if tex == null:
+		tex = Assets.tex(Assets.OUTLET_OPEN)
 	if tex != null:
 		var sprite := Sprite3D.new()
 		sprite.name = "OutletSprite"
@@ -216,6 +219,8 @@ func _make_outlet() -> void:
 		sprite.shaded = true
 		sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
 		sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+		# Texture is authored with bottom-centre pivot (32,47 on 64x48); fit-list
+		# places the hatch by its screen centre, so keep Sprite3D centered.
 		sprite.centered = true
 		_outlet.add_child(sprite)
 	else:
