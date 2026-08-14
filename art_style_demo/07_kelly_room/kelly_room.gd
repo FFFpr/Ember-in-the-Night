@@ -438,32 +438,35 @@ func _make_room() -> void:
 
 
 func _make_glass() -> void:
-	var frame := _box_mesh(Vector3(3.15, 2.15, 0.08), WOOD_D, Vector3(-0.28, 1.08, -1.42))
-	add_child(frame)
+	add_child(_box_mesh(Vector3(3.22, 0.12, 0.12), WOOD_D, Vector3(-0.28, 2.12, -1.42)))
+	add_child(_box_mesh(Vector3(3.22, 0.12, 0.12), WOOD_D, Vector3(-0.28, 0.22, -1.42)))
+	add_child(_box_mesh(Vector3(0.12, 2.02, 0.12), WOOD_D, Vector3(-1.84, 1.17, -1.42)))
+	add_child(_box_mesh(Vector3(0.12, 2.02, 0.12), WOOD_D, Vector3(1.28, 1.17, -1.42)))
 	var pane := MeshInstance3D.new()
 	var quad := BoxMesh.new()
-	quad.size = Vector3(2.95, 1.95, 0.03)
+	quad.size = Vector3(2.95, 1.85, 0.03)
 	pane.mesh = quad
 	var mat := StandardMaterial3D.new()
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	mat.albedo_color = GLASS
 	mat.roughness = 0.06
 	mat.metallic = 0.15
+	mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	pane.material_override = mat
-	pane.position = Vector3(-0.28, 1.1, -1.38)
+	pane.position = Vector3(-0.28, 1.16, -1.38)
 	add_child(pane)
 
 
 func _fill_market() -> void:
-	for i in 90:
+	for i in 240:
 		var coin := _make_coin(false)
-		var col := i % 10
-		var row := (i / 10) % 3
-		var layer := i / 30
+		var col := i % 12
+		var row := (i / 12) % 5
+		var layer := i / 60
 		coin.position = Vector3(
-				-1.35 + float(col) * 0.22 + randf() * 0.04,
-				0.08 + float(layer) * 0.22 + float(row) * 0.05,
-				-1.7 - float(row) * 0.28 - randf() * 0.08)
+				-1.45 + float(col) * 0.20 + randf() * 0.05,
+				0.12 + float(layer) * 0.18 + float(row) * 0.04,
+				-1.62 - float(row) * 0.18 - randf() * 0.06)
 		_market.add_child(coin)
 
 
