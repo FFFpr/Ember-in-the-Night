@@ -127,9 +127,10 @@ func _make_env() -> void:
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.ambient_light_color = Color8(30, 38, 54)
 	# Night interior: point lights carry the frame, ambient only lifts black.
-	env.ambient_light_energy = 0.09
+	# Real wall/floor/apron tiles read darker than greybox; keep mean in 30–50.
+	env.ambient_light_energy = 0.14
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	env.tonemap_exposure = 0.85
+	env.tonemap_exposure = 1.05
 	env.glow_enabled = true
 	env.glow_intensity = 0.16
 	env.glow_bloom = 0.03
