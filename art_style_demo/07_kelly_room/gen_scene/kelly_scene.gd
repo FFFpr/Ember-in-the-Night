@@ -16,7 +16,7 @@ func _ready() -> void:
 	_rng.seed = 20260814
 	_build_background()
 	_build_glass_and_market()
-	_build_apron_and_outlet()
+	_build_outlet()
 	_build_frame()
 	_build_props()
 	_build_text()
@@ -58,6 +58,20 @@ func _sprite_w(name: String, cx: float, cy: float, target_w_px: float, z: int = 
 	return s
 
 
+## Sprite scaled to an explicit width AND height (non-uniform), placed by centre.
+func _sprite_box(name: String, cx: float, cy: float, w_px: float, h_px: float, z: int) -> Sprite2D:
+	var s := Sprite2D.new()
+	s.texture = _tex(name)
+	s.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	s.centered = true
+	s.position = _px(cx, cy)
+	s.scale = Vector2(w_px / float(maxi(s.texture.get_width(), 1)),
+			h_px / float(maxi(s.texture.get_height(), 1)))
+	s.z_index = z
+	add_child(s)
+	return s
+
+
 ## Tiled background rectangle in screen space, drawn at `tile_px` per tile.
 func _tiled(name: String, rect: Rect2, tile_px: float, z: int) -> void:
 	var tex := _tex(name)
@@ -82,21 +96,21 @@ func _build_background() -> void:
 
 func _build_glass_and_market() -> void:
 	var g0 := _px(0.195, 0.085)
-	var g1 := _px(0.845, 0.655)
+	var g1 := _px(0.845, 0.620)
 	var glass := ColorRect.new()
 	glass.color = Color8(14, 18, 28, 205)
 	glass.position = g0
 	glass.size = g1 - g0
-	glass.z_index = -50
+	glass.z_index = -70
 	add_child(glass)
 
-	# Coin market: discrete edge-on coin sprites stacked into ragged columns,
+	# Coin market: discrete flat coin sprites stacked into ragged columns,
 	# clipped to the glass. The pile is instances, not a texture.
 	var clip := Control.new()
 	clip.clip_contents = true
 	clip.position = g0
 	clip.size = g1 - g0
-	clip.z_index = -40
+	clip.z_index = -60
 	add_child(clip)
 	var market := Node2D.new()
 	market.position = -g0
@@ -104,7 +118,7 @@ func _build_glass_and_market() -> void:
 
 	# Single flat coin, stacked into ragged columns to read as a coin sea.
 	var tex := _tex("coin_flat.png")
-	var base_y: float = 0.635 * DESIGN.y
+	var base_y: float = 0.620 * DESIGN.y
 	var mx0: float = g0.x + 6.0
 	var mx1: float = g1.x - 6.0
 	var coin_w: float = 0.021 * DESIGN.x
@@ -129,13 +143,10 @@ func _build_glass_and_market() -> void:
 		x += coin_w * _rng.randf_range(0.85, 1.0)
 
 
-func _build_apron_and_outlet() -> void:
-	# One metal base under the glass; its central slot is the single outlet.
-	var apron := _sprite_w("iron_apron.png", 0.52, 0.660, 0.66 * DESIGN.x, -30)
-	var max_h: float = 0.12 * DESIGN.y
-	if apron.scale.y * apron.texture.get_height() > max_h:
-		var k: float = max_h / float(apron.texture.get_height())
-		apron.scale = Vector2(k, k)
+func _build_outlet() -> void:
+	# Single wide horizontal outlet chute at the glass base; coins rest above it.
+	# Non-uniform so the drawer reads as a wide short band, not a tall box.
+	_sprite_box("outlet_closed.png", 0.47, 0.652, 0.44 * DESIGN.x, 0.10 * DESIGN.y, -50)
 
 
 func _build_frame() -> void:
@@ -147,7 +158,7 @@ func _build_frame() -> void:
 
 func _build_props() -> void:
 	_sprite_w("whiteboard.png", 0.497, 0.205, 0.22 * DESIGN.x, 30)
-	_sprite_w("sticker.png", 0.296, 0.402, 0.05 * DESIGN.x, 5)
+	_sprite_w("sticker.png", 0.296, 0.402, 0.05 * DESIGN.x, 25)
 	# Coin box (three-quarter view) and side-profile lever rest on the floor.
 	var floor_y: float = 0.905
 	var cb := _sprite_h("coin_box.png", 0.740, 0.0, 0.28 * DESIGN.y, 40)
@@ -155,8 +166,8 @@ func _build_props() -> void:
 	_box_marker(cb)
 	var lv := _sprite_h("lever.png", 0.895, 0.0, 0.26 * DESIGN.y, 40)
 	lv.position.y = floor_y * DESIGN.y - lv.scale.y * lv.texture.get_height() * 0.5
-	_sprite_h("wall_lantern.png", 0.055, 0.335, 0.33 * DESIGN.y, 15)
-	_sprite_h("side_window.png", 0.958, 0.300, 0.46 * DESIGN.y, 5)
+	_sprite_h("wall_lantern.png", 0.055, 0.335, 0.33 * DESIGN.y, 20)
+	_sprite_h("side_window.png", 0.958, 0.300, 0.46 * DESIGN.y, 8)
 
 
 ## Black oil-pen `已投 / 总数` on the coin box front face.
