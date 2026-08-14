@@ -13,6 +13,17 @@ const STICKER := ROOT + "sticker.png"
 const STICKER_OFF := ROOT + "sticker_off.png"
 const WHITEBOARD := ROOT + "whiteboard.png"
 
+const REQUIRED_PATHS: PackedStringArray = [
+	COIN,
+	COIN_BOX,
+	LEVER,
+	LEVER_DOWN,
+	OUTLET_CLOSED,
+	OUTLET_OPEN,
+	STICKER,
+	WHITEBOARD,
+]
+
 
 static func tex(path: String) -> Texture2D:
 	if not ResourceLoader.exists(path):

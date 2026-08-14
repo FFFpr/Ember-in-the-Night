@@ -238,7 +238,7 @@ func _spawn_player_coins(n: int) -> void:
 
 func _make_coin(player: bool) -> Node3D:
 	var coin: Node3D = CoinActor.new()
-	coin.configure(player, _coin_tex if player else null)
+	coin.configure(player, _coin_tex)
 	return coin
 
 
@@ -246,7 +246,7 @@ func _eject_coins(n: int) -> void:
 	_set_outlet_open(true)
 	for i in n:
 		var coin := _make_coin(true)
-		coin.position = Vector3(-0.25 + (float(i % 5) - 2.0) * 0.07, 0.18, -1.22)
+		coin.position = Vector3(-0.22 + (float(i % 5) - 2.0) * 0.07, 0.18, -1.18)
 		_player_coins.add_child(coin)
 		_floor_coins.append(coin)
 		var dest := Vector3(
@@ -336,7 +336,10 @@ func _over_box(pos: Vector2) -> bool:
 
 
 func _over_lever(pos: Vector2) -> bool:
-	return _in_screen_box(_lever_arm.global_position + Vector3(0, 0.25, 0), pos, Vector2(48, 70))
+	var origin: Vector3 = _lever_arm.global_position + Vector3(0, 0.25, 0)
+	if _lever_sprite != null:
+		origin = _lever_sprite.global_position
+	return _in_screen_box(origin, pos, Vector2(52, 78))
 
 
 func _over_sticker(pos: Vector2) -> bool:
@@ -376,11 +379,11 @@ func _build_world() -> void:
 	_make_env()
 	_make_room()
 	_camera = Camera3D.new()
-	_camera.position = Vector3(0.12, 1.38, 2.55)
+	_camera.position = Vector3(0.22, 1.34, 2.48)
 	_camera.current = true
 	_camera.fov = 52.0
 	add_child(_camera)
-	_camera.look_at(Vector3(-0.05, 0.82, -1.1))
+	_camera.look_at(Vector3(0.08, 0.78, -1.05))
 	_market = Node3D.new()
 	_market.name = "Market"
 	add_child(_market)
@@ -465,7 +468,7 @@ func _fill_market() -> void:
 
 
 func _make_outlet() -> void:
-	var housing := _box_mesh(Vector3(1.15, 0.22, 0.28), METAL_D, Vector3(-0.25, 0.16, -1.22))
+	var housing := _box_mesh(Vector3(1.15, 0.22, 0.28), METAL_D, Vector3(-0.22, 0.16, -1.22))
 	add_child(housing)
 	_valve = _box_mesh(Vector3(1.05, 0.04, 0.22), METAL_M, Vector3(0, 0.08, 0.02))
 	housing.add_child(_valve)
@@ -473,13 +476,13 @@ func _make_outlet() -> void:
 	if outlet_tex != null:
 		housing.visible = false
 		_valve.visible = false
-		_outlet_root = _billboard(outlet_tex, Vector3(-0.25, 0.16, -1.22), 0.012)
+		_outlet_root = _prop_sprite(outlet_tex, Vector3(-0.22, FLOOR_Y, -1.20), 0.014, true)
 		add_child(_outlet_root)
 
 
 func _make_box() -> void:
 	_box = Node3D.new()
-	_box.position = Vector3(1.42, 0.0, 0.22)
+	_box.position = Vector3(1.18, 0.0, 0.12)
 	add_child(_box)
 	var body := _box_mesh(Vector3(0.48, 0.52, 0.42), WOOD_M, Vector3(0, 0.26, 0))
 	_box.add_child(body)
@@ -491,16 +494,18 @@ func _make_box() -> void:
 	var box_tex := Assets.tex(Assets.COIN_BOX)
 	if box_tex != null:
 		body.visible = false
-		_box.add_child(_billboard(box_tex, Vector3(0, 0.28, 0), 0.012))
-	_box_label = _marker_label(Vector3(0, 0.28, 0.22), 48)
+		slot.visible = false
+		_box.add_child(_prop_sprite(box_tex, Vector3(0, FLOOR_Y, 0), 0.012, true))
+	_box_label = _marker_label(Vector3(0, 0.42, 0.18), 40)
 	_box.add_child(_box_label)
 
 
 func _make_lever() -> void:
-	var base := _box_mesh(Vector3(0.18, 0.12, 0.18), METAL_D, Vector3(1.82, 0.06, 0.22))
+	var lever_pos := Vector3(1.52, FLOOR_Y, 0.16)
+	var base := _box_mesh(Vector3(0.18, 0.12, 0.18), METAL_D, Vector3(lever_pos.x, 0.06, lever_pos.z))
 	add_child(base)
 	_lever_arm = Node3D.new()
-	_lever_arm.position = Vector3(1.82, 0.12, 0.22)
+	_lever_arm.position = Vector3(lever_pos.x, 0.12, lever_pos.z)
 	add_child(_lever_arm)
 	var shaft := _box_mesh(Vector3(0.05, 0.42, 0.05), METAL_M, Vector3(0, 0.22, 0))
 	_lever_arm.add_child(shaft)
@@ -517,35 +522,39 @@ func _make_lever() -> void:
 	_lever_arm.add_child(knob)
 	var lever_tex := Assets.tex(Assets.LEVER)
 	if lever_tex != null:
+		base.visible = false
 		shaft.visible = false
 		knob.visible = false
-		_lever_sprite = _billboard(lever_tex, Vector3(0, 0.28, 0), 0.014)
-		_lever_arm.add_child(_lever_sprite)
+		_lever_sprite = _prop_sprite(lever_tex, lever_pos, 0.012, true)
+		add_child(_lever_sprite)
 
 
 func _make_board() -> void:
-	var board := _box_mesh(Vector3(0.72, 0.38, 0.03), Color8(245, 244, 236), Vector3(-0.2, 1.92, -1.34))
+	var board := _box_mesh(Vector3(0.72, 0.38, 0.03), Color8(245, 244, 236), Vector3(-0.08, 1.86, -1.34))
 	add_child(board)
 	var board_tex := Assets.tex(Assets.WHITEBOARD)
 	if board_tex != null:
 		board.visible = false
-		add_child(_billboard(board_tex, Vector3(-0.2, 1.92, -1.33), 0.012))
-	_board_label = _marker_label(Vector3(-0.2, 1.92, -1.31), 42)
+		add_child(_prop_sprite(board_tex, Vector3(-0.08, 1.86, -1.33), 0.014, false))
+	_board_label = _marker_label(Vector3(-0.08, 1.86, -1.31), 36)
 	add_child(_board_label)
 
 
 func _make_formula() -> void:
-	_formula_label = _marker_label(Vector3(-1.35, 1.45, -1.33), 28)
+	_formula_label = _marker_label(Vector3(-1.28, 1.40, -1.31), 26)
 	_formula_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	add_child(_formula_label)
-	_kelly_label = _marker_label(Vector3(-1.18, 1.18, -1.33), 52)
+	var eq := _marker_label(Vector3(-1.16, 1.12, -1.31), 40)
+	eq.text = "="
+	add_child(eq)
+	_kelly_label = _marker_label(Vector3(-0.88, 1.12, -1.31), 48)
 	add_child(_kelly_label)
-	_sticker = _box_mesh(Vector3(0.28, 0.16, 0.02), Color8(232, 214, 176), Vector3(-1.18, 1.18, -1.32))
+	_sticker = _box_mesh(Vector3(0.28, 0.16, 0.02), Color8(232, 214, 176), Vector3(-0.88, 1.12, -1.30))
 	add_child(_sticker)
 	var sticker_tex := Assets.tex(Assets.STICKER)
 	if sticker_tex != null:
 		_sticker.visible = false
-		var sprite := _billboard(sticker_tex, Vector3(-1.18, 1.18, -1.32), 0.01)
+		var sprite := _prop_sprite(sticker_tex, Vector3(-0.88, 1.12, -1.30), 0.012, false)
 		sprite.name = "StickerSprite"
 		add_child(sprite)
 		_sticker = sprite
@@ -565,15 +574,19 @@ func _marker_label(pos: Vector3, size: int) -> Label3D:
 	return lab
 
 
-func _billboard(tex: Texture2D, pos: Vector3, pixel_size: float) -> Sprite3D:
+func _prop_sprite(tex: Texture2D, pos: Vector3, pixel_size: float, floor_anchor: bool) -> Sprite3D:
 	var s := Sprite3D.new()
 	s.texture = tex
-	s.position = pos
 	s.pixel_size = pixel_size
 	s.shaded = true
 	s.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
+	s.alpha_scissor_threshold = 0.5
 	s.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 	s.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	s.centered = true
+	s.position = pos
+	if floor_anchor:
+		s.position.y = pos.y + float(tex.get_height()) * pixel_size * 0.5
 	return s
 
 

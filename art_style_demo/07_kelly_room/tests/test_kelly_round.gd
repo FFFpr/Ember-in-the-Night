@@ -3,6 +3,7 @@ extends SceneTree
 
 const Math := preload("res://art_style_demo/07_kelly_room/kelly_math.gd")
 const Round := preload("res://art_style_demo/07_kelly_room/kelly_round.gd")
+const Assets := preload("res://art_style_demo/07_kelly_room/kelly_assets.gd")
 
 var _failed := 0
 var _passed := 0
@@ -54,6 +55,7 @@ func _run_all() -> void:
 	_test_phase_locks()
 	_test_box_label()
 	_test_repeated_deposits()
+	_test_export_files_present()
 
 
 func _test_opening_and_first_coin_odds() -> void:
@@ -304,3 +306,9 @@ func _test_repeated_deposits() -> void:
 	_expect(r.boxed_count == 3, "three separate deposits accumulate")
 	_expect(r.floor_count == 4, "remaining floor after three deposits")
 	_expect(r.round_total == 7, "total still 7")
+
+
+func _test_export_files_present() -> void:
+	_expect(Assets.REQUIRED_PATHS.size() == 8, "eight Kelly-room export paths")
+	for path in Assets.REQUIRED_PATHS:
+		_expect(FileAccess.file_exists(path), "export exists %s" % path)

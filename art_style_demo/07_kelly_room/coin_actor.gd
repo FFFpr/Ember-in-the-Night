@@ -15,7 +15,7 @@ func configure(player: bool, tex: Texture2D) -> void:
 	if tex != null:
 		var sprite := Sprite3D.new()
 		sprite.texture = tex
-		sprite.pixel_size = 0.012
+		sprite.pixel_size = 0.011 if player else 0.009
 		sprite.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
 		sprite.shaded = true
 		sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
@@ -23,7 +23,9 @@ func configure(player: bool, tex: Texture2D) -> void:
 		sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 		sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		sprite.centered = true
-		sprite.position.y = 0.08
+		sprite.position.y = 0.09 if player else 0.07
+		if not player:
+			sprite.modulate = Color(0.82, 0.72, 0.48)
 		add_child(sprite)
 	else:
 		var mesh := MeshInstance3D.new()
