@@ -324,6 +324,14 @@ func _test_export_files_present() -> void:
 	_expect(Assets.tex(Assets.MARKER_DIGITS) != null, "issue 29 marker digit atlas loads")
 	_expect(Assets.tex(Assets.COIN_BOX) != null, "coin box sprite loads for hover outline")
 	_expect(Assets.tex(Assets.LEVER) != null, "lever sprite loads")
+	_expect(FileAccess.file_exists(Assets.LEVER_DOWN_SIDE), "issue 29 lever_down export exists")
+	var lever_down: Texture2D = Assets.tex(Assets.LEVER_DOWN_SIDE)
+	_expect(lever_down != null, "issue 29 lever_down loads")
+	if lever_down != null:
+		_expect(lever_down.get_width() == 64 and lever_down.get_height() == 64, "lever_down is 64x64")
+		var lever_up: Texture2D = Assets.tex_prefer(Assets.LEVER_SIDE, Assets.LEVER)
+		if lever_up != null:
+			_expect(lever_up.get_width() == 64 and lever_up.get_height() == 64, "lever up is 64x64")
 
 
 func _test_marker_digits_atlas() -> void:
