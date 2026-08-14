@@ -24,8 +24,8 @@ const LEVER_DOWN_SIDE := ISSUE_29 + "lever_down.png"
 
 const REQUIRED_PATHS: PackedStringArray = [
 	COIN,
-	COIN_BOX,
-	LEVER,
+	COIN_BOX_SIDE,
+	LEVER_SIDE,
 	LEVER_DOWN_SIDE,
 	OUTLET_CLOSED,
 	OUTLET_OPEN,
