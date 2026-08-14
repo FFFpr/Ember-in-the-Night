@@ -12,6 +12,7 @@ const Fit := preload("res://art_style_demo/07_kelly_room/kelly_fit.gd")
 const Layout := preload("res://art_style_demo/07_kelly_room/kelly_layout.gd")
 const Look := preload("res://art_style_demo/07_kelly_room/kelly_look.gd")
 const Market := preload("res://art_style_demo/07_kelly_room/kelly_market.gd")
+const Marker := preload("res://art_style_demo/07_kelly_room/kelly_marker.gd")
 
 ## Marker ink reads dark on the whiteboard and the wooden box, and light on the
 ## dark frosted glass — the sample shows both, and legibility decides which.
@@ -42,7 +43,9 @@ var _drag_start := Vector2.ZERO
 var _camera: Camera3D
 var _fit_nodes: Dictionary = {}
 var _box: Node3D
-var _box_marker: Label3D
+var _box_marker_root: Node3D
+var _box_digits  # kelly_marker.gd
+var _box_marker_fallback: Label3D
 var _box_slot: Vector3
 var _lever: Node3D
 var _lever_arm: Node3D
@@ -53,7 +56,9 @@ var _sticker: Node3D
 var _board_label: Label3D
 var _formula_l1: Label3D
 var _formula_l2: Label3D
-var _kelly_label: Label3D
+var _kelly_digits  # kelly_marker.gd
+var _kelly_root: Node3D
+var _kelly_fallback: Label3D
 var _count_label: Label
 var _select_rect: ColorRect
 var _floor_coins: Array[Node3D] = []
@@ -264,13 +269,19 @@ func _make_box() -> void:
 	var marker_h: float = marker["text_height"]
 	if marker_h <= 0.0:
 		marker_h = 0.08
-	_box_marker = _marker_label("BoxMarker",
-			_layout.world_at(marker["centre"], slot["depth"] - size.x * 0.45),
-			_layout.height_at(marker_h, slot["depth"]), INK_DARK)
-	add_child(_box_marker)
+	var marker_pos: Vector3 = _layout.world_at(marker["centre"],
+			slot["depth"] - size.x * 0.45)
+	var marker_line_h: float = _layout.height_at(marker_h, slot["depth"])
+	_box_digits = Marker.new()
+	_box_marker_root = _box_digits.build(self, "BoxMarker", marker_line_h, INK_DARK)
+	_box_marker_root.position = marker_pos
+	if not _box_digits.available():
+		_box_marker_fallback = _marker_label("BoxMarkerFallback", Vector3.ZERO,
+				marker_line_h, INK_DARK)
+		_box_marker_root.add_child(_box_marker_fallback)
 	_fit_nodes["coin_box"] = _box
-	_fit_nodes["box_marker"] = _box_marker
-	_add_reading_light(_box_marker.position, 0.4, 0.9)
+	_fit_nodes["box_marker"] = _box_marker_root
+	_add_reading_light(marker_pos, 0.4, 0.9)
 
 
 func _make_lever() -> void:
@@ -366,10 +377,14 @@ func _make_formula() -> void:
 				Vector3(sticker_size.x, sticker_size.y, 0.02),
 				sticker_slot["origin"], KRAFT)
 	_fit_nodes["sticker"] = _sticker
-	_kelly_label = _marker_label("KellyStake",
-			sticker_slot["origin"] + Vector3(0, 0, 0.02),
+	_kelly_digits = Marker.new()
+	_kelly_root = _kelly_digits.build(self, "KellyStake",
 			_layout.height_at(0.045, depth), INK_LIGHT)
-	add_child(_kelly_label)
+	_kelly_root.position = sticker_slot["origin"] + Vector3(0, 0, 0.02)
+	if not _kelly_digits.available():
+		_kelly_fallback = _marker_label("KellyStakeFallback", Vector3.ZERO,
+				_layout.height_at(0.045, depth), INK_LIGHT)
+		_kelly_root.add_child(_kelly_fallback)
 	_add_reading_light(_formula_l1.position, 0.45, 0.9)
 
 
@@ -641,8 +656,10 @@ func _update_select_rect(pos: Vector2) -> void:
 
 
 func _refresh_diegetic() -> void:
-	if _box_marker != null:
-		_box_marker.text = _round.box_label()
+	if _box_digits != null and _box_digits.available():
+		_box_digits.set_text(_round.box_label())
+	elif _box_marker_fallback != null:
+		_box_marker_fallback.text = _round.box_label()
 	if _round.phase == Round.Phase.PLAYING:
 		_board_label.text = "回报倍率 %.1f×\n成功概率 %d%%" % [
 				_round.b, int(round(_round.p * 100.0))]
@@ -651,9 +668,16 @@ func _refresh_diegetic() -> void:
 	else:
 		_board_label.text = "投资失败"
 	_formula_l1.text = "Kelly  f* = p - q/b"
+	# Atlas has 0–9 and slash only — letters/decimals stay on Label3D; integer
+	# odds percentages can still use the board Label3D copy above.
 	_formula_l2.text = "p = %.2f   b = %.1f" % [_round.p, _round.b]
-	_kelly_label.text = str(_round.recommended_stake())
-	_kelly_label.visible = _round.sticker_revealed
+	var stake := str(_round.recommended_stake())
+	if _kelly_digits != null and _kelly_digits.available():
+		_kelly_digits.set_text(stake)
+		_kelly_root.visible = _round.sticker_revealed
+	elif _kelly_fallback != null:
+		_kelly_fallback.text = stake
+		_kelly_root.visible = _round.sticker_revealed
 	_sticker.visible = not _round.sticker_revealed
 	call_deferred("_scale_labels")
 

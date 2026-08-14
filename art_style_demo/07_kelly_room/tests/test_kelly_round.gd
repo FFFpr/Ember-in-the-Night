@@ -5,6 +5,7 @@ const Math := preload("res://art_style_demo/07_kelly_room/kelly_math.gd")
 const Round := preload("res://art_style_demo/07_kelly_room/kelly_round.gd")
 const Assets := preload("res://art_style_demo/07_kelly_room/kelly_assets.gd")
 const Fit := preload("res://art_style_demo/07_kelly_room/kelly_fit.gd")
+const Marker := preload("res://art_style_demo/07_kelly_room/kelly_marker.gd")
 
 var _failed := 0
 var _passed := 0
@@ -58,6 +59,7 @@ func _run_all() -> void:
 	_test_repeated_deposits()
 	_test_fit_list_loads()
 	_test_art_pipeline_audit()
+	_test_marker_digits_atlas()
 
 
 func _test_opening_and_first_coin_odds() -> void:
@@ -341,3 +343,22 @@ func _test_art_pipeline_audit() -> void:
 	_expect(Assets.tex(Assets.WOOD_WALL) != null, "wood_plank_wall loads from issue_32")
 	_expect(Assets.tex(Assets.ISSUE + "does_not_exist.png") == null,
 			"a missing path returns null instead of a fake texture")
+
+
+func _test_marker_digits_atlas() -> void:
+	var tex := Assets.tex(Assets.MARKER_DIGITS)
+	_expect(tex != null, "marker_digits export loads")
+	if tex != null:
+		_expect(tex.get_width() == 176 and tex.get_height() == 16,
+				"marker_digits atlas is 176×16")
+	var host := Node3D.new()
+	var digits: RefCounted = Marker.new()
+	digits.build(host, "Digits", 0.08)
+	_expect(digits.available(), "marker helper accepts the atlas")
+	digits.set_text("0/12")
+	_expect(digits.root.get_child_count() == 4, "0/12 draws four glyphs")
+	digits.set_text("7")
+	_expect(digits.root.get_child_count() == 1, "single digit draws one glyph")
+	digits.set_text("ab.3")
+	_expect(digits.root.get_child_count() == 1, "non-digit characters are skipped")
+	host.free()
