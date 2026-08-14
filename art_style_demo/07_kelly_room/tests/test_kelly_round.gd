@@ -341,6 +341,16 @@ func _test_art_pipeline_audit() -> void:
 	_expect(Assets.tex(Assets.IRON_APRON) != null, "iron_apron loads from issue_32")
 	_expect(Assets.tex(Assets.OUTLET_OPEN) != null, "outlet_open loads from issue_32")
 	_expect(Assets.tex(Assets.WOOD_WALL) != null, "wood_plank_wall loads from issue_32")
+	_expect(Assets.tex(Assets.WALL_LANTERN) != null, "wall_lantern loads from issue_32")
+	var wall_lantern := Assets.tex(Assets.WALL_LANTERN)
+	if wall_lantern != null:
+		_expect(wall_lantern.get_width() == 32 and wall_lantern.get_height() == 48,
+				"wall_lantern is 32×48")
+	var fit_lantern := Fit.new()
+	if fit_lantern.items.has("lantern"):
+		var Ln: Dictionary = fit_lantern.items["lantern"]
+		_expect(is_equal_approx(Ln["size"].x, 0.072) and is_equal_approx(Ln["size"].y, 0.345),
+				"lantern fit size is 0.072×0.345")
 	_expect(Assets.tex(Assets.COIN_EDGE) != null, "coin_edge loads from issue_32")
 	var coin_edge := Assets.tex(Assets.COIN_EDGE)
 	if coin_edge != null:

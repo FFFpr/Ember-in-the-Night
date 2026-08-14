@@ -230,11 +230,19 @@ func _lantern(host: Node3D) -> Node3D:
 	node.position = pos
 	host.add_child(node)
 	var tex := Assets.tex(Assets.WALL_LANTERN)
+	# Default: greybox flame sat below centre. Art flame is found in the texture.
+	var flame_local := Vector3(0.08, -size.y * 0.19, 0.18)
 	if tex != null:
 		var sprite := _sprite(tex, size.y / float(tex.get_height()))
 		sprite.name = "LanternSprite"
 		layout.fit_sprite_to(sprite, size)
 		node.add_child(sprite)
+		var flame_uv: Vector2 = _brightest_tex_uv(tex)
+		# Texture Y down → world Y up; keep a small push toward the room.
+		flame_local = Vector3(
+				(flame_uv.x - 0.5) * size.x,
+				-(flame_uv.y - 0.5) * size.y,
+				0.18)
 	else:
 		var body := _quad(node, "LanternBox", size, Vector3.ZERO, _plain(METAL_D, 0.7, 0.4))
 		body.position = Vector3.ZERO
@@ -244,7 +252,7 @@ func _lantern(host: Node3D) -> Node3D:
 	var lamp := OmniLight3D.new()
 	lamp.name = "LanternLight"
 	# Sibling of the lantern node so its radius is not part of the silhouette.
-	lamp.position = pos + Vector3(0.08, -size.y * 0.19, 0.18)
+	lamp.position = pos + flame_local
 	lamp.light_color = EMBER_L
 	lamp.light_energy = 1.75
 	lamp.omni_range = 2.8
@@ -252,6 +260,30 @@ func _lantern(host: Node3D) -> Node3D:
 	lamp.shadow_enabled = true
 	host.add_child(lamp)
 	return node
+
+
+## UV of the brightest opaque texel (ember_l flame core on the wall lantern).
+func _brightest_tex_uv(tex: Texture2D) -> Vector2:
+	var img: Image = tex.get_image()
+	if img == null:
+		return Vector2(0.5, 0.5)
+	if img.is_compressed():
+		img = img.duplicate()
+		img.decompress()
+	var best := Vector2i(img.get_width() / 2, img.get_height() / 2)
+	var best_luma := -1.0
+	for y in img.get_height():
+		for x in img.get_width():
+			var c: Color = img.get_pixel(x, y)
+			if c.a < 0.5:
+				continue
+			var luma: float = c.get_luminance()
+			if luma > best_luma:
+				best_luma = luma
+				best = Vector2i(x, y)
+	return Vector2(
+			(float(best.x) + 0.5) / float(img.get_width()),
+			(float(best.y) + 0.5) / float(img.get_height()))
 
 
 func _side_window(host: Node3D) -> Node3D:
