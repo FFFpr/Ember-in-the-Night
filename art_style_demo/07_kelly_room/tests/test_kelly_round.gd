@@ -341,11 +341,22 @@ func _test_art_pipeline_audit() -> void:
 	_expect(Assets.tex(Assets.IRON_APRON) != null, "iron_apron loads from issue_32")
 	_expect(Assets.tex(Assets.OUTLET_OPEN) != null, "outlet_open loads from issue_32")
 	_expect(Assets.tex(Assets.WOOD_WALL) != null, "wood_plank_wall loads from issue_32")
+	_expect(Assets.tex(Assets.LEVER) != null, "lever loads from issue_32")
+	var lever := Assets.tex(Assets.LEVER)
+	if lever != null:
+		_expect(lever.get_width() == 64 and lever.get_height() == 64, "lever is 64×64")
 	_expect(Assets.tex(Assets.LEVER_DOWN) != null, "lever_down loads from issue_32")
 	var lever_down := Assets.tex(Assets.LEVER_DOWN)
 	if lever_down != null:
 		_expect(lever_down.get_width() == 64 and lever_down.get_height() == 64,
 				"lever_down is 64×64")
+	var fit_lever := Fit.new()
+	if fit_lever.items.has("lever"):
+		var L: Dictionary = fit_lever.items["lever"]
+		_expect(is_equal_approx(L["size"].x, 0.090) and is_equal_approx(L["size"].y, 0.355),
+				"lever fit size is 0.090×0.355")
+		var ball_top: float = L["centre"].y - 0.5 * L["size"].y
+		_expect(absf(ball_top - 0.545) <= 0.03, "lever ball top y ≈ 0.545 from fit box")
 	var post := Assets.tex(Assets.POST)
 	_expect(post != null, "post loads from issue_32")
 	if post != null:
