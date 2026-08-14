@@ -157,40 +157,54 @@ static func add_glass_wall(host: Node3D) -> void:
 
 static func add_lantern(host: Node3D, pos: Vector3) -> void:
 	ensure_mats()
+	var flame_pos := pos + Vector3(0.10, 0.22, 0.04)
 	var tex := Assets.tex(Assets.WALL_LANTERN)
 	if tex != null:
+		var px := 0.010
+		var w: float = float(tex.get_width()) * px
+		var h: float = float(tex.get_height()) * px
 		var sprite := Sprite3D.new()
 		sprite.texture = tex
-		sprite.pixel_size = 0.014
+		sprite.pixel_size = px
 		sprite.shaded = true
 		sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
 		sprite.alpha_scissor_threshold = 0.5
 		sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
 		sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		sprite.centered = true
-		sprite.position = pos + Vector3(0.06, float(tex.get_height()) * 0.014 * 0.5, 0)
+		# pos is the wall contact; bracket is the left of the 48×48 canvas.
+		sprite.position = pos + Vector3(w * 0.5 + 0.02, h * 0.5, 0.0)
 		host.add_child(sprite)
-		return
-	_box(host, Vector3(0.08, 0.10, 0.08), pos + Vector3(0.02, 0.22, 0), _metal_d)
-	_box(host, Vector3(0.16, 0.04, 0.16), pos + Vector3(0.08, 0.28, 0), _metal_m)
-	_box(host, Vector3(0.16, 0.04, 0.16), pos + Vector3(0.08, 0.06, 0), _metal_m)
-	for dx in [-0.07, 0.07]:
-		for dz in [-0.07, 0.07]:
-			_box(host, Vector3(0.02, 0.22, 0.02), pos + Vector3(0.08 + dx, 0.17, dz), _metal_l)
-	var flame := MeshInstance3D.new()
-	var sph := SphereMesh.new()
-	sph.radius = 0.035
-	sph.height = 0.07
-	flame.mesh = sph
-	var fmat := StandardMaterial3D.new()
-	fmat.albedo_color = Color8(255, 186, 72)
-	fmat.emission_enabled = true
-	fmat.emission = Color8(220, 96, 28)
-	fmat.emission_energy_multiplier = 2.2
-	flame.material_override = fmat
-	flame.position = pos + Vector3(0.08, 0.16, 0)
-	flame.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	host.add_child(flame)
+		flame_pos = sprite.position + Vector3(w * 0.12, h * 0.06, 0.05)
+	else:
+		_box(host, Vector3(0.08, 0.10, 0.08), pos + Vector3(0.02, 0.22, 0), _metal_d)
+		_box(host, Vector3(0.16, 0.04, 0.16), pos + Vector3(0.08, 0.28, 0), _metal_m)
+		_box(host, Vector3(0.16, 0.04, 0.16), pos + Vector3(0.08, 0.06, 0), _metal_m)
+		for dx in [-0.07, 0.07]:
+			for dz in [-0.07, 0.07]:
+				_box(host, Vector3(0.02, 0.22, 0.02), pos + Vector3(0.08 + dx, 0.17, dz), _metal_l)
+		var flame := MeshInstance3D.new()
+		var sph := SphereMesh.new()
+		sph.radius = 0.035
+		sph.height = 0.07
+		flame.mesh = sph
+		var fmat := StandardMaterial3D.new()
+		fmat.albedo_color = Color8(255, 186, 72)
+		fmat.emission_enabled = true
+		fmat.emission = Color8(220, 96, 28)
+		fmat.emission_energy_multiplier = 2.2
+		flame.material_override = fmat
+		flame.position = pos + Vector3(0.08, 0.16, 0)
+		flame.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		host.add_child(flame)
+		flame_pos = flame.position
+	var lamp := OmniLight3D.new()
+	lamp.position = flame_pos
+	lamp.light_color = Color8(255, 186, 72)
+	lamp.light_energy = 3.1
+	lamp.omni_range = 7.0
+	lamp.shadow_enabled = false
+	host.add_child(lamp)
 
 
 static func marker_label(pos: Vector3, size: int) -> Label3D:

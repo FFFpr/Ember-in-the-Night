@@ -422,14 +422,7 @@ func _make_env() -> void:
 	sun.light_energy = 0.55
 	sun.shadow_enabled = true
 	add_child(sun)
-	var lamp := OmniLight3D.new()
-	lamp.position = Vector3(-1.88, 1.36, -0.42)
-	lamp.light_color = Color8(255, 186, 72)
-	lamp.light_energy = 3.1
-	lamp.omni_range = 7.0
-	lamp.shadow_enabled = false
-	add_child(lamp)
-	Look.add_lantern(self, Vector3(-2.22, 1.10, -0.55))
+	Look.add_lantern(self, Vector3(-2.40, 1.12, -0.48))
 
 
 func _make_room() -> void:

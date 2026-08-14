@@ -316,3 +316,5 @@ func _test_export_files_present() -> void:
 	_expect(Assets.tex(Assets.WOOD_WALL) != null, "issue 29 wall tile loads")
 	_expect(FileAccess.file_exists(Assets.WOOD_FLOOR), "issue 29 floor tile export exists")
 	_expect(Assets.tex(Assets.WOOD_FLOOR) != null, "issue 29 floor tile loads")
+	_expect(FileAccess.file_exists(Assets.WALL_LANTERN), "issue 29 wall lantern export exists")
+	_expect(Assets.tex(Assets.WALL_LANTERN) != null, "issue 29 wall lantern loads")
