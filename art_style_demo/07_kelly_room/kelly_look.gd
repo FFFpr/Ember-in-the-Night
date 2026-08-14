@@ -254,9 +254,9 @@ func _lantern(host: Node3D) -> Node3D:
 	# Sibling of the lantern node so its radius is not part of the silhouette.
 	lamp.position = pos + flame_local
 	lamp.light_color = EMBER_L
-	lamp.light_energy = 1.75
-	lamp.omni_range = 2.8
-	lamp.omni_attenuation = 2.0
+	lamp.light_energy = 2.35
+	lamp.omni_range = 3.1
+	lamp.omni_attenuation = 1.8
 	lamp.shadow_enabled = true
 	host.add_child(lamp)
 	return node
