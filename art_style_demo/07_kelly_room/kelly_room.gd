@@ -295,7 +295,7 @@ func _pull_lever_anim() -> void:
 	var up := Assets.tex_prefer(Assets.LEVER_SIDE, Assets.LEVER)
 	if _lever_sprite != null and down != null:
 		_lever_sprite.texture = down
-		await get_tree().create_timer(0.28).timeout
+		await get_tree().create_timer(0.45).timeout
 		if up != null:
 			_lever_sprite.texture = up
 		return
@@ -493,7 +493,7 @@ func _make_box() -> void:
 
 
 func _make_lever() -> void:
-	var lever_pos := Vector3(1.72, FLOOR_Y, 0.46)
+	var lever_pos := Vector3(1.88, FLOOR_Y, 0.52)
 	var base := _box_mesh(Vector3(0.18, 0.12, 0.18), METAL_D, Vector3(lever_pos.x, 0.06, lever_pos.z))
 	add_child(base)
 	_lever_arm = Node3D.new()
