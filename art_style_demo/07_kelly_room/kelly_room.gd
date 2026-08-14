@@ -42,6 +42,7 @@ var _kelly_label: Label3D
 var _box_label: Label3D
 var _box_marker_root: Node3D
 var _box_marker_px: float = Look.MARKER_PX
+var _box_px: float = 0.011
 var _box_slot_local := Vector3(0, 0.42, 0)
 var _count_label: Label
 var _select_rect: ColorRect
@@ -217,6 +218,8 @@ func _refresh_diegetic() -> void:
 	if _box_label != null:
 		_box_label.text = boxed
 	if _box_marker_root != null:
+		var n: int = maxi(boxed.length(), 1)
+		_box_marker_px = Assets.COIN_BOX_FRONT.size.x * _box_px * 0.92 / (float(n) * Look.MARKER_CELL)
 		Look.set_box_marker(_box_marker_root, boxed, _box_marker_px)
 		_box_label.visible = not Look.has_marker_digits()
 	if _round.phase == Round.Phase.PLAYING:
@@ -478,12 +481,12 @@ func _make_box() -> void:
 		push_warning("Kelly coin box sprite missing; hover outline needs a 2D sprite")
 		return
 	var px := 0.011
+	_box_px = px
 	var canvas := float(box_tex.get_height())
 	var front: Rect2 = Assets.COIN_BOX_FRONT
-	var front_mid_y: float = front.position.y + front.size.y * 0.5
-	var marker_y: float = FLOOR_Y + (canvas - front_mid_y - 0.5) * px
+	var front_y: float = front.position.y + front.size.y * 0.32
+	var marker_y: float = FLOOR_Y + (canvas - front_y - 0.5) * px
 	_box_slot_local = Vector3(0.0, FLOOR_Y + (canvas - Assets.COIN_BOX_SLOT_Y - 0.5) * px, 0.02)
-	_box_marker_px = front.size.x * px * 0.90 / (4.0 * Look.MARKER_CELL)
 	_box_sprite = _prop_sprite(box_tex, Vector3(0, FLOOR_Y, 0), px, true)
 	_box.add_child(_box_sprite)
 	_box_outline = _prop_sprite(box_tex, _box_sprite.position, px * 1.14, false)

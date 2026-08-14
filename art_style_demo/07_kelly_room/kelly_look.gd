@@ -303,11 +303,12 @@ static func set_box_marker(host: Node3D, text: String, pixel_size: float = MARKE
 		sprite.region_enabled = true
 		sprite.region_rect = rect
 		sprite.pixel_size = px
-		sprite.shaded = true
+		sprite.shaded = false
+		sprite.no_depth_test = true
 		sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
 		sprite.alpha_scissor_threshold = 0.5
 		sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
-		sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+		sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		sprite.centered = true
 		sprite.position = Vector3(origin_x + float(i) * MARKER_CELL * px, 0, 0)
 		host.add_child(sprite)
