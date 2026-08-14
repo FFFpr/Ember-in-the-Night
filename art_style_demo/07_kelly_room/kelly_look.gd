@@ -185,7 +185,11 @@ func _beam(host: Node3D) -> void:
 		var mat := _plain(Color.WHITE, 0.85, 0.0)
 		mat.albedo_texture = beam_tex
 		mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
-		mat.uv1_scale = Vector3(8.0, 1.0, 1.0)
+		mat.uv1_triplanar = true
+		mat.uv1_world_triplanar = true
+		# 64×64 tile at 100 px/m → one repeat per 0.64 m (same as wall timber).
+		var repeats: float = WALL_PX_PER_M / 64.0
+		mat.uv1_scale = Vector3(repeats, repeats, repeats)
 		mi.material_override = mat
 
 
