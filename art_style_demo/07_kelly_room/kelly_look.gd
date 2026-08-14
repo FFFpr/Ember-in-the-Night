@@ -175,7 +175,7 @@ static func add_lantern(host: Node3D, pos: Vector3) -> void:
 		# pos is the wall contact; bracket is the left of the 48×48 canvas.
 		sprite.position = pos + Vector3(w * 0.5 + 0.02, h * 0.5, 0.0)
 		host.add_child(sprite)
-		flame_pos = sprite.position + Vector3(w * 0.12, h * 0.06, 0.05)
+		flame_pos = sprite.position + Vector3(0.14, 0.04, 0.10)
 	else:
 		_box(host, Vector3(0.08, 0.10, 0.08), pos + Vector3(0.02, 0.22, 0), _metal_d)
 		_box(host, Vector3(0.16, 0.04, 0.16), pos + Vector3(0.08, 0.28, 0), _metal_m)
@@ -201,7 +201,7 @@ static func add_lantern(host: Node3D, pos: Vector3) -> void:
 	var lamp := OmniLight3D.new()
 	lamp.position = flame_pos
 	lamp.light_color = Color8(255, 186, 72)
-	lamp.light_energy = 3.1
+	lamp.light_energy = 2.4
 	lamp.omni_range = 7.0
 	lamp.shadow_enabled = false
 	host.add_child(lamp)
