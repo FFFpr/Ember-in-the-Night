@@ -13,6 +13,12 @@ const STICKER := ROOT + "sticker.png"
 const STICKER_OFF := ROOT + "sticker_off.png"
 const WHITEBOARD := ROOT + "whiteboard.png"
 
+const ISSUE_29 := "res://Aseprite-User/export/Ember-in-the-Night/issue_29/"
+const WOOD_FLOOR := ISSUE_29 + "wood_plank_floor.png"
+const WOOD_WALL := ISSUE_29 + "wood_plank_wall.png"
+const MARKER_DIGITS := ISSUE_29 + "marker_digits.png"
+const WALL_LANTERN := ISSUE_29 + "wall_lantern.png"
+
 const REQUIRED_PATHS: PackedStringArray = [
 	COIN,
 	COIN_BOX,

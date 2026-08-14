@@ -4,6 +4,7 @@ extends Node3D
 const Round := preload("res://art_style_demo/07_kelly_room/kelly_round.gd")
 const CoinActor := preload("res://art_style_demo/07_kelly_room/coin_actor.gd")
 const Assets := preload("res://art_style_demo/07_kelly_room/kelly_assets.gd")
+const Look := preload("res://art_style_demo/07_kelly_room/kelly_look.gd")
 
 const WOOD_D := Color8(62, 38, 28)
 const WOOD_M := Color8(118, 72, 42)
@@ -38,6 +39,7 @@ var _board_label: Label3D
 var _formula_label: Label3D
 var _kelly_label: Label3D
 var _box_label: Label3D
+var _box_marker_root: Node3D
 var _count_label: Label
 var _select_rect: ColorRect
 var _floor_coins: Array[Node3D] = []
@@ -206,7 +208,11 @@ func _update_select_rect(pos: Vector2) -> void:
 
 
 func _refresh_diegetic() -> void:
-	_box_label.text = _round.box_label()
+	var boxed: String = _round.box_label()
+	_box_label.text = boxed
+	if _box_marker_root != null:
+		Look.set_box_marker(_box_marker_root, boxed)
+		_box_label.visible = Assets.tex(Assets.MARKER_DIGITS) == null
 	if _round.phase == Round.Phase.PLAYING:
 		_board_label.text = "回报倍率 %.1f×\n成功概率 %d%%" % [_round.b, int(round(_round.p * 100.0))]
 	elif _round.last_success:
@@ -246,7 +252,7 @@ func _eject_coins(n: int) -> void:
 	_set_outlet_open(true)
 	for i in n:
 		var coin := _make_coin(true)
-		coin.position = Vector3(-0.22 + (float(i % 5) - 2.0) * 0.07, 0.18, -1.18)
+		coin.position = Vector3(-0.22 + (float(i % 5) - 2.0) * 0.07, 0.22, -1.24)
 		_player_coins.add_child(coin)
 		_floor_coins.append(coin)
 		var dest := Vector3(
@@ -417,44 +423,21 @@ func _make_env() -> void:
 	sun.shadow_enabled = true
 	add_child(sun)
 	var lamp := OmniLight3D.new()
-	lamp.position = Vector3(-1.85, 1.55, 0.55)
+	lamp.position = Vector3(-2.12, 1.32, 0.35)
 	lamp.light_color = Color8(255, 186, 72)
 	lamp.light_energy = 2.4
 	lamp.omni_range = 6.0
 	lamp.shadow_enabled = true
 	add_child(lamp)
-	var lamp_mesh := _box_mesh(Vector3(0.08, 0.18, 0.08), Color8(220, 96, 28), lamp.position)
-	add_child(lamp_mesh)
+	Look.add_lantern(self, Vector3(-2.28, 1.12, 0.35))
 
 
 func _make_room() -> void:
-	add_child(_box_mesh(Vector3(5.2, 0.12, 5.4), WOOD_D, Vector3(0, -0.06, 0.1)))
-	add_child(_box_mesh(Vector3(5.2, 2.6, 0.16), WOOD_M, Vector3(0, 1.3, -2.95)))
-	add_child(_box_mesh(Vector3(0.16, 2.6, 5.4), WOOD_M, Vector3(-2.5, 1.3, 0.1)))
-	add_child(_box_mesh(Vector3(0.16, 2.6, 5.4), WOOD_M, Vector3(2.15, 1.3, 0.1)))
-	add_child(_box_mesh(Vector3(5.2, 0.12, 5.4), WOOD_D, Vector3(0, 2.55, 0.1)))
-	add_child(_box_mesh(Vector3(0.18, 0.18, 5.4), WOOD_L, Vector3(-1.2, 2.35, 0.1)))
-	add_child(_box_mesh(Vector3(0.18, 0.18, 5.4), WOOD_L, Vector3(0.9, 2.35, 0.1)))
+	Look.add_room(self)
 
 
 func _make_glass() -> void:
-	add_child(_box_mesh(Vector3(3.22, 0.12, 0.12), WOOD_D, Vector3(-0.28, 2.12, -1.42)))
-	add_child(_box_mesh(Vector3(3.22, 0.12, 0.12), WOOD_D, Vector3(-0.28, 0.22, -1.42)))
-	add_child(_box_mesh(Vector3(0.12, 2.02, 0.12), WOOD_D, Vector3(-1.84, 1.17, -1.42)))
-	add_child(_box_mesh(Vector3(0.12, 2.02, 0.12), WOOD_D, Vector3(1.28, 1.17, -1.42)))
-	var pane := MeshInstance3D.new()
-	var quad := BoxMesh.new()
-	quad.size = Vector3(2.95, 1.85, 0.03)
-	pane.mesh = quad
-	var mat := StandardMaterial3D.new()
-	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat.albedo_color = GLASS
-	mat.roughness = 0.06
-	mat.metallic = 0.15
-	mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
-	pane.material_override = mat
-	pane.position = Vector3(-0.28, 1.16, -1.38)
-	add_child(pane)
+	Look.add_glass_wall(self)
 
 
 func _fill_market() -> void:
@@ -471,15 +454,15 @@ func _fill_market() -> void:
 
 
 func _make_outlet() -> void:
-	var housing := _box_mesh(Vector3(1.15, 0.22, 0.28), METAL_D, Vector3(-0.22, 0.16, -1.22))
+	var housing := _box_mesh(Vector3(1.15, 0.18, 0.22), METAL_D, Vector3(-0.18, 0.20, -1.28))
 	add_child(housing)
-	_valve = _box_mesh(Vector3(1.05, 0.04, 0.22), METAL_M, Vector3(0, 0.08, 0.02))
+	_valve = _box_mesh(Vector3(1.05, 0.04, 0.18), METAL_M, Vector3(0, 0.08, 0.02))
 	housing.add_child(_valve)
 	var outlet_tex := Assets.tex(Assets.OUTLET_CLOSED)
 	if outlet_tex != null:
 		housing.visible = false
 		_valve.visible = false
-		_outlet_root = _prop_sprite(outlet_tex, Vector3(-0.22, FLOOR_Y, -1.20), 0.014, true)
+		_outlet_root = _prop_sprite(outlet_tex, Vector3(-0.18, 0.05, -1.26), 0.014, true)
 		add_child(_outlet_root)
 
 
@@ -501,6 +484,9 @@ func _make_box() -> void:
 		_box.add_child(_prop_sprite(box_tex, Vector3(0, FLOOR_Y, 0), 0.012, true))
 	_box_label = _marker_label(Vector3(0, 0.42, 0.18), 40)
 	_box.add_child(_box_label)
+	_box_marker_root = Node3D.new()
+	_box_marker_root.position = Vector3(0, 0.42, 0.20)
+	_box.add_child(_box_marker_root)
 
 
 func _make_lever() -> void:
@@ -533,14 +519,16 @@ func _make_lever() -> void:
 
 
 func _make_board() -> void:
-	var board := _box_mesh(Vector3(0.72, 0.38, 0.03), Color8(245, 244, 236), Vector3(-0.08, 1.86, -1.34))
+	var board_pos := Vector3(-0.18, 1.92, -1.28)
+	var board := _box_mesh(Vector3(0.72, 0.38, 0.03), Color8(245, 244, 236), board_pos)
 	add_child(board)
 	var board_tex := Assets.tex(Assets.WHITEBOARD)
 	if board_tex != null:
 		board.visible = false
-		add_child(_prop_sprite(board_tex, Vector3(-0.08, 1.86, -1.33), 0.014, false))
-	_board_label = _marker_label(Vector3(-0.08, 1.86, -1.31), 36)
+		add_child(_prop_sprite(board_tex, board_pos + Vector3(0, 0, 0.01), 0.014, false))
+	_board_label = _marker_label(board_pos + Vector3(0, 0, 0.03), 36)
 	add_child(_board_label)
+	Look.add_board_chains(self, board_pos)
 
 
 func _make_formula() -> void:
@@ -564,17 +552,7 @@ func _make_formula() -> void:
 
 
 func _marker_label(pos: Vector3, size: int) -> Label3D:
-	var lab := Label3D.new()
-	lab.position = pos
-	lab.font_size = size
-	lab.modulate = OUTLINE
-	lab.outline_modulate = Color8(232, 214, 176)
-	lab.outline_size = 6
-	lab.pixel_size = 0.0022
-	lab.shaded = false
-	lab.no_depth_test = false
-	lab.billboard = BaseMaterial3D.BILLBOARD_DISABLED
-	return lab
+	return Look.marker_label(pos, size)
 
 
 func _prop_sprite(tex: Texture2D, pos: Vector3, pixel_size: float, floor_anchor: bool) -> Sprite3D:
