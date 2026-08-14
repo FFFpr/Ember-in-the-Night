@@ -341,6 +341,16 @@ func _test_art_pipeline_audit() -> void:
 	_expect(Assets.tex(Assets.IRON_APRON) != null, "iron_apron loads from issue_32")
 	_expect(Assets.tex(Assets.OUTLET_OPEN) != null, "outlet_open loads from issue_32")
 	_expect(Assets.tex(Assets.WOOD_WALL) != null, "wood_plank_wall loads from issue_32")
+	_expect(Assets.tex(Assets.COIN_BOX) != null, "coin_box loads from issue_32")
+	var coin_box := Assets.tex(Assets.COIN_BOX)
+	if coin_box != null:
+		_expect(coin_box.get_width() == 64 and coin_box.get_height() == 64, "coin_box is 64×64")
+	var fit_box := Fit.new()
+	if fit_box.items.has("coin_box"):
+		var Bx: Dictionary = fit_box.items["coin_box"]
+		_expect(is_equal_approx(Bx["size"].x, 0.180) and is_equal_approx(Bx["size"].y, 0.280),
+				"coin_box fit size is 0.180×0.280")
+		_expect(bool(Bx["whole"]), "coin_box must sit whole in frame")
 	_expect(Assets.tex(Assets.COIN_MASS_FILL) != null, "coin_mass_fill loads from issue_32")
 	var mass_fill := Assets.tex(Assets.COIN_MASS_FILL)
 	if mass_fill != null:
