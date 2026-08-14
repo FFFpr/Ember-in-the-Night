@@ -331,15 +331,14 @@ func _make_board() -> void:
 		panel = sprite
 	else:
 		panel = _greybox_plate(board, "WhiteboardPanel", size, PAPER)
-	# Chains up to the beam. Siblings, not children: they must not stretch the
-	# whiteboard's silhouette in the fit check.
-	var chain_top: float = maxf(_look.glass_top() - board.position.y, 0.05)
-	for sx in [-0.42, 0.42]:
-		var chain := _mesh_box(self, "BoardChain",
-				Vector3(size.x * 0.022, chain_top, size.x * 0.022),
-				board.position + Vector3(size.x * sx, size.y * 0.5 + chain_top * 0.5, -0.02),
-				METAL_M)
-		chain.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		# Greybox only: issue_32 whiteboard.png already paints the dual chains.
+		var chain_top: float = maxf(_look.glass_top() - board.position.y, 0.05)
+		for sx in [-0.42, 0.42]:
+			var chain := _mesh_box(self, "BoardChain",
+					Vector3(size.x * 0.022, chain_top, size.x * 0.022),
+					board.position + Vector3(size.x * sx, size.y * 0.5 + chain_top * 0.5, -0.02),
+					METAL_M)
+			chain.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_board_label = _marker_label("BoardText", Vector3(0, 0, 0.03),
 			_layout.height_at(0.032, depth), INK_DARK)
 	_board_label.autowrap_mode = TextServer.AUTOWRAP_OFF

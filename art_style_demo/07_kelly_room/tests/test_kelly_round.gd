@@ -341,6 +341,16 @@ func _test_art_pipeline_audit() -> void:
 	_expect(Assets.tex(Assets.IRON_APRON) != null, "iron_apron loads from issue_32")
 	_expect(Assets.tex(Assets.OUTLET_OPEN) != null, "outlet_open loads from issue_32")
 	_expect(Assets.tex(Assets.WOOD_WALL) != null, "wood_plank_wall loads from issue_32")
+	_expect(Assets.tex(Assets.WHITEBOARD) != null, "whiteboard loads from issue_32")
+	var whiteboard := Assets.tex(Assets.WHITEBOARD)
+	if whiteboard != null:
+		_expect(whiteboard.get_width() == 64 and whiteboard.get_height() == 48,
+				"whiteboard is 64×48")
+	var fit_board := Fit.new()
+	if fit_board.items.has("whiteboard"):
+		var B: Dictionary = fit_board.items["whiteboard"]
+		_expect(is_equal_approx(B["size"].x, 0.218) and is_equal_approx(B["size"].y, 0.165),
+				"whiteboard fit size is 0.218×0.165")
 	_expect(Assets.tex(Assets.LEVER) != null, "lever loads from issue_32")
 	var lever := Assets.tex(Assets.LEVER)
 	if lever != null:
