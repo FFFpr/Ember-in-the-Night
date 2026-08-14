@@ -350,6 +350,11 @@ func _test_art_pipeline_audit() -> void:
 	_expect(post != null, "post loads from issue_32")
 	if post != null:
 		_expect(post.get_width() == 32 and post.get_height() == 48, "post is 32×48")
+	var outlet_closed := Assets.tex(Assets.OUTLET_CLOSED)
+	_expect(outlet_closed != null, "outlet_closed loads from issue_32")
+	if outlet_closed != null:
+		_expect(outlet_closed.get_width() == 64 and outlet_closed.get_height() == 48,
+				"outlet_closed is 64×48")
 	_expect(Assets.tex(Assets.ISSUE + "does_not_exist.png") == null,
 			"a missing path returns null instead of a fake texture")
 
