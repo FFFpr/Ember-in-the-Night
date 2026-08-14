@@ -12,8 +12,8 @@ const METAL_M := Color8(92, 90, 102)
 const METAL_L := Color8(168, 158, 148)
 const METAL_HI := Color8(232, 214, 176)
 const OUTLINE := Color8(28, 22, 26)
-const INK := Color(0.11, 0.09, 0.10, 0.90)
-const INK_BLEED := Color(0.11, 0.09, 0.10, 0.28)
+const INK := Color(0.12, 0.09, 0.10, 1.0)
+const INK_BLEED := Color(0.12, 0.09, 0.10, 0.45)
 const GLASS := Color(0.58, 0.76, 0.72, 0.13)
 const NIGHT := Color8(22, 32, 52)
 
@@ -104,11 +104,17 @@ static func add_glass_wall(host: Node3D) -> void:
 	var outer_h: float = FRAME_Y1 - FRAME_Y0
 	var bar: float = FRAME_BAR
 	var depth: float = FRAME_DEPTH
-	# Four frame members sit between wood and glass.
-	_box(host, Vector3(outer_w, bar, depth), Vector3(mid_x, FRAME_Y0 + bar * 0.5, z), _metal_d)
-	_box(host, Vector3(outer_w, bar, depth), Vector3(mid_x, FRAME_Y1 - bar * 0.5, z), _metal_d)
-	_box(host, Vector3(bar, outer_h - bar * 2.0, depth), Vector3(FRAME_X0 + bar * 0.5, mid_y, z), _metal_d)
-	_box(host, Vector3(bar, outer_h - bar * 2.0, depth), Vector3(FRAME_X1 - bar * 0.5, mid_y, z), _metal_d)
+	# Four frame members sit between wood and glass. Outer bars read as metal, not wood.
+	_box(host, Vector3(outer_w, bar, depth), Vector3(mid_x, FRAME_Y0 + bar * 0.5, z), _metal_m)
+	_box(host, Vector3(outer_w, bar, depth), Vector3(mid_x, FRAME_Y1 - bar * 0.5, z), _metal_m)
+	_box(host, Vector3(bar, outer_h - bar * 2.0, depth), Vector3(FRAME_X0 + bar * 0.5, mid_y, z), _metal_m)
+	_box(host, Vector3(bar, outer_h - bar * 2.0, depth), Vector3(FRAME_X1 - bar * 0.5, mid_y, z), _metal_m)
+	# Camera-facing highlight so the channel is not lost in shadow.
+	var face_z: float = z + depth * 0.42
+	_box(host, Vector3(outer_w, bar * 0.35, 0.02), Vector3(mid_x, FRAME_Y0 + bar * 0.35, face_z), _metal_l)
+	_box(host, Vector3(outer_w, bar * 0.35, 0.02), Vector3(mid_x, FRAME_Y1 - bar * 0.35, face_z), _metal_l)
+	_box(host, Vector3(bar * 0.35, outer_h - bar * 2.0, 0.02), Vector3(FRAME_X0 + bar * 0.35, mid_y, face_z), _metal_l)
+	_box(host, Vector3(bar * 0.35, outer_h - bar * 2.0, 0.02), Vector3(FRAME_X1 - bar * 0.35, mid_y, face_z), _metal_l)
 	# Inner lip so the pane is held in a metal channel, not flush with wood.
 	var lip := 0.035
 	var inner_w: float = outer_w - bar * 2.0
@@ -175,10 +181,10 @@ static func marker_label(pos: Vector3, size: int) -> Label3D:
 		lab.font = _marker_font
 	lab.modulate = INK
 	lab.outline_modulate = INK_BLEED
-	lab.outline_size = 12
+	lab.outline_size = 16
 	lab.pixel_size = 0.0022
 	lab.shaded = false
-	lab.no_depth_test = false
+	lab.no_depth_test = true
 	lab.billboard = BaseMaterial3D.BILLBOARD_DISABLED
 	return lab
 

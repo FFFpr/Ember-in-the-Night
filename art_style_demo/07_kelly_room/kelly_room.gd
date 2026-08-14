@@ -219,7 +219,7 @@ func _refresh_diegetic() -> void:
 		_board_label.text = "投资成功"
 	else:
 		_board_label.text = "投资失败"
-	_formula_label.text = "Kelly  f* = p − q/b\np=%.2f  b=%.1f" % [_round.p, _round.b]
+	_formula_label.text = "Kelly  f* = p - q/b\np = %.2f   b = %.1f" % [_round.p, _round.b]
 	_kelly_label.text = str(_round.recommended_stake())
 	_kelly_label.visible = _round.sticker_revealed
 	_sticker.visible = not _round.sticker_revealed
@@ -385,11 +385,11 @@ func _build_world() -> void:
 	_make_env()
 	_make_room()
 	_camera = Camera3D.new()
-	_camera.position = Vector3(0.22, 1.34, 2.48)
+	_camera.position = Vector3(0.04, 1.28, 2.38)
 	_camera.current = true
-	_camera.fov = 52.0
+	_camera.fov = 54.0
 	add_child(_camera)
-	_camera.look_at(Vector3(0.08, 0.78, -1.05))
+	_camera.look_at(Vector3(-0.06, 0.82, -1.08))
 	_market = Node3D.new()
 	_market.name = "Market"
 	add_child(_market)
@@ -412,24 +412,24 @@ func _make_env() -> void:
 	env.background_color = NIGHT
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.ambient_light_color = Color8(74, 72, 78)
-	env.ambient_light_energy = 0.4
+	env.ambient_light_energy = 0.78
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	world.environment = env
 	add_child(world)
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-42, 35, 0)
 	sun.light_color = Color8(168, 158, 148)
-	sun.light_energy = 0.35
+	sun.light_energy = 0.55
 	sun.shadow_enabled = true
 	add_child(sun)
 	var lamp := OmniLight3D.new()
-	lamp.position = Vector3(-2.12, 1.32, 0.35)
+	lamp.position = Vector3(-1.88, 1.36, -0.42)
 	lamp.light_color = Color8(255, 186, 72)
-	lamp.light_energy = 2.4
-	lamp.omni_range = 6.0
-	lamp.shadow_enabled = true
+	lamp.light_energy = 3.1
+	lamp.omni_range = 7.0
+	lamp.shadow_enabled = false
 	add_child(lamp)
-	Look.add_lantern(self, Vector3(-2.28, 1.12, 0.35))
+	Look.add_lantern(self, Vector3(-2.22, 1.10, -0.55))
 
 
 func _make_room() -> void:
@@ -441,15 +441,15 @@ func _make_glass() -> void:
 
 
 func _fill_market() -> void:
-	for i in 240:
+	for i in 560:
 		var coin := _make_coin(false)
-		var col := i % 12
-		var row := (i / 12) % 5
-		var layer := i / 60
+		var col := i % 14
+		var row := (i / 14) % 5
+		var layer := i / 70
 		coin.position = Vector3(
-				-1.45 + float(col) * 0.20 + randf() * 0.10,
-				0.10 + float(layer) * 0.16 + randf() * 0.12,
-				-1.58 - float(row) * 0.16 - randf() * 0.12)
+				-1.55 + float(col) * 0.20 + randf() * 0.08,
+				0.12 + float(layer) * 0.20 + randf() * 0.08,
+				-1.58 - float(row) * 0.16 - randf() * 0.10)
 		_market.add_child(coin)
 
 
@@ -532,7 +532,7 @@ func _make_board() -> void:
 
 
 func _make_formula() -> void:
-	_formula_label = _marker_label(Vector3(-1.28, 1.40, -1.31), 26)
+	_formula_label = _marker_label(Vector3(-1.22, 1.42, -1.29), 32)
 	_formula_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	add_child(_formula_label)
 	var eq := _marker_label(Vector3(-1.16, 1.12, -1.31), 40)
