@@ -341,6 +341,11 @@ func _test_art_pipeline_audit() -> void:
 	_expect(Assets.tex(Assets.IRON_APRON) != null, "iron_apron loads from issue_32")
 	_expect(Assets.tex(Assets.OUTLET_OPEN) != null, "outlet_open loads from issue_32")
 	_expect(Assets.tex(Assets.WOOD_WALL) != null, "wood_plank_wall loads from issue_32")
+	_expect(Assets.tex(Assets.LEVER_DOWN) != null, "lever_down loads from issue_32")
+	var lever_down := Assets.tex(Assets.LEVER_DOWN)
+	if lever_down != null:
+		_expect(lever_down.get_width() == 64 and lever_down.get_height() == 64,
+				"lever_down is 64×64")
 	_expect(Assets.tex(Assets.ISSUE + "does_not_exist.png") == null,
 			"a missing path returns null instead of a fake texture")
 

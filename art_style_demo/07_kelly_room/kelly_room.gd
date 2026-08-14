@@ -607,9 +607,12 @@ func _pull_lever_anim() -> void:
 		var down := Assets.tex(Assets.LEVER_DOWN)
 		if down != null:
 			var up: Texture2D = _lever_sprite.texture
+			var slot: Dictionary = _layout.place_on_floor("lever")
 			_lever_sprite.texture = down
+			_layout.fit_sprite_to(_lever_sprite, slot["size"])
 			await get_tree().create_timer(0.45).timeout
 			_lever_sprite.texture = up
+			_layout.fit_sprite_to(_lever_sprite, slot["size"])
 			return
 	if _lever_arm != null:
 		var tw := create_tween()
