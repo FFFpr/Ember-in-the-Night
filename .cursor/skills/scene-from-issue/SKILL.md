@@ -1,6 +1,6 @@
 ---
 name: scene-from-issue
-description: 按 Ember GitHub issue 做可运行场景：认领 bc、样例图定稿、素材只走 Aseprite-User 工单、异步扇出/扇入、有逻辑则先测试后脚本。用户提供 Ember issue 并要求做场景时使用。
+description: 按 Ember GitHub issue 实现新场景，或修改现有场景的空间/物体/美术。认领 bc、样例图定稿、素材只走 Aseprite-User 工单、异步扇出/扇入、有逻辑则先测试后脚本。单纯改运行逻辑不要用本 skill。
 ---
 
 # 按 Ember issue 做场景
