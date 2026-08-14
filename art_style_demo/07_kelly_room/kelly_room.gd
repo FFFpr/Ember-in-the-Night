@@ -4,6 +4,7 @@ extends Node3D
 const Round := preload("res://art_style_demo/07_kelly_room/kelly_round.gd")
 const CoinActor := preload("res://art_style_demo/07_kelly_room/coin_actor.gd")
 const Assets := preload("res://art_style_demo/07_kelly_room/kelly_assets.gd")
+const Look := preload("res://art_style_demo/07_kelly_room/kelly_look.gd")
 
 const WOOD_D := Color8(62, 38, 28)
 const WOOD_M := Color8(118, 72, 42)
@@ -28,7 +29,8 @@ var _drag_start := Vector2.ZERO
 
 var _camera: Camera3D
 var _box: Node3D
-var _box_outline: MeshInstance3D
+var _box_sprite: Sprite3D
+var _box_outline: Sprite3D
 var _lever_arm: Node3D
 var _valve: Node3D
 var _sticker: Node3D
@@ -38,6 +40,10 @@ var _board_label: Label3D
 var _formula_label: Label3D
 var _kelly_label: Label3D
 var _box_label: Label3D
+var _box_marker_root: Node3D
+var _box_marker_px: float = Look.MARKER_PX
+var _box_px: float = 0.011
+var _box_slot_local := Vector3(0, 0.42, 0)
 var _count_label: Label
 var _select_rect: ColorRect
 var _floor_coins: Array[Node3D] = []
@@ -139,7 +145,7 @@ func _deposit() -> void:
 	var n: int = _round.deposit_selected()
 	if n <= 0:
 		return
-	var slot: Vector3 = _box.global_position + Vector3(0, 0.42, 0)
+	var slot: Vector3 = _box.global_position + _box_slot_local
 	var moving: Array[Node3D] = _selected_coins.duplicate()
 	_selected_coins.clear()
 	_busy = true
@@ -185,6 +191,8 @@ func _follow_selected(delta: float) -> void:
 
 
 func _update_box_hover() -> void:
+	if _box == null or _box_outline == null:
+		return
 	var hot: bool = (not _busy) and _round.phase == Round.Phase.PLAYING \
 			and _selected_coins.size() > 0 and _over_box(get_viewport().get_mouse_position())
 	_box.scale = Vector3(1.12, 1.12, 1.12) if hot else Vector3.ONE
@@ -206,14 +214,21 @@ func _update_select_rect(pos: Vector2) -> void:
 
 
 func _refresh_diegetic() -> void:
-	_box_label.text = _round.box_label()
+	var boxed: String = _round.box_label()
+	if _box_label != null:
+		_box_label.text = boxed
+	if _box_marker_root != null:
+		var n: int = maxi(boxed.length(), 1)
+		_box_marker_px = Assets.COIN_BOX_FRONT.size.x * _box_px * 0.92 / (float(n) * Look.MARKER_CELL)
+		Look.set_box_marker(_box_marker_root, boxed, _box_marker_px)
+		_box_label.visible = not Look.has_marker_digits()
 	if _round.phase == Round.Phase.PLAYING:
 		_board_label.text = "回报倍率 %.1f×\n成功概率 %d%%" % [_round.b, int(round(_round.p * 100.0))]
 	elif _round.last_success:
 		_board_label.text = "投资成功"
 	else:
 		_board_label.text = "投资失败"
-	_formula_label.text = "Kelly  f* = p − q/b\np=%.2f  b=%.1f" % [_round.p, _round.b]
+	_formula_label.text = "Kelly  f* = p - q/b\np = %.2f   b = %.1f" % [_round.p, _round.b]
 	_kelly_label.text = str(_round.recommended_stake())
 	_kelly_label.visible = _round.sticker_revealed
 	_sticker.visible = not _round.sticker_revealed
@@ -246,7 +261,7 @@ func _eject_coins(n: int) -> void:
 	_set_outlet_open(true)
 	for i in n:
 		var coin := _make_coin(true)
-		coin.position = Vector3(-0.22 + (float(i % 5) - 2.0) * 0.07, 0.18, -1.18)
+		coin.position = Vector3(-0.22 + (float(i % 5) - 2.0) * 0.07, 0.22, -1.24)
 		_player_coins.add_child(coin)
 		_floor_coins.append(coin)
 		var dest := Vector3(
@@ -281,11 +296,11 @@ func _drop_market_coins(n: int) -> void:
 
 
 func _pull_lever_anim() -> void:
-	var down := Assets.tex(Assets.LEVER_DOWN)
-	var up := Assets.tex(Assets.LEVER)
+	var down := Assets.tex_prefer(Assets.LEVER_DOWN_SIDE, Assets.LEVER_DOWN)
+	var up := Assets.tex_prefer(Assets.LEVER_SIDE, Assets.LEVER)
 	if _lever_sprite != null and down != null:
 		_lever_sprite.texture = down
-		await get_tree().create_timer(0.28).timeout
+		await get_tree().create_timer(0.45).timeout
 		if up != null:
 			_lever_sprite.texture = up
 		return
@@ -332,7 +347,10 @@ func _floor_point(screen: Vector2) -> Vector3:
 
 
 func _over_box(pos: Vector2) -> bool:
-	return _in_screen_box(_box.global_position + Vector3(0, 0.22, 0), pos, Vector2(70, 80))
+	var origin: Vector3 = _box.global_position + Vector3(0, 0.28, 0)
+	if _box_sprite != null:
+		origin = _box_sprite.global_position
+	return _in_screen_box(origin, pos, Vector2(70, 80))
 
 
 func _over_lever(pos: Vector2) -> bool:
@@ -379,11 +397,12 @@ func _build_world() -> void:
 	_make_env()
 	_make_room()
 	_camera = Camera3D.new()
-	_camera.position = Vector3(0.22, 1.34, 2.48)
+	# Eye-level, straight at the back wall — match fp_idle, not a high close-up.
+	_camera.position = Vector3(-0.06, 1.18, 2.36)
 	_camera.current = true
-	_camera.fov = 52.0
+	_camera.fov = 50.0
 	add_child(_camera)
-	_camera.look_at(Vector3(0.08, 0.78, -1.05))
+	_camera.look_at(Vector3(-0.12, 1.02, -1.40))
 	_market = Node3D.new()
 	_market.name = "Market"
 	add_child(_market)
@@ -406,105 +425,86 @@ func _make_env() -> void:
 	env.background_color = NIGHT
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.ambient_light_color = Color8(74, 72, 78)
-	env.ambient_light_energy = 0.4
+	env.ambient_light_energy = 0.78
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	world.environment = env
 	add_child(world)
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-42, 35, 0)
 	sun.light_color = Color8(168, 158, 148)
-	sun.light_energy = 0.35
+	sun.light_energy = 0.55
 	sun.shadow_enabled = true
 	add_child(sun)
-	var lamp := OmniLight3D.new()
-	lamp.position = Vector3(-1.85, 1.55, 0.55)
-	lamp.light_color = Color8(255, 186, 72)
-	lamp.light_energy = 2.4
-	lamp.omni_range = 6.0
-	lamp.shadow_enabled = true
-	add_child(lamp)
-	var lamp_mesh := _box_mesh(Vector3(0.08, 0.18, 0.08), Color8(220, 96, 28), lamp.position)
-	add_child(lamp_mesh)
+	Look.add_lantern(self, Vector3(-2.38, 1.22, -0.38))
 
 
 func _make_room() -> void:
-	add_child(_box_mesh(Vector3(5.2, 0.12, 5.4), WOOD_D, Vector3(0, -0.06, 0.1)))
-	add_child(_box_mesh(Vector3(5.2, 2.6, 0.16), WOOD_M, Vector3(0, 1.3, -2.95)))
-	add_child(_box_mesh(Vector3(0.16, 2.6, 5.4), WOOD_M, Vector3(-2.5, 1.3, 0.1)))
-	add_child(_box_mesh(Vector3(0.16, 2.6, 5.4), WOOD_M, Vector3(2.15, 1.3, 0.1)))
-	add_child(_box_mesh(Vector3(5.2, 0.12, 5.4), WOOD_D, Vector3(0, 2.55, 0.1)))
-	add_child(_box_mesh(Vector3(0.18, 0.18, 5.4), WOOD_L, Vector3(-1.2, 2.35, 0.1)))
-	add_child(_box_mesh(Vector3(0.18, 0.18, 5.4), WOOD_L, Vector3(0.9, 2.35, 0.1)))
+	Look.add_room(self)
 
 
 func _make_glass() -> void:
-	add_child(_box_mesh(Vector3(3.22, 0.12, 0.12), WOOD_D, Vector3(-0.28, 2.12, -1.42)))
-	add_child(_box_mesh(Vector3(3.22, 0.12, 0.12), WOOD_D, Vector3(-0.28, 0.22, -1.42)))
-	add_child(_box_mesh(Vector3(0.12, 2.02, 0.12), WOOD_D, Vector3(-1.84, 1.17, -1.42)))
-	add_child(_box_mesh(Vector3(0.12, 2.02, 0.12), WOOD_D, Vector3(1.28, 1.17, -1.42)))
-	var pane := MeshInstance3D.new()
-	var quad := BoxMesh.new()
-	quad.size = Vector3(2.95, 1.85, 0.03)
-	pane.mesh = quad
-	var mat := StandardMaterial3D.new()
-	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat.albedo_color = GLASS
-	mat.roughness = 0.06
-	mat.metallic = 0.15
-	mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
-	pane.material_override = mat
-	pane.position = Vector3(-0.28, 1.16, -1.38)
-	add_child(pane)
+	Look.add_glass_wall(self)
 
 
 func _fill_market() -> void:
-	for i in 240:
+	for i in 560:
 		var coin := _make_coin(false)
-		var col := i % 12
-		var row := (i / 12) % 5
-		var layer := i / 60
+		var col := i % 14
+		var row := (i / 14) % 5
+		var layer := i / 70
 		coin.position = Vector3(
-				-1.45 + float(col) * 0.20 + randf() * 0.10,
-				0.10 + float(layer) * 0.16 + randf() * 0.12,
-				-1.58 - float(row) * 0.16 - randf() * 0.12)
+				-1.55 + float(col) * 0.20 + randf() * 0.08,
+				0.12 + float(layer) * 0.20 + randf() * 0.08,
+				-1.58 - float(row) * 0.16 - randf() * 0.10)
 		_market.add_child(coin)
 
 
 func _make_outlet() -> void:
-	var housing := _box_mesh(Vector3(1.15, 0.22, 0.28), METAL_D, Vector3(-0.22, 0.16, -1.22))
+	var housing := _box_mesh(Vector3(1.15, 0.18, 0.22), METAL_D, Vector3(-0.18, 0.20, -1.28))
 	add_child(housing)
-	_valve = _box_mesh(Vector3(1.05, 0.04, 0.22), METAL_M, Vector3(0, 0.08, 0.02))
+	_valve = _box_mesh(Vector3(1.05, 0.04, 0.18), METAL_M, Vector3(0, 0.08, 0.02))
 	housing.add_child(_valve)
 	var outlet_tex := Assets.tex(Assets.OUTLET_CLOSED)
 	if outlet_tex != null:
 		housing.visible = false
 		_valve.visible = false
-		_outlet_root = _prop_sprite(outlet_tex, Vector3(-0.22, FLOOR_Y, -1.20), 0.014, true)
+		_outlet_root = _prop_sprite(outlet_tex, Vector3(-0.18, 0.05, -1.26), 0.014, true)
 		add_child(_outlet_root)
 
 
 func _make_box() -> void:
 	_box = Node3D.new()
-	_box.position = Vector3(1.18, 0.0, 0.12)
+	_box.position = Vector3(0.78, 0.0, 0.58)
 	add_child(_box)
-	var body := _box_mesh(Vector3(0.48, 0.52, 0.42), WOOD_M, Vector3(0, 0.26, 0))
-	_box.add_child(body)
-	var slot := _box_mesh(Vector3(0.28, 0.04, 0.06), METAL_D, Vector3(0, 0.54, 0.02))
-	_box.add_child(slot)
-	_box_outline = _box_mesh(Vector3(0.54, 0.58, 0.48), OUTLINE, Vector3(0, 0.26, 0))
+	var box_tex := Assets.tex_prefer(Assets.COIN_BOX_SIDE, Assets.COIN_BOX)
+	if box_tex == null:
+		push_warning("Kelly coin box sprite missing; hover outline needs a 2D sprite")
+		return
+	var px := 0.011
+	_box_px = px
+	var canvas := float(box_tex.get_height())
+	var front: Rect2 = Assets.COIN_BOX_FRONT
+	var front_y: float = front.position.y + front.size.y * 0.32
+	var marker_y: float = FLOOR_Y + (canvas - front_y - 0.5) * px
+	_box_slot_local = Vector3(0.0, FLOOR_Y + (canvas - Assets.COIN_BOX_SLOT_Y - 0.5) * px, 0.02)
+	_box_sprite = _prop_sprite(box_tex, Vector3(0, FLOOR_Y, 0), px, true)
+	_box.add_child(_box_sprite)
+	_box_outline = _prop_sprite(box_tex, _box_sprite.position, px * 1.14, false)
+	_box_outline.position = _box_sprite.position + Vector3(0.0, 0.0, -0.014)
+	_box_outline.modulate = OUTLINE
+	_box_outline.shaded = false
+	_box_outline.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_box_outline.visible = false
 	_box.add_child(_box_outline)
-	var box_tex := Assets.tex(Assets.COIN_BOX)
-	if box_tex != null:
-		body.visible = false
-		slot.visible = false
-		_box.add_child(_prop_sprite(box_tex, Vector3(0, FLOOR_Y, 0), 0.012, true))
-	_box_label = _marker_label(Vector3(0, 0.42, 0.18), 40)
+	_box_label = _marker_label(Vector3(0, marker_y, 0.03), 40)
 	_box.add_child(_box_label)
+	_box_marker_root = Node3D.new()
+	_box_marker_root.position = Vector3(0.0, marker_y, 0.04)
+	_box.add_child(_box_marker_root)
 
 
 func _make_lever() -> void:
-	var lever_pos := Vector3(1.52, FLOOR_Y, 0.16)
+	var lever_pos := Vector3(1.22, FLOOR_Y, 0.62)
 	var base := _box_mesh(Vector3(0.18, 0.12, 0.18), METAL_D, Vector3(lever_pos.x, 0.06, lever_pos.z))
 	add_child(base)
 	_lever_arm = Node3D.new()
@@ -523,28 +523,30 @@ func _make_lever() -> void:
 	knob.material_override = kmat
 	knob.position = Vector3(0, 0.44, 0)
 	_lever_arm.add_child(knob)
-	var lever_tex := Assets.tex(Assets.LEVER)
+	var lever_tex := Assets.tex_prefer(Assets.LEVER_SIDE, Assets.LEVER)
 	if lever_tex != null:
 		base.visible = false
 		shaft.visible = false
 		knob.visible = false
-		_lever_sprite = _prop_sprite(lever_tex, lever_pos, 0.012, true)
+		_lever_sprite = _prop_sprite(lever_tex, lever_pos, 0.009, true)
 		add_child(_lever_sprite)
 
 
 func _make_board() -> void:
-	var board := _box_mesh(Vector3(0.72, 0.38, 0.03), Color8(245, 244, 236), Vector3(-0.08, 1.86, -1.34))
+	var board_pos := Vector3(-0.18, 1.92, -1.28)
+	var board := _box_mesh(Vector3(0.72, 0.38, 0.03), Color8(245, 244, 236), board_pos)
 	add_child(board)
 	var board_tex := Assets.tex(Assets.WHITEBOARD)
 	if board_tex != null:
 		board.visible = false
-		add_child(_prop_sprite(board_tex, Vector3(-0.08, 1.86, -1.33), 0.014, false))
-	_board_label = _marker_label(Vector3(-0.08, 1.86, -1.31), 36)
+		add_child(_prop_sprite(board_tex, board_pos + Vector3(0, 0, 0.01), 0.014, false))
+	_board_label = _marker_label(board_pos + Vector3(0, 0, 0.03), 36)
 	add_child(_board_label)
+	Look.add_board_chains(self, board_pos)
 
 
 func _make_formula() -> void:
-	_formula_label = _marker_label(Vector3(-1.28, 1.40, -1.31), 26)
+	_formula_label = _marker_label(Vector3(-1.22, 1.42, -1.29), 32)
 	_formula_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	add_child(_formula_label)
 	var eq := _marker_label(Vector3(-1.16, 1.12, -1.31), 40)
@@ -564,17 +566,7 @@ func _make_formula() -> void:
 
 
 func _marker_label(pos: Vector3, size: int) -> Label3D:
-	var lab := Label3D.new()
-	lab.position = pos
-	lab.font_size = size
-	lab.modulate = OUTLINE
-	lab.outline_modulate = Color8(232, 214, 176)
-	lab.outline_size = 6
-	lab.pixel_size = 0.0022
-	lab.shaded = false
-	lab.no_depth_test = false
-	lab.billboard = BaseMaterial3D.BILLBOARD_DISABLED
-	return lab
+	return Look.marker_label(pos, size)
 
 
 func _prop_sprite(tex: Texture2D, pos: Vector3, pixel_size: float, floor_anchor: bool) -> Sprite3D:

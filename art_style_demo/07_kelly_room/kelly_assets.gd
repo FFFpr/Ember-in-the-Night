@@ -13,11 +13,23 @@ const STICKER := ROOT + "sticker.png"
 const STICKER_OFF := ROOT + "sticker_off.png"
 const WHITEBOARD := ROOT + "whiteboard.png"
 
+const ISSUE_29 := "res://Aseprite-User/export/Ember-in-the-Night/issue_29/"
+const WOOD_FLOOR := ISSUE_29 + "wood_plank_floor.png"
+const WOOD_WALL := ISSUE_29 + "wood_plank_wall.png"
+const MARKER_DIGITS := ISSUE_29 + "marker_digits.png"
+const WALL_LANTERN := ISSUE_29 + "wall_lantern.png"
+const COIN_BOX_SIDE := ISSUE_29 + "coin_box.png"
+const LEVER_SIDE := ISSUE_29 + "lever.png"
+const LEVER_DOWN_SIDE := ISSUE_29 + "lever_down.png"
+# Pixel layout of issue_29/coin_box.png (top-left origin): empty front for marker_digits, metal slot.
+const COIN_BOX_FRONT := Rect2(20, 24, 25, 28)
+const COIN_BOX_SLOT_Y := 13.5
+
 const REQUIRED_PATHS: PackedStringArray = [
 	COIN,
-	COIN_BOX,
-	LEVER,
-	LEVER_DOWN,
+	COIN_BOX_SIDE,
+	LEVER_SIDE,
+	LEVER_DOWN_SIDE,
 	OUTLET_CLOSED,
 	OUTLET_OPEN,
 	STICKER,
@@ -26,6 +38,18 @@ const REQUIRED_PATHS: PackedStringArray = [
 
 
 static func tex(path: String) -> Texture2D:
-	if not ResourceLoader.exists(path):
+	if ResourceLoader.exists(path):
+		var loaded := load(path) as Texture2D
+		if loaded != null:
+			return loaded
+	if not FileAccess.file_exists(path):
 		return null
-	return load(path) as Texture2D
+	var img := Image.load_from_file(path)
+	if img == null or img.is_empty():
+		return null
+	return ImageTexture.create_from_image(img)
+
+
+static func tex_prefer(primary: String, fallback: String) -> Texture2D:
+	var a := tex(primary)
+	return a if a != null else tex(fallback)
