@@ -134,10 +134,29 @@ func _far_wall(host: Node3D) -> void:
 	_box(host, "Lintel", Vector3(w, lintel_h, 0.16),
 			Vector3(0.0, glass_top() + lintel_h * 0.5, z), _wall_mat)
 	var post_w: float = Layout.ROOM_HALF_W - glass_right()
+	var post_h: float = glass_rect["size"].y
+	var post_tex := Assets.tex(Assets.POST)
 	for sx in [-1.0, 1.0]:
 		var cx: float = sx * (glass_right() + post_w * 0.5)
-		_box(host, "Post", Vector3(post_w, glass_rect["size"].y, 0.24),
-				Vector3(cx, glass_rect["origin"].y, Layout.WALL_Z - 0.04), _wall_mat)
+		var centre := Vector3(cx, glass_rect["origin"].y, Layout.WALL_Z - 0.04)
+		if post_tex != null:
+			# Authored as a 32×48 sprite with bottom-centre pivot (16,47).
+			var foot := Vector3(cx, glass_bottom(), Layout.WALL_Z + 0.02)
+			var spr := _sprite(post_tex, post_h / float(post_tex.get_height()))
+			spr.name = "PostSprite"
+			spr.centered = false
+			spr.offset = Vector2(-16, -47)
+			var natural_w: float = float(post_tex.get_width()) * spr.pixel_size
+			var sx_scale: float = post_w / maxf(natural_w, 0.001)
+			# Mirror the right post so both face inward toward the glass.
+			spr.scale = Vector3(-sx_scale if sx > 0.0 else sx_scale, 1.0, 1.0)
+			spr.position = foot
+			host.add_child(spr)
+			# Thin depth proxy behind the sprite so the frame still occludes.
+			_box(host, "Post", Vector3(post_w * 0.85, post_h, 0.18),
+					centre + Vector3(0.0, 0.0, -0.08), _wall_mat)
+		else:
+			_box(host, "Post", Vector3(post_w, post_h, 0.24), centre, _wall_mat)
 
 
 func _market_interior(host: Node3D) -> void:

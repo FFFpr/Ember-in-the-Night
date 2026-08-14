@@ -346,6 +346,10 @@ func _test_art_pipeline_audit() -> void:
 	if lever_down != null:
 		_expect(lever_down.get_width() == 64 and lever_down.get_height() == 64,
 				"lever_down is 64×64")
+	var post := Assets.tex(Assets.POST)
+	_expect(post != null, "post loads from issue_32")
+	if post != null:
+		_expect(post.get_width() == 32 and post.get_height() == 48, "post is 32×48")
 	_expect(Assets.tex(Assets.ISSUE + "does_not_exist.png") == null,
 			"a missing path returns null instead of a fake texture")
 
