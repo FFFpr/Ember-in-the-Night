@@ -102,20 +102,20 @@ func _build_glass_and_market() -> void:
 	market.position = -g0
 	clip.add_child(market)
 
-	var coins: Array[Texture2D] = [_tex("coin_1.png"), _tex("coin_2.png"), _tex("coin_3.png")]
+	# Single flat coin, stacked into ragged columns to read as a coin sea.
+	var tex := _tex("coin_flat.png")
 	var base_y: float = 0.635 * DESIGN.y
 	var mx0: float = g0.x + 6.0
 	var mx1: float = g1.x - 6.0
-	var coin_w: float = 0.013 * DESIGN.x
+	var coin_w: float = 0.021 * DESIGN.x
+	var k: float = coin_w / float(tex.get_width())
+	var ch: float = float(tex.get_height()) * k
+	var step: float = maxf(3.0, ch * 0.45)
 	var x: float = mx0
 	while x < mx1:
-		var tex: Texture2D = coins[_rng.randi_range(0, coins.size() - 1)]
-		var k: float = coin_w / float(tex.get_width())
-		var ch: float = float(tex.get_height()) * k
-		var step: float = maxf(3.0, ch - 3.0)
 		var peak: float = (x - mx0) / (mx1 - mx0)
 		var env: float = 0.5 + 0.5 * sin(peak * PI)
-		var col_h: float = 0.10 * DESIGN.y + 0.13 * DESIGN.y * env * _rng.randf_range(0.7, 1.1)
+		var col_h: float = 0.09 * DESIGN.y + 0.14 * DESIGN.y * env * _rng.randf_range(0.7, 1.1)
 		var y: float = base_y
 		while y > base_y - col_h:
 			var c := Sprite2D.new()
@@ -123,15 +123,14 @@ func _build_glass_and_market() -> void:
 			c.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 			c.centered = false
 			c.scale = Vector2(k, k)
-			c.position = Vector2(x, y)
+			c.position = Vector2(x + _rng.randf_range(-1.0, 1.0), y)
 			market.add_child(c)
 			y -= step
-		x += float(tex.get_width()) * k
+		x += coin_w * _rng.randf_range(0.85, 1.0)
 
 
 func _build_apron_and_outlet() -> void:
-	# Outlet chute tucked behind the apron so only its slot mouth peeks out.
-	_sprite_w("outlet_closed.png", 0.360, 0.720, 0.20 * DESIGN.x, -35)
+	# One metal base under the glass; its central slot is the single outlet.
 	var apron := _sprite_w("iron_apron.png", 0.52, 0.660, 0.66 * DESIGN.x, -30)
 	var max_h: float = 0.12 * DESIGN.y
 	if apron.scale.y * apron.texture.get_height() > max_h:
@@ -140,32 +139,54 @@ func _build_apron_and_outlet() -> void:
 
 
 func _build_frame() -> void:
+	# Posts run the full height, joining floor to the ceiling beam.
+	_sprite_h("post.png", 0.170, 0.50, 1.0 * DESIGN.y, 10)
+	_sprite_h("post.png", 0.830, 0.50, 1.0 * DESIGN.y, 10)
 	_tiled("beam.png", Rect2(Vector2.ZERO, Vector2(DESIGN.x, DESIGN.y * 0.085)), 192.0, 20)
-	_sprite_h("post.png", 0.170, 0.36, 0.58 * DESIGN.y, 10)
-	_sprite_h("post.png", 0.830, 0.36, 0.58 * DESIGN.y, 10)
 
 
 func _build_props() -> void:
 	_sprite_w("whiteboard.png", 0.497, 0.205, 0.22 * DESIGN.x, 30)
 	_sprite_w("sticker.png", 0.296, 0.402, 0.05 * DESIGN.x, 5)
-	# Coin box and lever rest on the floor (feet at the same ground line).
+	# Coin box (three-quarter view) and side-profile lever rest on the floor.
 	var floor_y: float = 0.905
-	var cb := _sprite_h("coin_box.png", 0.755, 0.0, 0.26 * DESIGN.y, 40)
+	var cb := _sprite_h("coin_box.png", 0.740, 0.0, 0.28 * DESIGN.y, 40)
 	cb.position.y = floor_y * DESIGN.y - cb.scale.y * cb.texture.get_height() * 0.5
-	var lv := _sprite_h("lever.png", 0.905, 0.0, 0.33 * DESIGN.y, 40)
+	_box_marker(cb)
+	var lv := _sprite_h("lever.png", 0.895, 0.0, 0.26 * DESIGN.y, 40)
 	lv.position.y = floor_y * DESIGN.y - lv.scale.y * lv.texture.get_height() * 0.5
 	_sprite_h("wall_lantern.png", 0.055, 0.335, 0.33 * DESIGN.y, 15)
 	_sprite_h("side_window.png", 0.958, 0.300, 0.46 * DESIGN.y, 5)
 
 
+## Black oil-pen `已投 / 总数` on the coin box front face.
+func _box_marker(box: Sprite2D) -> void:
+	var lbl := Label.new()
+	lbl.text = "0 / 1"
+	lbl.add_theme_font_size_override("font_size", 20)
+	lbl.add_theme_color_override("font_color", Color8(26, 20, 24))
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	var w: float = box.scale.x * box.texture.get_width()
+	var h: float = box.scale.y * box.texture.get_height()
+	# Front face sits on the lower-right of the three-quarter box.
+	lbl.size = Vector2(w * 0.55, 30)
+	lbl.position = box.position + Vector2(w * 0.02, h * 0.02) - lbl.size * 0.5
+	lbl.z_index = 41
+	add_child(lbl)
+
+
 func _build_text() -> void:
+	# Board sprite spans ~182 px tall centred at (0.497, 0.205); the writing
+	# lanes sit in its lower ~60%. Centre the two lines there.
 	var board := Label.new()
 	board.text = "回报倍率 2.0×\n成功概率 60%"
-	board.add_theme_font_size_override("font_size", 22)
+	board.add_theme_font_size_override("font_size", 20)
 	board.add_theme_color_override("font_color", Color8(30, 24, 26))
 	board.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	board.position = _px(0.497, 0.205) - Vector2(110, 26)
-	board.size = Vector2(220, 60)
+	board.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	board.size = Vector2(210, 64)
+	board.position = _px(0.497, 0.255) - board.size * 0.5
 	board.z_index = 31
 	add_child(board)
 
@@ -227,3 +248,26 @@ func _build_mood() -> void:
 	mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
 	glow.material = mat
 	add_child(glow)
+
+	# Faint neutral fill from the opposite (right) side so shadows are not dead
+	# black. No visible fixture: just a soft off-screen gradient, kept low.
+	var fl_grad := Gradient.new()
+	fl_grad.set_color(0, Color(0.72, 0.75, 0.82, 0.14))
+	fl_grad.set_color(1, Color(0.72, 0.75, 0.82, 0.0))
+	var fl := GradientTexture2D.new()
+	fl.gradient = fl_grad
+	fl.fill = GradientTexture2D.FILL_RADIAL
+	fl.fill_from = Vector2(0.5, 0.5)
+	fl.fill_to = Vector2(1.0, 0.5)
+	fl.width = 256
+	fl.height = 256
+	var fill := Sprite2D.new()
+	fill.texture = fl
+	fill.centered = true
+	fill.position = _px(1.02, 0.62)
+	fill.scale = Vector2(4.0, 4.0)
+	fill.z_index = 91
+	var fmat := CanvasItemMaterial.new()
+	fmat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+	fill.material = fmat
+	add_child(fill)
