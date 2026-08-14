@@ -14,7 +14,7 @@ const METAL_L := Color8(168, 158, 148)
 const METAL_HI := Color8(232, 214, 176)
 const OUTLINE := Color8(28, 22, 26)
 const NIGHT := Color8(22, 32, 52)
-const GLASS := Color(0.55, 0.78, 0.72, 0.18)
+const GLASS := Color(0.55, 0.78, 0.72, 0.10)
 
 const DRAG_PX := 6.0
 const FLOOR_Y := 0.02
@@ -464,9 +464,9 @@ func _fill_market() -> void:
 		var row := (i / 12) % 5
 		var layer := i / 60
 		coin.position = Vector3(
-				-1.45 + float(col) * 0.20 + randf() * 0.05,
-				0.12 + float(layer) * 0.18 + float(row) * 0.04,
-				-1.62 - float(row) * 0.18 - randf() * 0.06)
+				-1.45 + float(col) * 0.20 + randf() * 0.10,
+				0.10 + float(layer) * 0.16 + randf() * 0.12,
+				-1.58 - float(row) * 0.16 - randf() * 0.12)
 		_market.add_child(coin)
 
 
