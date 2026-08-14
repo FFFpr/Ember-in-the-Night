@@ -130,8 +130,8 @@ static func add_right_window(host: Node3D) -> void:
 	ensure_mats()
 	# Recessed night window in the right wall, as in fp_idle (far-right frame).
 	var x: float = ROOM_X1 - 0.01
-	var z0 := 0.18
-	var z1 := 1.02
+	var z0 := -0.72
+	var z1 := 0.08
 	var y0 := 0.78
 	var y1 := 1.92
 	var zmid: float = (z0 + z1) * 0.5

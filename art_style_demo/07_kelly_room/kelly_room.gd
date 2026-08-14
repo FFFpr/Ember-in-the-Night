@@ -395,9 +395,9 @@ func _build_world() -> void:
 	# Eye-level, straight at the back wall — match fp_idle, not a high close-up.
 	_camera.position = Vector3(-0.06, 1.18, 2.36)
 	_camera.current = true
-	_camera.fov = 40.0
+	_camera.fov = 50.0
 	add_child(_camera)
-	_camera.look_at(Vector3(-0.16, 1.10, -1.40))
+	_camera.look_at(Vector3(-0.12, 1.02, -1.40))
 	_market = Node3D.new()
 	_market.name = "Market"
 	add_child(_market)
@@ -430,7 +430,7 @@ func _make_env() -> void:
 	sun.light_energy = 0.55
 	sun.shadow_enabled = true
 	add_child(sun)
-	Look.add_lantern(self, Vector3(-2.38, 1.22, 0.22))
+	Look.add_lantern(self, Vector3(-2.38, 1.22, -0.38))
 
 
 func _make_room() -> void:
