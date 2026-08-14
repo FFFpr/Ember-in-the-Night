@@ -1,6 +1,6 @@
 ---
 author: F
-updated: 2026-08-13
+updated: 2026-08-14
 status: active
 ---
 
@@ -29,6 +29,32 @@ status: active
 | **Godot**（本仓库） | 3D 场景、灯光、阴影、景深、雾、粒子、材质与纹理采样、游戏逻辑；从 submodule 导入并挂接 |
 
 **本仓库主体职责在 Godot：** 导入、挂接、受光 / 投影、环境与后期。**不要**在本仓库内新建或旁路存放像素精灵 / UI / 2D 特效图；缺什么就按下方模板向 [Aseprite-User](https://github.com/FFFpr/Aseprite-User) 提 issue。
+
+## 基准画幅
+
+| 项 | 值 |
+|----|----|
+| 基准画幅 | `project.godot` 的视口尺寸；未显式设置时为 Godot 默认 **1152×648（16:9）** |
+| 出图 | 验收截图在基准画幅下 1:1 出，不要用参考图的画幅 |
+| 参考图画幅 | 参考图未必是 16:9；比对时按基准画幅重取景，别把参考图的宽高比当成机位约束 |
+
+场景里物体的位置与占比一律按基准画幅归一化描述（左上原点，`x, y ∈ [0, 1]`）。用参考图的像素坐标会在画幅不一致时失真。
+
+## 画面层验收（明暗）
+
+HD-2D 的观感主要来自这一层。缺判据时，环境光叠方向光再叠点光很容易把暗部整体抹平，画面变成一片均匀暖橙，看起来跟参考图完全是两个场景。
+
+判据量在最终截图上（转灰度，0–255）：
+
+| 判据 | 要求 | 怎么量 |
+|------|------|--------|
+| 暗部收边 | 边缘均值 ≤ 中心均值 × 0.5 | 四边各 10% 宽条带的均值，比中心 40%×40% 区域的均值 |
+| 整体亮度 | 夜间室内画面灰度均值落在 **30–50** | 全幅均值 |
+| 光源可见 | 每个照亮画面的暖光源，本体必须在画面内，或有画面内的明确动机 | 截图 + `Camera3D.unproject_position()` |
+| 最亮区 | 整幅只有一处最亮区（单个物件的最亮点约束见 [`pixel-art-standard.md`](pixel-art-standard.md)） | 直方图 + 目视 |
+| 冷暖分区 | 暖光只落在它够得到的范围，其余保持冷调；不要全局暖泛光 | 对照定稿参考 |
+
+夜间室内以 `OmniLight3D` / `SpotLight3D` 为主，`DirectionalLight3D` 与 `ambient_light_energy` 只作补位。
 
 ## Godot 最小设置（像素角色进 3D）
 
@@ -72,6 +98,8 @@ status: active
 | 透明无影 | 改 Alpha Cut，勿用 Blend 做主体 |
 | 像纸片 | Billboard / 多方向换图 |
 | Bloom 冲掉点阵 | 降低强度，保轮廓可读 |
+| 画面被泛光冲平、暗部消失 | 降 `ambient_light_energy` 与方向光，改以点光为主；按「画面层验收」量边缘/中心亮度比 |
+| 纹理读不出来、场景全是灰盒 | 先查 submodule 是否初始化、LFS 是否拉过（见「素材来源」）；不要当成美术问题 |
 
 ## Godot 关键技术点
 
@@ -100,11 +128,14 @@ status: active
 | `Aseprite-User/export/` | 游戏侧可读的导出 PNG（唯一消费入口） |
 | `Aseprite-User/src/` | `.aseprite` / `.ase` 源文件（只在资源仓库编辑，不在本仓库复制） |
 
-克隆后先初始化：
+克隆后先初始化，并拉 LFS——`Aseprite-User` 的 PNG 全部存在 Git LFS 里：
 
 ```bash
 git submodule update --init --recursive
+git -C Aseprite-User lfs pull
 ```
+
+没拉 LFS 时 `export/` 下是文本指针，Godot 读不出纹理。**消费侧读不出图必须显式报错**，不要静默退回灰盒：那会让「环境没拉 LFS」伪装成「美术不够好」，同一个 commit 在两台机器上渲出两个场景。
 
 | 允许 | 说明 |
 |------|------|
@@ -195,9 +226,11 @@ git submodule update --init --recursive
 
 demo 导入目录约定仍见 [`art_style_demo/README.md`](../../art_style_demo/README.md)；若该 brief 仍写 LPC，以**本文件**为准，并在修订 demo 时再对齐。
 
-## 参考图（仅氛围）
+## 参考图
 
-[`art_style_demo/references/`](../../art_style_demo/references/) 下的 AI 生成构图参考**不是**场景美术，不得导入场景。匹配冷暖与构图意图即可，勿描摹其笔触为制作资产。
+[`art_style_demo/references/`](../../art_style_demo/references/) 下的 AI 生成参考**不是**场景美术，不得导入场景，也不得当作精灵 / UI 纹理。
+
+参考图（含照片级渲染与高清插画）可以作为**物体、构图、比例、明暗结构**的 target；**不可**作为材质笔触、色数、分辨率、画幅的 target，那些按 [`pixel-art-standard.md`](pixel-art-standard.md) 与上文「基准画幅」。把参考图当场景 target 时，先按 `scene-from-issue` 翻译成可判定的拟合清单，再动场景。
 
 ## look-dev 历史（已取代）
 
