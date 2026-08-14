@@ -22,6 +22,8 @@ const LAYERS := 3
 const MAX_SPRITES := 36
 const WAVE := 6
 const WAVE_GAP := 0.045
+## issue_32 coin_mass_fill is 64×64 at 100 px/m → one UV repeat per 0.64 m.
+const FILL_TILE_M := 64.0 / 100.0
 
 var layout: Layout
 var host: Node3D
@@ -90,7 +92,7 @@ func _layer_quad(node_name: String, tex: Texture2D, shade: float, is_crest: bool
 	if tex == null:
 		tex = _greybox_crest_tex(index) if is_crest else _greybox_fill_tex()
 	mat.albedo_texture = tex
-	mat.uv1_scale = Vector3(_rect_size.x / 0.64, 1.0, 1.0)
+	mat.uv1_scale = Vector3(_rect_size.x / FILL_TILE_M, 1.0, 1.0)
 	# The hoard is the bright subject of the frame; a little emission carries that
 	# without a light that would wash the room out.
 	mat.emission_enabled = true
@@ -199,7 +201,7 @@ func set_level(value: float) -> void:
 		_fill[i].position = Vector3(_rect_origin.x, base_y + fill_h * 0.5 + lift,
 				_z_for(_layer_depth[i]))
 		var mat_fill: StandardMaterial3D = _fill[i].material_override
-		mat_fill.uv1_scale = Vector3(mat_fill.uv1_scale.x, maxf(fill_h / 0.64, 0.25), 1.0)
+		mat_fill.uv1_scale = Vector3(mat_fill.uv1_scale.x, maxf(fill_h / FILL_TILE_M, 0.25), 1.0)
 		var quad_crest: QuadMesh = _crest[i].mesh
 		quad_crest.size = Vector2(_rect_size.x, _crest_h)
 		_crest[i].position = Vector3(_rect_origin.x, base_y + fill_h + _crest_h * 0.5 + lift,

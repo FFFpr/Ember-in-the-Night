@@ -341,6 +341,11 @@ func _test_art_pipeline_audit() -> void:
 	_expect(Assets.tex(Assets.IRON_APRON) != null, "iron_apron loads from issue_32")
 	_expect(Assets.tex(Assets.OUTLET_OPEN) != null, "outlet_open loads from issue_32")
 	_expect(Assets.tex(Assets.WOOD_WALL) != null, "wood_plank_wall loads from issue_32")
+	_expect(Assets.tex(Assets.COIN_MASS_FILL) != null, "coin_mass_fill loads from issue_32")
+	var mass_fill := Assets.tex(Assets.COIN_MASS_FILL)
+	if mass_fill != null:
+		_expect(mass_fill.get_width() == 64 and mass_fill.get_height() == 64,
+				"coin_mass_fill is 64×64")
 	_expect(Assets.tex(Assets.BEAM) != null, "beam loads from issue_32")
 	var beam := Assets.tex(Assets.BEAM)
 	if beam != null:
