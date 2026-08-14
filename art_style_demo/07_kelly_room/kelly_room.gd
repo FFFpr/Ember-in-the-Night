@@ -469,7 +469,7 @@ func _make_outlet() -> void:
 
 func _make_box() -> void:
 	_box = Node3D.new()
-	_box.position = Vector3(0.98, 0.0, 0.55)
+	_box.position = Vector3(0.78, 0.0, 0.58)
 	add_child(_box)
 	var box_tex := Assets.tex_prefer(Assets.COIN_BOX_SIDE, Assets.COIN_BOX)
 	if box_tex == null:
@@ -493,7 +493,7 @@ func _make_box() -> void:
 
 
 func _make_lever() -> void:
-	var lever_pos := Vector3(1.42, FLOOR_Y, 0.58)
+	var lever_pos := Vector3(1.22, FLOOR_Y, 0.62)
 	var base := _box_mesh(Vector3(0.18, 0.12, 0.18), METAL_D, Vector3(lever_pos.x, 0.06, lever_pos.z))
 	add_child(base)
 	_lever_arm = Node3D.new()
@@ -517,7 +517,7 @@ func _make_lever() -> void:
 		base.visible = false
 		shaft.visible = false
 		knob.visible = false
-		_lever_sprite = _prop_sprite(lever_tex, lever_pos, 0.012, true)
+		_lever_sprite = _prop_sprite(lever_tex, lever_pos, 0.009, true)
 		add_child(_lever_sprite)
 
 
