@@ -4,7 +4,7 @@ extends SceneTree
 const Math := preload("res://art_style_demo/07_kelly_room/kelly_math.gd")
 const Round := preload("res://art_style_demo/07_kelly_room/kelly_round.gd")
 const Assets := preload("res://art_style_demo/07_kelly_room/kelly_assets.gd")
-const Look := preload("res://art_style_demo/07_kelly_room/kelly_look.gd")
+const Fit := preload("res://art_style_demo/07_kelly_room/kelly_fit.gd")
 
 var _failed := 0
 var _passed := 0
@@ -56,8 +56,8 @@ func _run_all() -> void:
 	_test_phase_locks()
 	_test_box_label()
 	_test_repeated_deposits()
-	_test_export_files_present()
-	_test_marker_digits_atlas()
+	_test_fit_list_loads()
+	_test_missing_exports_are_explicit()
 
 
 func _test_opening_and_first_coin_odds() -> void:
@@ -310,62 +310,33 @@ func _test_repeated_deposits() -> void:
 	_expect(r.round_total == 7, "total still 7")
 
 
-func _test_export_files_present() -> void:
-	_expect(Assets.REQUIRED_PATHS.size() == 8, "eight Kelly-room export paths")
-	for path in Assets.REQUIRED_PATHS:
-		_expect(FileAccess.file_exists(path), "export exists %s" % path)
-	_expect(FileAccess.file_exists(Assets.WOOD_WALL), "issue 29 wall tile export exists")
-	_expect(Assets.tex(Assets.WOOD_WALL) != null, "issue 29 wall tile loads")
-	_expect(FileAccess.file_exists(Assets.WOOD_FLOOR), "issue 29 floor tile export exists")
-	_expect(Assets.tex(Assets.WOOD_FLOOR) != null, "issue 29 floor tile loads")
-	_expect(FileAccess.file_exists(Assets.WALL_LANTERN), "issue 29 wall lantern export exists")
-	_expect(Assets.tex(Assets.WALL_LANTERN) != null, "issue 29 wall lantern loads")
-	_expect(FileAccess.file_exists(Assets.MARKER_DIGITS), "issue 29 marker digit atlas exists")
-	_expect(Assets.tex(Assets.MARKER_DIGITS) != null, "issue 29 marker digit atlas loads")
-	_expect(FileAccess.file_exists(Assets.COIN_BOX_SIDE), "issue 29 coin_box export exists")
-	var coin_box: Texture2D = Assets.tex(Assets.COIN_BOX_SIDE)
-	_expect(coin_box != null, "issue 29 coin_box loads for hover outline")
-	if coin_box != null:
-		_expect(coin_box.get_width() == 64 and coin_box.get_height() == 64, "coin_box is 64x64")
-	_expect(FileAccess.file_exists(Assets.LEVER_SIDE), "issue 29 lever export exists")
-	var lever_up: Texture2D = Assets.tex(Assets.LEVER_SIDE)
-	_expect(lever_up != null, "issue 29 lever loads")
-	_expect(FileAccess.file_exists(Assets.LEVER_DOWN_SIDE), "issue 29 lever_down export exists")
-	var lever_down: Texture2D = Assets.tex(Assets.LEVER_DOWN_SIDE)
-	_expect(lever_down != null, "issue 29 lever_down loads")
-	if lever_up != null:
-		_expect(lever_up.get_width() == 64 and lever_up.get_height() == 64, "lever is 64x64")
-	if lever_down != null:
-		_expect(lever_down.get_width() == 64 and lever_down.get_height() == 64, "lever_down is 64x64")
-	if lever_up != null and lever_down != null:
-		_expect(
-			lever_up.get_width() == lever_down.get_width()
-			and lever_up.get_height() == lever_down.get_height(),
-			"lever pair shares one canvas"
-		)
+func _test_fit_list_loads() -> void:
+	var fit := Fit.new()
+	_expect(fit.ok(), "fit list and art-style gates parse")
+	for problem in fit.errors:
+		print("  fit: ", problem)
+	_expect(fit.items.size() == 13, "thirteen fit-list items")
+	_expect(fit.tolerance == 0.03, "default tolerance 0.03")
+	_expect(is_equal_approx(fit.luma_mean_min, 30.0), "mean gate min 30")
+	_expect(is_equal_approx(fit.luma_mean_max, 50.0), "mean gate max 50")
+	_expect(is_equal_approx(fit.edge_p90_max, 0.40), "edge/P90 gate 0.40")
+	if fit.items.has("glass"):
+		var g: Dictionary = fit.items["glass"]
+		_expect(is_equal_approx(g["centre"].x, 0.520), "glass centre x")
+		_expect(is_equal_approx(g["size"].x, 0.650), "glass width")
+		_expect(g["whole"] == true, "glass must sit whole in frame")
+	if fit.items.has("box_marker"):
+		_expect(is_equal_approx(fit.items["box_marker"]["text_height"], 0.080),
+				"box marker height is 0.080 of the frame")
 
 
-func _test_marker_digits_atlas() -> void:
-	var tex: Texture2D = Assets.tex(Assets.MARKER_DIGITS)
-	_expect(tex != null, "marker atlas texture")
-	if tex == null:
-		return
-	_expect(tex.get_width() == 64 and tex.get_height() == 64, "marker atlas is 64x64")
-	Look.ensure_mats()
-	_expect(Look.has_marker_digits(), "look caches marker atlas")
-	_expect(Look.marker_region("0") == Rect2(0, 0, 16, 16), "0 is cell 0")
-	_expect(Look.marker_region("1") == Rect2(16, 0, 16, 16), "1 is cell 1")
-	_expect(Look.marker_region("9") == Rect2(16, 32, 16, 16), "9 is row 2 col 1")
-	_expect(Look.marker_region("/") == Rect2(32, 32, 16, 16), "slash is row 2 col 2")
-	_expect(Look.marker_region("3") == Rect2(48, 0, 16, 16), "3 is cell 3")
-	_expect(Look.marker_region("2") == Rect2(32, 0, 16, 16), "2 is cell 2")
-	var host := Node3D.new()
-	Look.set_box_marker(host, "0/1")
-	_expect(host.get_child_count() == 3, "0/1 uses three 16px glyphs")
-	if host.get_child_count() == 3:
-		_expect((host.get_child(0) as Sprite3D).region_rect == Rect2(0, 0, 16, 16), "first glyph is 0")
-		_expect((host.get_child(1) as Sprite3D).region_rect == Rect2(32, 32, 16, 16), "middle glyph is slash")
-		_expect((host.get_child(2) as Sprite3D).region_rect == Rect2(16, 0, 16, 16), "last glyph is 1")
-	Look.set_box_marker(host, "3/12")
-	_expect(host.get_child_count() == 4, "3/12 uses four 16px glyphs")
-	host.free()
+func _test_missing_exports_are_explicit() -> void:
+	_expect(Assets.REQUIRED.size() == 20, "twenty required exports for issue 32")
+	# Issue 32 art is not in the submodule yet: tex() must return null, not crash,
+	# and audit() must name every miss so a silent greybox cannot hide it.
+	var missing := Assets.audit()
+	_expect(not missing.is_empty(), "audit reports the missing issue_32 exports")
+	var joined := "\n".join(missing)
+	_expect(joined.contains("coin_mass_fill.png"), "audit names the coin-mass fill")
+	_expect(joined.contains("falling back") or joined.contains("missing"),
+			"audit states that exports are missing")

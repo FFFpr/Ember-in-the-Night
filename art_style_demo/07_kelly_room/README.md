@@ -2,7 +2,13 @@
 
 独立小场景，在 demo 当中，包含独立的脚本。用 F6 打开 `kelly_room.tscn`。不要改 `project.godot` 的主场景。
 
-构图对照：[`../references/kelly_room/`](../references/kelly_room/)。像素道具只从 `Aseprite-User/export/props/kelly_room/` 读取；缺图时用锻夜色灰盒。
+构图对照：[`../references/kelly_room/fit_list.md`](../references/kelly_room/fit_list.md)。像素道具从 `Aseprite-User/export/Ember-in-the-Night/issue_32/` 读取；缺图时用锻夜色灰盒，并在画面上标明。
+
+验收：
+
+```bash
+godot --path . --script res://art_style_demo/07_kelly_room/tools/acceptance.gd --resolution 1152x648
+```
 
 ## 游戏介绍
 
@@ -23,6 +29,8 @@
 在视角的正面，是一整面玻璃墙，玻璃墙底部靠近地板的位置有一个横条状的【出币口】，长度大致占据整个视角的 1/3，出币口有一个阀门，平时处于关闭状态，只有出币时才打开。在玻璃墙的背后（仍然是屋子的内部）被非常多的【金币】填满，金币堆叠在玻璃的后面。
 
 在玻璃墙的正中央，靠近视角上侧的位置，有一块白板，上面用黑色的油笔字体写着给玩家的信息，有几种信息，会在不同情况下出现：【1.当天的投资回报倍率和投资成功的概率；2.投资成功或者失败】。在玻璃墙的左侧上也会有黑色油性笔写着：Kelly 公式（待遇投资回报倍率和投资成功概率的公式，投资失败则全部亏损），其中回报倍率的数值和投资成功概率的数值由具体数字填充。公式的 = 等号后面盖着一张【贴纸】，点击后播放贴纸被揭掉的动画，然后在贴纸原本的位置上显示出计算后的金币数（Kelly 公式本身计算出的比例和玩家拥有的总金币数计算得到本次应该投资的金币数）。贴纸点击后撕掉，再次点击整数，贴回贴纸。
+
+出币口宽度以定稿样例为准，见 [`fit_list.md`](../references/kelly_room/fit_list.md)，不再按「视角的 1/3」。
 
 ## 测试
 

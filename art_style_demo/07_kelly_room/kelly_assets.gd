@@ -1,40 +1,45 @@
 extends RefCounted
-## Resolves Aseprite-User export paths for the Kelly room. Missing files are OK.
+## Resolves Aseprite-User export paths for the Kelly room.
+##
+## A missing export is never silent: every miss is recorded, reported through
+## push_error and listed on screen. Greybox still renders so work can continue
+## while art tickets are in flight, but nobody can mistake an unpulled Git LFS
+## checkout for a scene that is simply drawn badly.
 
-const ROOT := "res://Aseprite-User/export/props/kelly_room/"
+const ISSUE := "res://Aseprite-User/export/Ember-in-the-Night/issue_32/"
+const SHARED := "res://Aseprite-User/export/props/kelly_room/"
 
-const COIN := ROOT + "coin.png"
-const COIN_BOX := ROOT + "coin_box.png"
-const LEVER := ROOT + "lever.png"
-const LEVER_DOWN := ROOT + "lever_down.png"
-const OUTLET_CLOSED := ROOT + "outlet_closed.png"
-const OUTLET_OPEN := ROOT + "outlet_open.png"
-const STICKER := ROOT + "sticker.png"
-const STICKER_OFF := ROOT + "sticker_off.png"
-const WHITEBOARD := ROOT + "whiteboard.png"
+const COIN_FLAT := SHARED + "coin.png"
+const COIN_EDGE := ISSUE + "coin_edge.png"
+const COIN_MASS_FILL := ISSUE + "coin_mass_fill.png"
+const COIN_MASS_CREST_A := ISSUE + "coin_mass_crest_a.png"
+const COIN_MASS_CREST_B := ISSUE + "coin_mass_crest_b.png"
+const WOOD_WALL := ISSUE + "wood_plank_wall.png"
+const WOOD_FLOOR := ISSUE + "wood_plank_floor.png"
+const IRON_APRON := ISSUE + "iron_apron.png"
+const BEAM := ISSUE + "beam.png"
+const POST := ISSUE + "post.png"
+const SIDE_WINDOW := ISSUE + "side_window.png"
+const OUTLET_CLOSED := ISSUE + "outlet_closed.png"
+const OUTLET_OPEN := ISSUE + "outlet_open.png"
+const WHITEBOARD := ISSUE + "whiteboard.png"
+const COIN_BOX := ISSUE + "coin_box.png"
+const LEVER := ISSUE + "lever.png"
+const LEVER_DOWN := ISSUE + "lever_down.png"
+const STICKER := ISSUE + "sticker.png"
+const WALL_LANTERN := ISSUE + "wall_lantern.png"
+const MARKER_DIGITS := ISSUE + "marker_digits.png"
 
-const ISSUE_29 := "res://Aseprite-User/export/Ember-in-the-Night/issue_29/"
-const WOOD_FLOOR := ISSUE_29 + "wood_plank_floor.png"
-const WOOD_WALL := ISSUE_29 + "wood_plank_wall.png"
-const MARKER_DIGITS := ISSUE_29 + "marker_digits.png"
-const WALL_LANTERN := ISSUE_29 + "wall_lantern.png"
-const COIN_BOX_SIDE := ISSUE_29 + "coin_box.png"
-const LEVER_SIDE := ISSUE_29 + "lever.png"
-const LEVER_DOWN_SIDE := ISSUE_29 + "lever_down.png"
-# Pixel layout of issue_29/coin_box.png (top-left origin): empty front for marker_digits, metal slot.
-const COIN_BOX_FRONT := Rect2(20, 24, 25, 28)
-const COIN_BOX_SLOT_Y := 13.5
-
-const REQUIRED_PATHS: PackedStringArray = [
-	COIN,
-	COIN_BOX_SIDE,
-	LEVER_SIDE,
-	LEVER_DOWN_SIDE,
-	OUTLET_CLOSED,
-	OUTLET_OPEN,
-	STICKER,
-	WHITEBOARD,
+## Everything the finished scene needs. Anything still missing is greybox.
+const REQUIRED: PackedStringArray = [
+	COIN_FLAT, COIN_EDGE, COIN_MASS_FILL, COIN_MASS_CREST_A, COIN_MASS_CREST_B,
+	WOOD_WALL, WOOD_FLOOR, IRON_APRON, BEAM, POST, SIDE_WINDOW,
+	OUTLET_CLOSED, OUTLET_OPEN, WHITEBOARD, COIN_BOX, LEVER, LEVER_DOWN,
+	STICKER, WALL_LANTERN, MARKER_DIGITS,
 ]
+
+static var _missing: Dictionary = {}
+static var _lfs_pointers: Dictionary = {}
 
 
 static func tex(path: String) -> Texture2D:
@@ -43,13 +48,40 @@ static func tex(path: String) -> Texture2D:
 		if loaded != null:
 			return loaded
 	if not FileAccess.file_exists(path):
+		_missing[path] = true
+		return null
+	if _is_lfs_pointer(path):
+		_lfs_pointers[path] = true
 		return null
 	var img := Image.load_from_file(path)
 	if img == null or img.is_empty():
+		_missing[path] = true
 		return null
 	return ImageTexture.create_from_image(img)
 
 
-static func tex_prefer(primary: String, fallback: String) -> Texture2D:
-	var a := tex(primary)
-	return a if a != null else tex(fallback)
+static func _is_lfs_pointer(path: String) -> bool:
+	var f := FileAccess.open(path, FileAccess.READ)
+	if f == null:
+		return false
+	var head := f.get_buffer(48).get_string_from_utf8()
+	return head.begins_with("version https://git-lfs.github.com/spec")
+
+
+## Checks every required export up front so one report covers the whole scene.
+static func audit() -> PackedStringArray:
+	for path in REQUIRED:
+		tex(path)
+	var lines: PackedStringArray = []
+	if not _lfs_pointers.is_empty():
+		lines.append("Aseprite-User exports are unpulled Git LFS pointers — run `git -C Aseprite-User lfs pull`:")
+		for path in _lfs_pointers:
+			lines.append("  %s" % path)
+	if not _missing.is_empty():
+		lines.append("Aseprite-User exports missing — open art tickets or update the submodule:")
+		for path in _missing:
+			lines.append("  %s" % path)
+	if not lines.is_empty():
+		push_error("Kelly room art pipeline incomplete, falling back to greybox.\n%s"
+				% "\n".join(lines))
+	return lines
