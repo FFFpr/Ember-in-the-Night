@@ -1,4 +1,4 @@
-[submodule "Aseprite-User"]
-	path = Aseprite-User
-	url = https://github.com/FFFpr/Aseprite-User.git
-	branch = main
+#[submodule "Aseprite-User"]
+#	path = Aseprite-User
+#	url = https://github.com/FFFpr/Aseprite-User.git
+#	branch = main
