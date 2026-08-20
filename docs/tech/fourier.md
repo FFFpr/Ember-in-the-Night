@@ -24,6 +24,12 @@ FourierMap._transform(graphic: FourierGraphic) -> FourierGraphic
 
 `FourierAffine2D`：平面仿射 `p ↦ L(p) + v`。`L` 对波叠加分配；`v` 施加一次；组合图将同一个 `FourierMap` 作用到每个子图形。
 
+```text
+FourierAffine2D.compose(items: list[FourierAffine2D]) -> FourierAffine2D
+```
+
+类方法。按 `items` 从左到右依次作用，结果等价于这些仿射在 `play` 中相邻执行。空列表为单位仿射。
+
 `FourierDeform`：非仿射轮廓扰动。在合成后的轮廓上作用，不对波叠加分配。
 
 ## FourierAnime
@@ -31,7 +37,13 @@ FourierMap._transform(graphic: FourierGraphic) -> FourierGraphic
 `FourierAnime.components` 的每一项是 `FourierAnime` 或 `FourierMap`。
 
 ```text
+FourierAnime.flatten() -> list[FourierMap]
+```
+
+将 `components` 递归展开为只含 `FourierMap` 的列表，次序与原先嵌套执行一致。
+
+```text
 FourierAnime.play(graphic: FourierGraphic) -> FourierGraphic
 ```
 
-按 `components` 次序执行：对 `FourierAnime` 调用 `play`，对 `FourierMap` 调用 `transform`。每一步的输出作为下一步的输入，返回最后一份 `FourierGraphic`。
+先 `flatten`，再单次遍历把相邻的 `FourierAffine2D` 用 `compose` 合并，然后对缩短后的列表按序调用 `transform`，每一步输出作为下一步输入。空列表原样返回 `graphic`。
