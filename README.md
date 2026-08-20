@@ -34,15 +34,14 @@
 | `app/resources/` | 共享资源（材质等） |
 | `app/addons/` | 项目插件（如 gda harness autoload） |
 | `art_style_demo/` | look-dev demo（非正式玩法）；用 F6 打开 |
-| `Aseprite-User/` | 像素资源 submodule（跟踪 `main`）；**全部**像素 2D 素材只从此处 `export/` 取得 |
 | `docs/` | 游戏设计文档（不是对当前代码的描述） |
 
 设计意图、主题与讨论见 [`docs/`](docs/)。参见 [`docs/README.md`](docs/README.md)。技术栈与环境事实留在本文件；`docs/tech/` 仅用于技术*讨论*。美术风格对比 demo 在仓库根目录：[`art_style_demo/`](art_style_demo/)。
 
-主风格为 **HD-2D**；像素资产 SoT 与缺图开 issue 模板见 [`docs/tech/art-style.md`](docs/tech/art-style.md)。画布 / 色数 / 色块门禁见 [`docs/tech/pixel-art-standard.md`](docs/tech/pixel-art-standard.md)。资源仓库说明：[`Aseprite-User/README.md`](Aseprite-User/README.md)。克隆后初始化 submodule：
+主风格为 **HD-2D**；像素资产 SoT 与缺图开 issue 模板见 [`docs/tech/art-style.md`](docs/tech/art-style.md)。画布 / 色数 / 色块门禁见 [`docs/tech/pixel-art-standard.md`](docs/tech/pixel-art-standard.md)。像素资源在独立仓库 [Aseprite-User](https://github.com/FFFpr/Aseprite-User)，不是 git submodule（子模块）。需要本地 `export/` 时在仓库根目录 clone：
 
 ```bash
-git submodule update --init --recursive
+git clone https://github.com/FFFpr/Aseprite-User.git Aseprite-User
 ```
 
 ## 设定

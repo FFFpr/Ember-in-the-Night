@@ -1,6 +1,6 @@
 ---
 author: F
-updated: 2026-08-13
+updated: 2026-08-20
 status: active
 ---
 
@@ -15,7 +15,7 @@ status: active
 | 艺术语言 | **HD-2D** — 像素风格角色 / UI / 特效 + 可走进的 3D 场景 + 电影感光影 |
 | 氛围 | 冷色漫长之夜室外；暖色余烬锻炉作为情感锚 |
 | 参考气质 | 《歧路旅人》(Octopath Traveler) 一类：立体关卡里的像素角色，而非纯 2D tilemap RPG |
-| 像素资产来源 | **仅** [`Aseprite-User/`](../../Aseprite-User/) submodule 的 `export/`（见下方「素材来源」） |
+| 像素资产来源 | **仅** [Aseprite-User](https://github.com/FFFpr/Aseprite-User) 的 `export/`（见下方「素材来源」） |
 | look-dev | 既有 `art_style_demo/`（含原 LPC 像素 demo）**可能滞后**；新建 / 修订场景按本文件 HD-2D |
 | 像素约束 | [`pixel-art-standard.md`](pixel-art-standard.md) |
 
@@ -25,8 +25,8 @@ status: active
 
 | 工具 | 负责 |
 |------|------|
-| **Aseprite-User**（submodule） | 全部像素 2D 资产的生产与导出（角色 / UI / 图标 / 像素贴图 / 2D 特效帧） |
-| **Godot**（本仓库） | 3D 场景、灯光、阴影、景深、雾、粒子、材质与纹理采样、游戏逻辑；从 submodule 导入并挂接 |
+| **Aseprite-User**（独立仓库） | 全部像素 2D 资产的生产与导出（角色 / UI / 图标 / 像素贴图 / 2D 特效帧） |
+| **Godot**（本仓库） | 3D 场景、灯光、阴影、景深、雾、粒子、材质与纹理采样、游戏逻辑；从该仓库 `export/` 导入并挂接 |
 
 **本仓库主体职责在 Godot：** 导入、挂接、受光 / 投影、环境与后期。**不要**在本仓库内新建或旁路存放像素精灵 / UI / 2D 特效图；缺什么就按下方模板向 [Aseprite-User](https://github.com/FFFpr/Aseprite-User) 提 issue。
 
@@ -93,18 +93,16 @@ status: active
 
 ## 素材来源（强制）
 
-游戏主风格为 **HD-2D**。玩法与正式场景用到的**全部像素 2D 素材**必须来自 submodule [`Aseprite-User/`](../../Aseprite-User/)：
+游戏主风格为 **HD-2D**。玩法与正式场景用到的**全部像素 2D 素材**必须来自 [Aseprite-User](https://github.com/FFFpr/Aseprite-User) 的 `export/`。本仓库不把它作为 git submodule（子模块）。需要本地文件时，在仓库根目录独立 clone（路径已写入 `.gitignore`）：
+
+```bash
+git clone https://github.com/FFFpr/Aseprite-User.git Aseprite-User
+```
 
 | 路径 | 用途 |
 |------|------|
 | `Aseprite-User/export/` | 游戏侧可读的导出 PNG（唯一消费入口） |
 | `Aseprite-User/src/` | `.aseprite` / `.ase` 源文件（只在资源仓库编辑，不在本仓库复制） |
-
-克隆后先初始化：
-
-```bash
-git submodule update --init --recursive
-```
 
 | 允许 | 说明 |
 |------|------|
