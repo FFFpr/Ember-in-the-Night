@@ -1,10 +1,16 @@
 ---
 author: F
-updated: 2026-08-13
+updated: 2026-08-20
 status: active
 ---
 
 # 开发日志
+
+## 2026-08-20
+
+### 进度
+
+- 从 git 中移除 `Aseprite-User` submodule（子模块）。像素资源仍在 [Aseprite-User](https://github.com/FFFpr/Aseprite-User)；需要本地 `export/` 时在根目录独立 clone，该路径由 `.gitignore` 忽略。
 
 ## 2026-08-13
 
