@@ -1,6 +1,6 @@
-Godot Engine 文档
+Godot Engine 4.7 文档
 
-> 从EPUB转换的Godot官方文档
+> 从EPUB转换的Godot4.7官方文档
 > 共 1592 个文件
 
 章节列表
@@ -1536,12 +1536,3 @@ gdd_1585_Vector3i.md: Vector3i
 gdd_1586_Vector4.md: Vector4
 gdd_1587_Vector4i.md: Vector4i
 
-## 使用说明
-
-每个章节保存为单独的Markdown文件
-文件名格式：gdd_序号_章节标题.md
-原始HTML文件路径保存在每个文件的元信息中
-
-源文件: GodotEngine.epub
-作者：孤辰辰
-时间：2026年06月27日00:03:10
